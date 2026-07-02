@@ -108,7 +108,7 @@ void ModeSelectionPanel::drawRealTimeOption(const ImVec2& windowSize, MessageBus
     const float btnY = windowSize.y * ModeSelectionConfig::realTimeButtonHeightScale;
     ImGui::SetCursorPos(ImVec2{btnX, btnY});
     if (ImGui::Button(ModeSelectionConfig::realTimeButtonText)) {
-        messageBus.publish(CmdRequestUIStateChange{ UIState::RealTimeConfig });
+        messageBus.publish(CmdRequestStateChange{ AppState::RealTimeConfig });
     }
 
     ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);
@@ -133,7 +133,7 @@ void ModeSelectionPanel::drawPrecomputeOption(const ImVec2& windowSize, MessageB
     const float btnY = windowSize.y * ModeSelectionConfig::precomputeButtonHeightScale;
     ImGui::SetCursorPos(ImVec2{ btnX, btnY });
     if (ImGui::Button(ModeSelectionConfig::precomputeButtonText)) {
-        messageBus.publish(CmdRequestUIStateChange{ UIState::PrecomputeConfig });
+        messageBus.publish(CmdRequestStateChange{ AppState::PrecomputeConfig });
     }
 
     ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);
@@ -158,7 +158,7 @@ void ModeSelectionPanel::drawPlaybackOption(const ImVec2& windowSize, MessageBus
     const float btnY = windowSize.y * ModeSelectionConfig::playbackButtonHeightScale;
     ImGui::SetCursorPos(ImVec2{ btnX, btnY });
     if (ImGui::Button(ModeSelectionConfig::playbackButtonText)) {
-        messageBus.publish(CmdRequestUIStateChange{ UIState::PlaybackConfig });
+        messageBus.publish(CmdRequestStateChange{ AppState::PlaybackConfig });
     }
 
     ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);
@@ -183,7 +183,7 @@ void ModeSelectionPanel::drawBackButton(const ImVec2& windowSize, MessageBus& me
     const float btnY = windowSize.y * ModeSelectionConfig::backButtonHeightScale;
     ImGui::SetCursorPos(ImVec2{ btnX, btnY });
     if (ImGui::Button(ModeSelectionConfig::backButtonText)) {
-        messageBus.publish(CmdRequestUIStateChange{ UIState::TitleScreen });
+        messageBus.publish(CmdRequestStateChange{ AppState::TitleScreen });
     }
 
     ImGui::SetWindowFontScale(ModeSelectionConfig::defaultFontScale);

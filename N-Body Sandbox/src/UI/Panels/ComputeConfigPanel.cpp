@@ -1,12 +1,15 @@
 #include <UI/Panels/ComputeConfigPanel.hpp>
 
+#include <imgui.h>
+
+
 namespace {
     namespace ComputeConfigConfig {
         constexpr ImGuiWindowFlags windowFlags{
             ImGuiWindowFlags_NoTitleBar |
             ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoCollapse |
-          /*  ImGuiWindowFlags_NoBackground |*/
+            ImGuiWindowFlags_NoBackground |
             ImGuiWindowFlags_NoBringToFrontOnFocus |
             ImGuiWindowFlags_NoNavFocus
         };
@@ -31,12 +34,12 @@ namespace {
 
         constexpr const char* windowName{ "Compute Configuration" };
         constexpr const char* headerText{ "== COMPUTE ENGINE CONFIGURATION ==" };
-        constexpr const char* subheaderText{ "Select target hardware and solver pipelines:" };
+        constexpr const char* hwAndAlgoText{ "> HARDWARE AND ALGORITHM" };
         constexpr const char* algoLabel{ "Algorithm" };
         constexpr const char* algoOptions{ "Direct N^2\0Barnes-Hut\0" };
         constexpr const char* hwLabel{ "Hardware Target" };
         constexpr const char* hwOptions{ "CPU\0GPU\0" };
-        constexpr const char* optHeader{ "> OPTIMIZATIONS" };
+        constexpr const char* optText{ "> OPTIMIZATIONS" };
         constexpr const char* optOpenMP{ "Enable OpenMP Multithreading" };
         constexpr const char* optSIMD{ "Enable SIMD (AVX2/AVX-512)" };
     }
@@ -90,8 +93,7 @@ void ComputeConfigPanel::cleanUp() {
 void ComputeConfigPanel::drawMainTitle() {
     ImGui::TextUnformatted(ComputeConfigConfig::headerText);
     ImGui::Spacing();
-    ImGui::TextDisabled(ComputeConfigConfig::subheaderText);
-    ImGui::Spacing();
+    ImGui::TextUnformatted(ComputeConfigConfig::hwAndAlgoText);
     ImGui::Separator();
     ImGui::Spacing();
 }
@@ -128,7 +130,7 @@ void ComputeConfigPanel::drawCombos() {
 }
 
 void ComputeConfigPanel::drawCheckBoxes() {
-    ImGui::TextUnformatted(ComputeConfigConfig::optHeader);
+    ImGui::TextUnformatted(ComputeConfigConfig::optText);
     ImGui::Separator();
     ImGui::Spacing();
 

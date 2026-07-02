@@ -5,6 +5,7 @@
 #include <thread>
 
 #include <Core/Events.hpp>
+#include <AppState.hpp>
 
 class MessageBus;
 class PhysicsEngine;
@@ -27,6 +28,7 @@ public:
     void executeMasterLoop();
 private:
     std::atomic<bool> m_isRunning{ true };
+    std::atomic<AppState> m_appState{ AppState::TitleScreen };
 
     std::unique_ptr<MessageBus> m_messageBus{};
 
@@ -36,7 +38,6 @@ private:
     std::unique_ptr<RenderingEngine> m_renderingEngine{};
     std::unique_ptr<UIManager> m_uiManager{};
     
-
     std::jthread m_physicsThread;
 
     void physicsThreadLoop(std::stop_token stopToken);

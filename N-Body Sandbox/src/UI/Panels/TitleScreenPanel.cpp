@@ -146,7 +146,7 @@ void TitleScreenPanel::drawStartButton(const ImVec2& windowSize, MessageBus& mes
     );
 
     if (ImGui::Button(TitleScreenConfig::startButtonText)) {
-        messageBus.publish(CmdRequestUIStateChange{ UIState::ModeSelection });
+        messageBus.publish(CmdRequestStateChange{ AppState::ModeSelection });
     }
 
     ImGui::SetWindowFontScale(

@@ -3,9 +3,7 @@
 #include <variant>
 #include <string>
 
-
-
-#include <UI/UIState.hpp>
+#include <AppState.hpp>
 
 struct ComputeConfig {
     enum class Algorithm {DirectN2, BarnesHut};
@@ -18,23 +16,27 @@ struct ComputeConfig {
 };
 
 struct PhysicsConfig {
+    enum class Integrator {Euler, Verlet, RK4};
+
     double GConstant{ 1.0 };
     double deltaTime{ 1.0 / 60.0 };
     double softeningLength{ 0.5 };
     double theta = 0.5;
+
+    Integrator integrator{ Integrator::Verlet };
 };
 
-struct SpanwerConfig {
+struct SpawnerConfig {
     enum class Shape { UniformSphere, Plummer, DiskGalaxy };
     
     Shape shape{ Shape::UniformSphere };
-   //....
+    
 };
 
 struct CmdExitApplication {};
 
-struct CmdRequestUIStateChange {
-    UIState requestedState;
+struct CmdRequestStateChange {
+    AppState requestedState;
 };
 
 struct CmdUpdatePreview {
@@ -48,6 +50,6 @@ struct EvtSimulationError {
 
 using SystemMessage = std::variant <
     CmdExitApplication,
-    CmdRequestUIStateChange,
+    CmdRequestStateChange,
     EvtSimulationError
 >;

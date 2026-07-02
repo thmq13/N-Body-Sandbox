@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <variant>
+#include <chrono>
 
 #include <Core/MessageBus.hpp>
 #include <PhysicsEngine/PhysicsEngine.hpp>
@@ -23,6 +24,10 @@ NBodySandboxApplication::NBodySandboxApplication()
     m_messageBus->subscribe<CmdExitApplication>([this](const SystemMessage& message) {
         handleMessage(message);
     }); 
+
+    m_messageBus->subscribe<CmdRequestStateChange>([this](const SystemMessage& message) {
+        handleMessage(message);
+    });
 
     m_messageBus->subscribe<EvtSimulationError>([this](const SystemMessage& message) {
         handleMessage(message);
@@ -47,7 +52,7 @@ void NBodySandboxApplication::executeMasterLoop() {
 
         m_renderingEngine->beginFrame();
 
-        m_uiManager->update();
+        m_uiManager->draw(m_appState);
 
         m_renderingEngine->endFrame();
     }
@@ -56,10 +61,13 @@ void NBodySandboxApplication::executeMasterLoop() {
 void NBodySandboxApplication::physicsThreadLoop(std::stop_token stopToken) {
     std::cout << "[Physics Worker] Dedicated integration pipeline alive.\n";
     
-    while (!stopToken.stop_requested()) {
+    using namespace std::chrono;
 
 
-    }
+    /*while (!stopToken.stop_requested()) {
+        
+
+    }*/
 
     std::cout << "[Physics Worker] Stop requested. Pipeline safely spun down.\n";
 }
@@ -73,6 +81,12 @@ void NBodySandboxApplication::handleMessage(const SystemMessage& message) {
 
             m_isRunning = false;
             m_physicsThread.request_stop();
+        }
+
+        else if constexpr (std::is_same_v<T, CmdRequestStateChange>) {
+            std::cout << "[App Core] Intercepted state change request.\n";
+
+            m_appState = actualMessage.requestedState;
         }
 
         else if constexpr (std::is_same_v<T, EvtSimulationError>) {

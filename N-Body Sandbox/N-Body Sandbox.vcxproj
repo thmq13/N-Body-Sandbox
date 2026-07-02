@@ -145,6 +145,8 @@
     <ClCompile Include="ext\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="ext\rlImGui\rlImGui.cpp" />
     <ClInclude Include="include\UI\Panels\ComputeConfigPanel.hpp" />
+    <ClInclude Include="include\UI\Panels\PhysicsConfigPanel.hpp" />
+    <ClInclude Include="include\UI\Panels\SpawnerConfigPanel.hpp" />
     <ClCompile Include="src\Core\MessageBus.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\NBodySandboxApplication.cpp" />
@@ -153,6 +155,8 @@
     <ClCompile Include="src\SimulationStateBuffer\SimulationStateBuffer.cpp" />
     <ClCompile Include="src\UI\Panels\ComputeConfigPanel.cpp" />
     <ClCompile Include="src\UI\Panels\ModeSelectionPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\PhysicsConfigPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\SpawnerConfigPanel.cpp" />
     <ClCompile Include="src\UI\Panels\TitleScreenPanel.cpp" />
     <ClCompile Include="src\UI\UIManager.cpp" />
   </ItemGroup>
@@ -160,7 +164,7 @@
     <ClInclude Include="include\UI\IPanel.hpp" />
     <ClInclude Include="include\UI\Panels\ModeSelectionPanel.hpp" />
     <ClInclude Include="include\UI\Panels\TitleScreenPanel.hpp" />
-    <ClInclude Include="include\UI\UIState.hpp" />
+    <ClInclude Include="include\AppState.hpp" />
     <ClInclude Include="ext\ImGui\imconfig.h" />
     <ClInclude Include="ext\ImGui\imgui.h" />
     <ClInclude Include="ext\ImGui\imgui_internal.h" />

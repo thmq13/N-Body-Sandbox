@@ -3,8 +3,6 @@
 #include <UI/IPanel.hpp>
 #include <Core/Events.hpp> 
 
-#include <imgui.h>
-
 class ComputeConfigPanel : public IPanel {
 public:
     ~ComputeConfigPanel() override = default;

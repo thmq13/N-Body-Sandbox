@@ -60,6 +60,12 @@
     <ClCompile Include="src\UI\Panels\ComputeConfigPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\Panels\PhysicsConfigPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\SpawnerConfigPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\PhysicsEngine\PhysicsEngine.hpp">
@@ -128,13 +134,19 @@
     <ClInclude Include="include\UI\Panels\TitleScreenPanel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\UI\UIState.hpp">
+    <ClInclude Include="include\AppState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\UI\Panels\ModeSelectionPanel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\UI\Panels\ComputeConfigPanel.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UI\Panels\PhysicsConfigPanel.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UI\Panels\SpawnerConfigPanel.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

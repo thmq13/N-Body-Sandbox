@@ -1,45 +1,43 @@
-#pragma once
+    #pragma once
 
-#include <atomic>
-#include <memory>
-#include <thread>
+    #include <atomic>
+    #include <memory>
+    #include <thread>
 
-#include <Core/Events.hpp>
-#include <AppState.hpp>
+    #include <Core/Events.hpp>
+    #include <AppState.hpp>
 
-class MessageBus;
-class PhysicsEngine;
-class RenderingEngine;
-class UIManager;
-class SimulationStateBuffer;
+    class MessageBus;
+    class PhysicsEngine;
+    class RenderingEngine;
+    class UIManager;
+    class SimulationStateBuffer;
 
-class NBodySandboxApplication {
-public:
-    NBodySandboxApplication();
+    class NBodySandboxApplication {
+    public:
+        NBodySandboxApplication();
 
-    ~NBodySandboxApplication();
+        ~NBodySandboxApplication();
 
-    NBodySandboxApplication(const NBodySandboxApplication&) = delete;
-    NBodySandboxApplication& operator=(const NBodySandboxApplication&) = delete;
-    NBodySandboxApplication(NBodySandboxApplication&&) = delete;
-    NBodySandboxApplication& operator=(NBodySandboxApplication&&) = delete;
+        NBodySandboxApplication(const NBodySandboxApplication&) = delete;
+        NBodySandboxApplication& operator=(const NBodySandboxApplication&) = delete;
+        NBodySandboxApplication(NBodySandboxApplication&&) = delete;
+        NBodySandboxApplication& operator=(NBodySandboxApplication&&) = delete;
 
-    void setUpAndGenerateScene();
-    void executeMasterLoop();
-private:
-    std::atomic<bool> m_isRunning{ true };
-    std::atomic<AppState> m_appState{ AppState::TitleScreen };
+        void setUpAndGenerateScene();
+        void executeMasterLoop();
+    private:
+        std::atomic<bool> m_isRunning{ true };
+        std::atomic<AppState> m_appState{ AppState::TitleScreen };
 
-    std::unique_ptr<MessageBus> m_messageBus{};
+        std::unique_ptr<MessageBus> m_messageBus{};
 
-    std::shared_ptr<SimulationStateBuffer> m_simulationStateBuffer{};
+        std::shared_ptr<SimulationStateBuffer> m_simulationStateBuffer{};
 
-    std::unique_ptr<PhysicsEngine> m_physicsEngine{};
-    std::unique_ptr<RenderingEngine> m_renderingEngine{};
-    std::unique_ptr<UIManager> m_uiManager{};
-    
-    std::jthread m_physicsThread;
+        std::unique_ptr<PhysicsEngine> m_physicsEngine{};
+        std::unique_ptr<RenderingEngine> m_renderingEngine{};
+        std::unique_ptr<UIManager> m_uiManager{};
 
-    void physicsThreadLoop(std::stop_token stopToken);
-    void handleMessage(const SystemMessage& message);
-};
+
+        void handleMessage(const SystemMessage& message);
+    };

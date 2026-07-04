@@ -1,7 +1,5 @@
 # N-Body Sandbox
 
-> *"We are but dust pulling at each other in the void, waiting for the inevitable collapse."*
-
 **N-Body Sandbox** is a real-time gravitational N-body simulator and sandbox, written in modern C++20. It renders live in 3D with [raylib](https://www.raylib.com/) and is driven through a [Dear ImGui](https://github.com/ocornut/imgui) interface, letting you compose scenes out of multiple clusters of bodies, tune the physics and force algorithm, and watch gravity take over.
 
 <p align="center">

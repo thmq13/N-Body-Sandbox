@@ -144,19 +144,21 @@
     <ClCompile Include="ext\ImGui\imgui_tables.cpp" />
     <ClCompile Include="ext\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="ext\rlImGui\rlImGui.cpp" />
-    <ClInclude Include="include\UI\Panels\ComputeConfigPanel.hpp" />
-    <ClInclude Include="include\UI\Panels\PhysicsConfigPanel.hpp" />
-    <ClInclude Include="include\UI\Panels\SpawnerConfigPanel.hpp" />
+    <ClInclude Include="include\Physics\PhysicsEngine.hpp" />
+    <ClInclude Include="include\Physics\ISolver.hpp" />
+    <ClInclude Include="include\Physics\IIntegrator.hpp" />
+    <ClInclude Include="include\UI\Panels\SimulationConfigPanel.hpp" />
+    <ClInclude Include="include\UI\Panels\BackButtonPanel.hpp" />
+    <ClInclude Include="include\Config.hpp" />
     <ClCompile Include="src\Core\MessageBus.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\NBodySandboxApplication.cpp" />
-    <ClCompile Include="src\PhysicsEngine\PhysicsEngine.cpp" />
+    <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="src\RenderingEngine\RenderingEngine.cpp" />
     <ClCompile Include="src\SimulationStateBuffer\SimulationStateBuffer.cpp" />
-    <ClCompile Include="src\UI\Panels\ComputeConfigPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\BackButtonPanel.cpp" />
     <ClCompile Include="src\UI\Panels\ModeSelectionPanel.cpp" />
-    <ClCompile Include="src\UI\Panels\PhysicsConfigPanel.cpp" />
-    <ClCompile Include="src\UI\Panels\SpawnerConfigPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\SimulationConfigPanel.cpp" />
     <ClCompile Include="src\UI\Panels\TitleScreenPanel.cpp" />
     <ClCompile Include="src\UI\UIManager.cpp" />
   </ItemGroup>
@@ -183,7 +185,6 @@
     <ClInclude Include="include\NBodySandboxApplication.hpp" />
     <ClInclude Include="include\RenderingEngine\RenderingEngine.hpp" />
     <ClInclude Include="include\UI\UIManager.hpp" />
-    <ClInclude Include="include\PhysicsEngine\PhysicsEngine.hpp" />
     <ClInclude Include="include\SimulationStateBuffer\SimulationStateBuffer.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -18,5 +18,4 @@ private:
     void drawRealTimeOption(const ImVec2& windowSize, MessageBus& messageBus);
     void drawPrecomputeOption(const ImVec2& windowSize, MessageBus& messageBus);
     void drawPlaybackOption(const ImVec2& windowSize, MessageBus& messageBus);
-    void drawBackButton(const ImVec2& windowSize, MessageBus& messageBus);
 };

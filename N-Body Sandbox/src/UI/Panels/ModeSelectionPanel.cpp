@@ -46,9 +46,6 @@ namespace {
         constexpr const char* playbackButtonText       { "Playback" };
         constexpr float       playbackDescHeightScale  { 0.69f };
         constexpr const char* playbackDescText         { "Echoes of a time" };
-
-        constexpr float       backButtonHeightScale{ 0.85f };
-        constexpr const char* backButtonText       { "< back" };
     }
 }
 
@@ -61,7 +58,6 @@ void ModeSelectionPanel::draw(MessageBus& messageBus) {
     drawRealTimeOption  (windowSize, messageBus);
     drawPrecomputeOption(windowSize, messageBus);
     drawPlaybackOption  (windowSize, messageBus);
-    drawBackButton      (windowSize, messageBus);
 
     cleanUp();
 }
@@ -171,20 +167,6 @@ void ModeSelectionPanel::drawPlaybackOption(const ImVec2& windowSize, MessageBus
     ImGui::PushStyleColor(ImGuiCol_Text, ModeSelectionConfig::dimTextColor);
     ImGui::TextUnformatted(ModeSelectionConfig::playbackDescText);
     ImGui::PopStyleColor();
-
-    ImGui::SetWindowFontScale(ModeSelectionConfig::defaultFontScale);
-}
-
-void ModeSelectionPanel::drawBackButton(const ImVec2& windowSize, MessageBus& messageBus) {
-    ImGui::SetWindowFontScale(ModeSelectionConfig::buttonTextScale);
-    const ImVec2 btnSize = ImGui::CalcTextSize(ModeSelectionConfig::backButtonText);
-
-    const float btnX = (windowSize.x - btnSize.x) * ModeSelectionConfig::centerScaleX;
-    const float btnY = windowSize.y * ModeSelectionConfig::backButtonHeightScale;
-    ImGui::SetCursorPos(ImVec2{ btnX, btnY });
-    if (ImGui::Button(ModeSelectionConfig::backButtonText)) {
-        messageBus.publish(CmdRequestStateChange{ AppState::TitleScreen });
-    }
 
     ImGui::SetWindowFontScale(ModeSelectionConfig::defaultFontScale);
 }

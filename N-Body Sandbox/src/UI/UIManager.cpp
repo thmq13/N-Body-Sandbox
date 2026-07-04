@@ -6,11 +6,10 @@
 #include <variant>
 
 #include <Core/MessageBus.hpp>
+#include <UI/Panels/BackButtonPanel.hpp>
 #include <UI/Panels/TitleScreenPanel.hpp>
 #include <UI/Panels/ModeSelectionPanel.hpp>
-#include <UI/Panels/ComputeConfigPanel.hpp>
-#include <UI/Panels/PhysicsConfigPanel.hpp>
-#include <UI/Panels/SpawnerConfigPanel.hpp>
+#include <UI/Panels/SimulationConfigPanel.hpp>
 
 UIManager::UIManager(MessageBus& messageBus)
     : m_messageBus(messageBus)
@@ -31,11 +30,18 @@ void UIManager::draw(AppState state) {
 
 void UIManager::registerPanels() {
     createPanel<TitleScreenPanel>(AppState::TitleScreen);
+
     createPanel<ModeSelectionPanel>(AppState::ModeSelection);
+    createPanel<BackButtonPanel>(AppState::ModeSelection, AppState::TitleScreen);
     
-    createPanel<ComputeConfigPanel>(AppState::PrecomputeConfig);
-    createPanel<PhysicsConfigPanel>(AppState::PrecomputeConfig);
-    createPanel<SpawnerConfigPanel>(AppState::PrecomputeConfig);
+    createPanel<SimulationConfigPanel>(AppState::PrecomputeConfig, AppState::PrecomputeRunning);
+    createPanel<BackButtonPanel>(AppState::PrecomputeConfig, AppState::ModeSelection);
+
+
+    createPanel<BackButtonPanel>(AppState::RealTimeConfig, AppState::ModeSelection);
+
+
+    createPanel<BackButtonPanel>(AppState::PlaybackConfig, AppState::ModeSelection);
 }
 
 

@@ -29,13 +29,6 @@
 - **Precompute** — run a simulation ahead of time and store the result
 - **Playback** — replay a precomputed run
 
-**Scene composition** — build a scene out of any number of independently configured clusters:
-| Shape | Parameters |
-|---|---|
-| Uniform Sphere | radius, total mass, body count |
-| Plummer sphere | scale radius, total mass, body count |
-| Disk Galaxy | radius, thickness, total mass, body count |
-
 **Physics configuration**
 - Gravitational constant, timestep, softening length, and Barnes-Hut θ (theta)
 - Selectable integrator: Euler, Verlet (default), or RK4
@@ -136,10 +129,6 @@ The main loop (`NBodySandboxApplication::executeMasterLoop`) is intentionally si
 - [ ] Playback mode: scrub and replay a precomputed run
 - [ ] Real-Time and Playback configuration panels
 - [ ] Cross-platform build (currently Visual Studio / Windows only)
-
-## Contributing
-
-This is currently a solo, early-stage project. Issues and pull requests are welcome — the message-bus-plus-panel-per-state design is meant to make it easy to drop in a new solver, integrator, or screen without touching unrelated code.
 
 ## License
 

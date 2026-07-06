@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <variant>
 #include <vector>
 
@@ -12,7 +13,13 @@ struct CmdRequestStateChange {
     AppState requestedState;
 };
 
-//struct CmdSpawnCluster
+struct CmdSpawnPreviewCluster {
+    SpawnerConfig::ClusterConfig cluster;
+};
+
+struct CmdRemovePreviewCluster {
+    std::uint32_t id;
+};
 
 struct CmdUpdateSimulationConfig {
     ComputeConfig computeConfig;
@@ -23,5 +30,7 @@ struct CmdUpdateSimulationConfig {
 using SystemMessage = std::variant <
     CmdExitApplication,
     CmdRequestStateChange,
+    CmdSpawnPreviewCluster,
+    CmdRemovePreviewCluster,
     CmdUpdateSimulationConfig
 >;

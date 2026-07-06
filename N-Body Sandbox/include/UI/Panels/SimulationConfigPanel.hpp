@@ -32,6 +32,6 @@ private:
     AppState m_targetRunningState;
 
     SpawnerConfig::Shape m_pendingShape{ SpawnerConfig::Shape::UniformSphere };
-    SpawnerConfig::ShapeParams m_pendingParams;
+    SpawnerConfig::ShapeParams m_pendingParams{};
     std::size_t m_nextClusterId{ 0 };
 };

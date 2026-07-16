@@ -4,11 +4,13 @@
 #include <vector>
 #include <unordered_map>
 
-#include <Core/Events.hpp>
+#include <UI/UITypes.hpp>
 #include <UI/IPanel.hpp>
-#include <AppState.hpp>
+#include <Core/Message.hpp>
+#include <Core/AppState.hpp>
 
 class MessageBus;
+
 
 class UIManager {
 public:
@@ -27,6 +29,8 @@ public:
 private:
     std::unordered_map < AppState, std::vector<IPanel*> > m_statePanels{};
     std::vector<std::unique_ptr<IPanel>> m_ownedPanels{};
+
+    UIStorage m_storage{};
 
     MessageBus& m_messageBus;
 

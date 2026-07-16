@@ -1,6 +1,6 @@
 #include "UI/Panels/BackButtonPanel.hpp"
 
-#include <Core/Events.hpp>
+#include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
 
 namespace {
@@ -62,7 +62,7 @@ void BackButtonPanel::draw(MessageBus& messageBus) {
     ImGui::SetWindowFontScale(BackButtonConfig::buttonTextScale);
 
     if (ImGui::Button(BackButtonConfig::buttonText)) {
-        messageBus.publish(CmdRequestStateChange{ m_targetRunningState });
+        messageBus.publish(CmdRequestStateChange{ m_nextState });
     }
 
     cleanUp();

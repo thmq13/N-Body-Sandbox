@@ -1,27 +1,34 @@
 #include <Physics/PhysicsEngine.hpp>
 
 #include <iostream>
+#include <cstdint>
 
-#include <Core/MessageBus.hpp>
+#include <Physics/IGravitySolver.hpp>
+#include <Physics/Gravity Solvers/DirectCPU.hpp>
+#include <Physics/IIntegrator.hpp>
+#include <Physics/Integrators/Verlet.hpp>
 
-PhysicsEngine::PhysicsEngine(MessageBus& messageBus)
-    : m_messageBus(messageBus)
-
-      //m_solver(std::make_unique)
+PhysicsEngine::PhysicsEngine(MessageBus& messageBus, std::shared_ptr<ParticleBuffer> particleBuffer)
+    : m_messageBus(messageBus),
+      m_particleBuffer(std::move(particleBuffer))
 {
-    m_messageBus.subscribe<CmdUpdateSimulationConfig>([this](const SystemMessage& message) {
-        std::lock_guard<std::mutex> lock(m_mailboxMutex);
-        m_mailbox.push(message);
-        m_mailboxCV.notify_one();
-    });
 
-    m_messageBus.subscribe<CmdRequestStateChange>([this](const SystemMessage& message) {
-        std::lock_guard<std::mutex> lock(m_mailboxMutex);
-        m_mailbox.push(message);
-        m_mailboxCV.notify_one();
-    });
+    subscribeToMessages<
+        CmdRequestStateChange,
+        CmdRequestSchemas,
+        CmdSetActiveOption,
+        CmdSetConfig,
+        CmdExitApplication
+    >();
 
     m_workerThread = std::jthread([this](std::stop_token token) { workerLoop(token); });
+
+    registerGravitySolvers();
+    registerIntegrators();
+}
+
+PhysicsEngine::~PhysicsEngine()
+{
 }
 
 void PhysicsEngine::workerLoop(std::stop_token stopToken) {
@@ -33,13 +40,22 @@ void PhysicsEngine::workerLoop(std::stop_token stopToken) {
         if (m_appState == AppState::RealTimeRunning ||
             m_appState == AppState::PrecomputeRunning)
         {
-            // m_solver->();
-            // m_integrator->();
+            if (m_needsInitialization) {
+                /*m_simulationBuffer = m_particleBuffer->getBackBuffer();*/
+                m_needsInitialization = false;
+                std::cout << "[Physics Engine] Initialized simulation state with "
+                    << m_simulationBuffer.getSize() << " particles.\n";
+            }
+
+                
+            m_particleBuffer->commitBackBuffer();
         }
         else {
+            m_needsInitialization = true;
+
             std::unique_lock<std::mutex> lock(m_mailboxMutex);
-            m_mailboxCV.wait_for(lock, std::chrono::milliseconds(10), [this]() {
-                return !m_mailbox.empty();
+            m_mailboxCV.wait(lock, [this, &stopToken]() {
+                return stopToken.stop_requested() || !m_mailbox.empty();
             });
         }
     }
@@ -67,22 +83,71 @@ void PhysicsEngine::handleMessage(const SystemMessage& message) {
     std::visit([this](const auto& actualMessage) {
         using T = std::decay_t<decltype(actualMessage)>;
 
-        if constexpr (std::is_same_v<T, CmdUpdateSimulationConfig>) {
-            m_computeConfig = actualMessage.computeConfig;
-            m_physicsConfig = actualMessage.physicsConfig;
-            std::cout << "[Physics Engine] Updated configuration simulation parameters.\n";
-
-            std::cout << m_physicsConfig.GConstant << '\n';
-            std::cout << m_physicsConfig.deltaTime << '\n';
-
-        }
-        else if constexpr (std::is_same_v<T, CmdRequestStateChange>) {
-            m_appState = actualMessage.requestedState;
+        if constexpr (std::is_same_v<T, CmdRequestStateChange>) {
             std::cout << "[Physics Engine] State sync acknowledeged.\n";
+            m_appState = actualMessage.requestedState;         
+        }
+
+        else if constexpr (std::is_same_v<T, CmdRequestSchemas>) {
+            std::cout << "[Physics Engine] Schemas request intercepted.\n";
+
+            for (const auto& [solverId, solver] : m_gravitySolvers) {
+                m_messageBus.publish(CmdSendSchemas{ 
+                    static_cast<std::uint32_t>(Module::Physics),
+                    static_cast<std::uint32_t>(PhysicsSubModule::GravitySolver),
+                    solverId, solver->getSchemas()
+                });
+            }
+            for (const auto& [integratorId, integrator] : m_integrators) {
+                m_messageBus.publish(CmdSendSchemas{ 
+                    static_cast<std::uint32_t>(Module::Physics),
+                    static_cast<std::uint32_t>(PhysicsSubModule::Integrator),
+                    integratorId, integrator->getSchemas()
+                });
+            }
+        }
+
+        else if constexpr (std::is_same_v<T, CmdSetActiveOption>) {
+            if (static_cast<Module>(actualMessage.moduleId) != Module::Physics) {
+                return;
+            }
+            std::cout << "[Physics Engine] Active option acknowledged.\n";
+
+            auto subModule = static_cast<PhysicsSubModule>(actualMessage.subModuleId);
+            if (subModule == PhysicsSubModule::GravitySolver) {
+                m_currentGravitySolver = actualMessage.activeId;
+            }
+            if (subModule == PhysicsSubModule::Integrator) {
+                m_currentIntegrator = actualMessage.activeId;
+            }
+        }
+
+        else if constexpr (std::is_same_v<T, CmdSetConfig>) {
+            if (static_cast<Module>(actualMessage.moduleId) != Module::Physics) {
+                return;
+            }
+            std::cout << "[Physics Engine] Configuration change acknowledged.\n";
+
+            auto subModule = static_cast<PhysicsSubModule>(actualMessage.subModuleId);
+            if (subModule == PhysicsSubModule::GravitySolver) {
+                m_gravitySolvers[actualMessage.targetId]->setParameters(actualMessage.schemas);
+            }
+            if (subModule == PhysicsSubModule::Integrator) {
+                m_integrators[actualMessage.targetId]->setParameters(actualMessage.schemas);
+            }
+        }
+
+        else if constexpr (std::is_same_v<T, CmdExitApplication>) {
+            std::cout << "[Physics Engine] Exit command acknowledeged.\n";
+            m_workerThread.request_stop();
         }
     }, message);
 }
 
-void PhysicsEngine::reinitializeComponents()
-{
+void PhysicsEngine::registerGravitySolvers() {
+    m_gravitySolvers["Direct CPU"] = std::make_unique<DirectCPU>();
+}
+
+void PhysicsEngine::registerIntegrators() {
+    m_integrators["Verlet"] = std::make_unique<Verlet>();
 }

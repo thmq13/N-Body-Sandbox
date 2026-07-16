@@ -6,7 +6,7 @@
 
 int main() {
     std::cout << "\x1B[2J\x1B[H";
-    std::cout << "We are but dust pulling at each other in the void, waiting for the inevitable collapse.\n";
+    std::cout << "We are but dust in the void waiting for the inevitable collapse.\n";
 
     try {
         NBodySandboxApplication application;

@@ -2,19 +2,19 @@
 
 #include <iostream>
 #include <variant>
-#include <chrono>
+#include <type_traits>
 
 #include <Core/MessageBus.hpp>
+#include <Generator/GeneratorEngine.hpp>
 #include <Physics/PhysicsEngine.hpp>
-#include <RenderingEngine/RenderingEngine.hpp>
-#include <SimulationStateBuffer/SimulationStateBuffer.hpp>
+#include <Render/RenderingEngine.hpp>
+#include <Particle/ParticleBuffer.hpp>
 #include <UI/UIManager.hpp>
 
 NBodySandboxApplication::NBodySandboxApplication()
     : m_messageBus(std::make_unique<MessageBus>()),
-
-      m_simulationStateBuffer(std::make_unique<SimulationStateBuffer>()),
-
+      m_particleBuffer(std::make_shared<ParticleBuffer>()),
+      m_generatorEngine(std::make_unique<GeneratorEngine>(*m_messageBus, m_particleBuffer)),
       m_physicsEngine(std::make_unique<PhysicsEngine>(*m_messageBus)),
       m_renderingEngine(std::make_unique<RenderingEngine>()),
       m_uiManager(std::make_unique<UIManager>(*m_messageBus))
@@ -31,7 +31,6 @@ NBodySandboxApplication::NBodySandboxApplication()
 }
 
 NBodySandboxApplication::~NBodySandboxApplication() {
-    m_isRunning = false;
     std::cout << "[App Core] Complete. All resources freed cleanly.\n";
 }
 
@@ -41,8 +40,10 @@ void NBodySandboxApplication::setUpAndGenerateScene() {
 
 void NBodySandboxApplication::executeMasterLoop() {
     std::cout << "[App Core] Entering master execution loop.\n";
-    while (m_isRunning) {
+    while (m_isRunning.load()) {
         m_messageBus->dispatch();
+
+        m_particleBuffer->updateFrontBuffer();
 
         m_renderingEngine->beginFrame();
 
@@ -58,15 +59,16 @@ void NBodySandboxApplication::handleMessage(const SystemMessage& message) {
 
         if constexpr (std::is_same_v<T, CmdExitApplication>) {
             std::cout << "[App Core] Exit command acknowledged. Initiating shutdown sequence...\n";
-
-            m_isRunning = false;
-            //...
+            m_isRunning.store(false);
         }
-
         else if constexpr (std::is_same_v<T, CmdRequestStateChange>) {
             std::cout << "[App Core] Intercepted state change request.\n";
-
             m_appState = actualMessage.requestedState;
+
+
+            if (m_appState == AppState::RealTimeRunning || m_appState == AppState::PrecomputeRunning) {
+
+            }
         }
 
     }, message);

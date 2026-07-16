@@ -1,6 +1,6 @@
 #include <UI/Panels/ModeSelectionPanel.hpp>
 
-#include <Core/Events.hpp>
+#include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
 
 namespace {

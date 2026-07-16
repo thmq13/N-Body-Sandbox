@@ -2,7 +2,7 @@
 
 #include <string_view>
 
-#include <Core/Events.hpp>
+#include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
 
 namespace {

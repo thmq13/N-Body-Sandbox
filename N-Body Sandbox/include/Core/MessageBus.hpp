@@ -7,7 +7,7 @@
 #include <typeindex>
 #include <typeinfo>
 
-#include <Core/Events.hpp>
+#include <Core/Message.hpp>
 
 class MessageBus {
 public:

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -144,18 +144,30 @@
     <ClCompile Include="ext\ImGui\imgui_tables.cpp" />
     <ClCompile Include="ext\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="ext\rlImGui\rlImGui.cpp" />
+    <ClInclude Include="include\Generator\IGenerator.hpp" />
+    <ClInclude Include="include\Generator\Shapes\UniformSphere.hpp" />
+    <ClInclude Include="include\Physics\Integrators\Verlet.hpp" />
     <ClInclude Include="include\Physics\PhysicsEngine.hpp" />
-    <ClInclude Include="include\Physics\ISolver.hpp" />
+    <ClInclude Include="include\Physics\IGravitySolver.hpp" />
     <ClInclude Include="include\Physics\IIntegrator.hpp" />
     <ClInclude Include="include\UI\Panels\SimulationConfigPanel.hpp" />
     <ClInclude Include="include\UI\Panels\BackButtonPanel.hpp" />
-    <ClInclude Include="include\Config.hpp" />
+    <ClInclude Include="include\Particle\Particle.hpp" />
+    <ClInclude Include="include\Generator\GeneratorEngine.hpp" />
+    <ClInclude Include="include\Helpers\Vec.hpp" />
+    <ClInclude Include="include\Helpers\Constants.hpp" />
+    <ClInclude Include="include\Physics\Gravity Solvers\DirectCPU.hpp" />
+    <ClInclude Include="include\UI\UITypes.hpp" />
     <ClCompile Include="src\Core\MessageBus.cpp" />
+    <ClCompile Include="src\Generator\GeneratorEngine.cpp" />
+    <ClCompile Include="src\Generator\Shapes\UniformSphere.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\NBodySandboxApplication.cpp" />
+    <ClCompile Include="src\Physics\Gravity Solvers\DirectCPU.cpp" />
+    <ClCompile Include="src\Physics\Integrators\Verlet.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
-    <ClCompile Include="src\RenderingEngine\RenderingEngine.cpp" />
-    <ClCompile Include="src\SimulationStateBuffer\SimulationStateBuffer.cpp" />
+    <ClCompile Include="src\Render\RenderingEngine.cpp" />
+    <ClCompile Include="src\Particle\ParticleBuffer.cpp" />
     <ClCompile Include="src\UI\Panels\BackButtonPanel.cpp" />
     <ClCompile Include="src\UI\Panels\ModeSelectionPanel.cpp" />
     <ClCompile Include="src\UI\Panels\SimulationConfigPanel.cpp" />
@@ -166,7 +178,7 @@
     <ClInclude Include="include\UI\IPanel.hpp" />
     <ClInclude Include="include\UI\Panels\ModeSelectionPanel.hpp" />
     <ClInclude Include="include\UI\Panels\TitleScreenPanel.hpp" />
-    <ClInclude Include="include\AppState.hpp" />
+    <ClInclude Include="include\Core\AppState.hpp" />
     <ClInclude Include="ext\ImGui\imconfig.h" />
     <ClInclude Include="ext\ImGui\imgui.h" />
     <ClInclude Include="ext\ImGui\imgui_internal.h" />
@@ -180,12 +192,12 @@
     <ClInclude Include="ext\rlImGui\extras\IconsFontAwesome6.h" />
     <ClInclude Include="ext\rlImGui\imgui_impl_raylib.h" />
     <ClInclude Include="ext\rlImGui\rlImGui.h" />
-    <ClInclude Include="include\Core\Events.hpp" />
+    <ClInclude Include="include\Core\Message.hpp" />
     <ClInclude Include="include\Core\MessageBus.hpp" />
     <ClInclude Include="include\NBodySandboxApplication.hpp" />
-    <ClInclude Include="include\RenderingEngine\RenderingEngine.hpp" />
+    <ClInclude Include="include\Render\RenderingEngine.hpp" />
     <ClInclude Include="include\UI\UIManager.hpp" />
-    <ClInclude Include="include\SimulationStateBuffer\SimulationStateBuffer.hpp" />
+    <ClInclude Include="include\Particle\ParticleBuffer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ext\raylib\lib\raylib.dll" />

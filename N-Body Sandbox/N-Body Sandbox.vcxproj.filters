@@ -18,10 +18,10 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderingEngine\RenderingEngine.cpp">
+    <ClCompile Include="src\Render\RenderingEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SimulationStateBuffer\SimulationStateBuffer.cpp">
+    <ClCompile Include="src\Particle\ParticleBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\UIManager.cpp">
@@ -63,9 +63,21 @@
     <ClCompile Include="src\UI\Panels\ModeSelectionPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Generator\GeneratorEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Generator\Shapes\UniformSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Gravity Solvers\DirectCPU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Integrators\Verlet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\SimulationStateBuffer\SimulationStateBuffer.hpp">
+    <ClInclude Include="include\Particle\ParticleBuffer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Core\MessageBus.hpp">
@@ -74,7 +86,7 @@
     <ClInclude Include="include\NBodySandboxApplication.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RenderingEngine\RenderingEngine.hpp">
+    <ClInclude Include="include\Render\RenderingEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\UI\UIManager.hpp">
@@ -119,7 +131,7 @@
     <ClInclude Include="ext\rlImGui\extras\IconsFontAwesome6.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Events.hpp">
+    <ClInclude Include="include\Core\Message.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\UI\IPanel.hpp">
@@ -128,7 +140,7 @@
     <ClInclude Include="include\UI\Panels\TitleScreenPanel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AppState.hpp">
+    <ClInclude Include="include\Core\AppState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\UI\Panels\ModeSelectionPanel.hpp">
@@ -137,7 +149,7 @@
     <ClInclude Include="include\Physics\PhysicsEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Physics\ISolver.hpp">
+    <ClInclude Include="include\Physics\IGravitySolver.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Physics\IIntegrator.hpp">
@@ -149,8 +161,29 @@
     <ClInclude Include="include\UI\Panels\BackButtonPanel.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Config.hpp">
+    <ClInclude Include="include\Particle\Particle.hpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Generator\IGenerator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Generator\Shapes\UniformSphere.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Generator\GeneratorEngine.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Helpers\Vec.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Helpers\Constants.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Physics\Gravity Solvers\DirectCPU.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Physics\Integrators\Verlet.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,21 +1,21 @@
 #pragma once
 
 #include <UI/IPanel.hpp>
-#include <AppState.hpp>
+#include <Core/AppState.hpp>
 
 #include <imgui.h>
 
 class BackButtonPanel : public IPanel {
 public:
-    BackButtonPanel(AppState targetRunningState)
-        : m_targetRunningState(targetRunningState) {
+    explicit BackButtonPanel(AppState nextState)
+        : m_nextState(nextState) {
     }
     ~BackButtonPanel() override = default;
 
     void draw(MessageBus& messageBus) override;
 
 private:
-    AppState m_targetRunningState;
+    AppState m_nextState;
 
     void setUpWindowAndStyle();
     void cleanUp();

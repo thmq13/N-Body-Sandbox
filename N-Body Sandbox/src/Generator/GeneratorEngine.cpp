@@ -1,19 +1,19 @@
 #include <Generator/GeneratorEngine.hpp>
 
 #include <iostream>
+#include <variant>
+#include <cstddef>
 
 #include <Core/MessageBus.hpp>
-#include <Particle/ParticleBuffer.hpp>
 #include <Generator/IGenerator.hpp>
 #include <Generator/Shapes/UniformSphere.hpp>
+#include <Particle/Particle.hpp>
     
 GeneratorEngine::GeneratorEngine(
     MessageBus& messageBus, 
-    std::shared_ptr<ParticleBuffer> particleBuffer,
     std::uint64_t initialSeed
 )
     : m_messageBus(messageBus),
-      m_particleBuffer(std::move(particleBuffer)),
       m_seed(initialSeed),
       m_rng(initialSeed)
 {
@@ -46,16 +46,28 @@ void GeneratorEngine::handleMessage(const SystemMessage& message) {
         if constexpr (std::is_same_v<T, CmdGeneratePreviewParticles>) {
             std::cout << "[Generator Engine] Generate preview Cmd intercepted.\n";
 
-            auto& backBuffer = m_particleBuffer->getBackBuffer();
+            struct ParticleSystem temporaryBuffer{};
+
+            std::size_t totalParticlesNeeded{ 0 };
+
+            for (const auto& shape : actualMessage.shapes) {
+                for (const auto& schema : shape.schemas) {
+                    if (schema.label == "Particle Count") {
+                        totalParticlesNeeded += std::get<std::size_t>(schema.value);
+                    }
+                }
+            }
+            temporaryBuffer.reserve(totalParticlesNeeded);
+
             for (const auto& [shapeId, schemas] : actualMessage.shapes) {
                 if (!m_availableGenerators.contains(shapeId)) {
                     std::cout << "[Generator Engine] Unknown shape requested: " << shapeId << ".\n";
                     continue;
                 }
                 m_availableGenerators[shapeId]->setParameters(schemas);
-                m_availableGenerators[shapeId]->generateOntoBuffer(backBuffer, m_rng);
+                m_availableGenerators[shapeId]->generateOntoBuffer(temporaryBuffer, m_rng);
             }
-            m_particleBuffer->commitBackBuffer();
+            m_messageBus.publish(CmdSendParticles{std::move(temporaryBuffer)});
         }
 
         else if constexpr (std::is_same_v<T, CmdRequestSchemas>) {

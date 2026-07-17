@@ -14,11 +14,14 @@ PhysicsEngine::PhysicsEngine(MessageBus& messageBus, std::shared_ptr<ParticleBuf
 {
 
     subscribeToMessages<
+        CmdExitApplication,
         CmdRequestStateChange,
+
         CmdRequestSchemas,
         CmdSetActiveOption,
         CmdSetConfig,
-        CmdExitApplication
+        
+        CmdSendParticles
     >();
 
     m_workerThread = std::jthread([this](std::stop_token token) { workerLoop(token); });
@@ -27,9 +30,7 @@ PhysicsEngine::PhysicsEngine(MessageBus& messageBus, std::shared_ptr<ParticleBuf
     registerIntegrators();
 }
 
-PhysicsEngine::~PhysicsEngine()
-{
-}
+PhysicsEngine::~PhysicsEngine() {}
 
 void PhysicsEngine::workerLoop(std::stop_token stopToken) {
     std::cout << "[Physics Engine] Worker thread started.\n";
@@ -40,18 +41,15 @@ void PhysicsEngine::workerLoop(std::stop_token stopToken) {
         if (m_appState == AppState::RealTimeRunning ||
             m_appState == AppState::PrecomputeRunning)
         {
-            if (m_needsInitialization) {
-                /*m_simulationBuffer = m_particleBuffer->getBackBuffer();*/
-                m_needsInitialization = false;
-                std::cout << "[Physics Engine] Initialized simulation state with "
-                    << m_simulationBuffer.getSize() << " particles.\n";
-            }
-
-                
-            m_particleBuffer->commitBackBuffer();
+            // do physics ...
+            
+            uploadToBackBuffer();
         }
         else {
-            m_needsInitialization = true;
+            if (m_needSimulationBufferUpdate) {
+                m_needSimulationBufferUpdate = false;
+                uploadToBackBuffer();
+            }
 
             std::unique_lock<std::mutex> lock(m_mailboxMutex);
             m_mailboxCV.wait(lock, [this, &stopToken]() {
@@ -61,6 +59,12 @@ void PhysicsEngine::workerLoop(std::stop_token stopToken) {
     }
 
     std::cout << "[Physics Engine] Worker thread spun down safely.\n";
+}
+
+void PhysicsEngine::uploadToBackBuffer() {
+    auto& backBuffer = m_particleBuffer->getBackBuffer();
+    backBuffer = m_simulationBuffer;
+    m_particleBuffer->commitBackBuffer();
 }
 
 void PhysicsEngine::processMailbox() {
@@ -83,7 +87,12 @@ void PhysicsEngine::handleMessage(const SystemMessage& message) {
     std::visit([this](const auto& actualMessage) {
         using T = std::decay_t<decltype(actualMessage)>;
 
-        if constexpr (std::is_same_v<T, CmdRequestStateChange>) {
+        if constexpr (std::is_same_v<T, CmdExitApplication>) {
+            std::cout << "[Physics Engine] Exit command acknowledeged.\n";
+            m_workerThread.request_stop();
+        }
+
+        else if constexpr (std::is_same_v<T, CmdRequestStateChange>) {
             std::cout << "[Physics Engine] State sync acknowledeged.\n";
             m_appState = actualMessage.requestedState;         
         }
@@ -137,9 +146,18 @@ void PhysicsEngine::handleMessage(const SystemMessage& message) {
             }
         }
 
-        else if constexpr (std::is_same_v<T, CmdExitApplication>) {
-            std::cout << "[Physics Engine] Exit command acknowledeged.\n";
-            m_workerThread.request_stop();
+        else if constexpr (std::is_same_v<T, CmdSendParticles>) {
+            if (m_simulationBuffer.getSize() == 0) {
+                m_simulationBuffer = std::move(actualMessage.particleSystem);
+            }
+            else {
+                m_simulationBuffer.append(actualMessage.particleSystem);
+            }
+
+            m_needSimulationBufferUpdate = true;
+
+            std::cout << "[Physics Engine] Acknowledeged new particles. The current local physics buffer size is "
+                  << m_simulationBuffer.getSize() << '\n';
         }
     }, message);
 }

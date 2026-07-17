@@ -68,9 +68,10 @@ private:
     std::string m_currentIntegrator{ "Verlet" };
     std::shared_ptr<ParticleBuffer> m_particleBuffer{};
     ParticleSystem m_simulationBuffer{};
-    bool m_needsInitialization{ true };
+    bool m_needSimulationBufferUpdate{ true };
         
     // Thread work
     std::jthread m_workerThread;
     void workerLoop(std::stop_token stopToken);
+    void uploadToBackBuffer();
 };

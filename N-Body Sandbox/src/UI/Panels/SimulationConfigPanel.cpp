@@ -7,6 +7,7 @@
 
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
+#include <UI/SchemaRenderer.hpp>
 
 namespace {
     namespace SimulationConfigConfig {
@@ -116,7 +117,7 @@ void SimulationConfigPanel::draw(MessageBus& messageBus) {
                 auto& schemas = targets[currentTargetId];
                 ImGui::Indent(10.0f);
                 for (auto& schema : schemas) {
-                    schema.drawInput(windowWidth * SimulationConfigConfig::inputWidthScale);
+                    SchemaRenderer::drawInput(schema, windowWidth * SimulationConfigConfig::inputWidthScale);
                 }
                 ImGui::Unindent(10.0f);
                 ImGui::Spacing();
@@ -217,7 +218,7 @@ void SimulationConfigPanel::drawPreviewSection(MessageBus& messageBus) {
 
         ImGui::Indent(10.0f);
         for (auto& schema : it->schemas) {
-            schema.drawDisplay();
+            SchemaRenderer::drawDisplay(schema);
         }
         ImGui::Unindent(10.0f);
 

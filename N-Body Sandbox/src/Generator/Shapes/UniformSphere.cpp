@@ -7,12 +7,15 @@
 UniformSphere::UniformSphere(const Parameters& parameters) noexcept : m_parameters(parameters) {}
 
 void UniformSphere::generateOntoBuffer(ParticleSystem& buffer, std::mt19937_64& rng) {
-    std::size_t startIdx = buffer.prepareAppend(m_parameters.particleCount);
+    std::size_t startIdx = buffer.enlargeSize(m_parameters.particleCount);
     std::size_t count = m_parameters.particleCount;
+
+    double particleMass = m_parameters.totalMass / m_parameters.particleCount;
 
     std::uniform_real_distribution<double> dist(-1.0, 1.0);
 
     for (std::size_t i = 0; i < count; ++i) {
+
         std::size_t targetIdx = startIdx + i;
         double x{}, y{}, z{}, r2{};
         do {
@@ -27,7 +30,8 @@ void UniformSphere::generateOntoBuffer(ParticleSystem& buffer, std::mt19937_64& 
         buffer.positionX[targetIdx] = finalPosition.x;
         buffer.positionY[targetIdx] = finalPosition.y;
         buffer.positionZ[targetIdx] = finalPosition.z;
-        
+
+        buffer.mass[targetIdx] = particleMass;
         buffer.radius[targetIdx] = m_parameters.particleRadius;
         buffer.color[targetIdx] = m_parameters.color;
     }

@@ -158,6 +158,7 @@
     <ClInclude Include="include\Helpers\Constants.hpp" />
     <ClInclude Include="include\Physics\Gravity Solvers\DirectCPU.hpp" />
     <ClInclude Include="include\UI\UITypes.hpp" />
+    <ClInclude Include="include\UI\SchemaRenderer.hpp" />
     <ClCompile Include="src\Core\MessageBus.cpp" />
     <ClCompile Include="src\Generator\GeneratorEngine.cpp" />
     <ClCompile Include="src\Generator\Shapes\UniformSphere.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="src\UI\Panels\ModeSelectionPanel.cpp" />
     <ClCompile Include="src\UI\Panels\SimulationConfigPanel.cpp" />
     <ClCompile Include="src\UI\Panels\TitleScreenPanel.cpp" />
+    <ClCompile Include="src\UI\SchemaRenderer.cpp" />
     <ClCompile Include="src\UI\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>

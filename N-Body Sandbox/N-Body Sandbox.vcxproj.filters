@@ -75,6 +75,9 @@
     <ClCompile Include="src\Physics\Integrators\Verlet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\SchemaRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Particle\ParticleBuffer.hpp">
@@ -184,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="include\Physics\Integrators\Verlet.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UI\UITypes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UI\SchemaRenderer.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

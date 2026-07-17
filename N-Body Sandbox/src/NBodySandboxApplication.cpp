@@ -14,8 +14,8 @@
 NBodySandboxApplication::NBodySandboxApplication()
     : m_messageBus(std::make_unique<MessageBus>()),
       m_particleBuffer(std::make_shared<ParticleBuffer>()),
-      m_generatorEngine(std::make_unique<GeneratorEngine>(*m_messageBus, m_particleBuffer)),
-      m_physicsEngine(std::make_unique<PhysicsEngine>(*m_messageBus)),
+      m_generatorEngine(std::make_unique<GeneratorEngine>(*m_messageBus)),
+      m_physicsEngine(std::make_unique<PhysicsEngine>(*m_messageBus, m_particleBuffer)),
       m_renderingEngine(std::make_unique<RenderingEngine>()),
       m_uiManager(std::make_unique<UIManager>(*m_messageBus))
 {
@@ -66,9 +66,7 @@ void NBodySandboxApplication::handleMessage(const SystemMessage& message) {
             m_appState = actualMessage.requestedState;
 
 
-            if (m_appState == AppState::RealTimeRunning || m_appState == AppState::PrecomputeRunning) {
-
-            }
+           
         }
 
     }, message);

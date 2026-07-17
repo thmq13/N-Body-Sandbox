@@ -18,6 +18,8 @@ public:
     void commitBackBuffer();
     void updateFrontBuffer();
 
+    
+
     [[nodiscard]] ParticleSystem& getBackBuffer() noexcept {
         return m_backBuffer;
     }

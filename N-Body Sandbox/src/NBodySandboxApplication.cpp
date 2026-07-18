@@ -1,14 +1,16 @@
 #include <NBodySandboxApplication.hpp>
 
 #include <iostream>
-#include <variant>
+#include <memory>
 #include <type_traits>
+#include <variant>
 
+#include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
 #include <Generator/GeneratorEngine.hpp>
+#include <Particle/ParticleBuffer.hpp>
 #include <Physics/PhysicsEngine.hpp>
 #include <Render/RenderingEngine.hpp>
-#include <Particle/ParticleBuffer.hpp>
 #include <UI/UIManager.hpp>
 
 namespace NBody {

@@ -1,15 +1,15 @@
 #pragma once
 
-#include <string>
+#include <vector>
 
-#include <Physics/IGravitySolver.hpp>
 #include <Core/Message.hpp>
 #include <Helpers/Constants.hpp>
+#include <Physics/GravitySolver.hpp>
 
 namespace NBody::Particle { struct ParticleSystem; }
 
 namespace NBody::Physics {
-    class DirectCPU : public IGravitySolver {
+    class DirectCPU : public GravitySolver {
     public:
         struct Parameters {
             double gravityConstant{ 1.0 };

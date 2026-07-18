@@ -144,12 +144,12 @@
     <ClCompile Include="ext\ImGui\imgui_tables.cpp" />
     <ClCompile Include="ext\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="ext\rlImGui\rlImGui.cpp" />
-    <ClInclude Include="include\Generator\IGenerator.hpp" />
+    <ClInclude Include="include\Generator\Generator.hpp" />
     <ClInclude Include="include\Generator\Shapes\UniformSphere.hpp" />
     <ClInclude Include="include\Physics\Integrators\Verlet.hpp" />
     <ClInclude Include="include\Physics\PhysicsEngine.hpp" />
-    <ClInclude Include="include\Physics\IGravitySolver.hpp" />
-    <ClInclude Include="include\Physics\IIntegrator.hpp" />
+    <ClInclude Include="include\Physics\GravitySolver.hpp" />
+    <ClInclude Include="include\Physics\Integrator.hpp" />
     <ClInclude Include="include\UI\Panels\SimulationConfigPanel.hpp" />
     <ClInclude Include="include\UI\Panels\BackButtonPanel.hpp" />
     <ClInclude Include="include\Particle\Particle.hpp" />

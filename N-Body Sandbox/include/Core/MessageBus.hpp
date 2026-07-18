@@ -1,11 +1,12 @@
 #pragma once
 
-#include <queue>
-#include <mutex>    
 #include <functional>
-#include <unordered_map>
+#include <mutex>    
+#include <queue>
 #include <typeindex>
-#include <typeinfo>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include <Core/Message.hpp>
 

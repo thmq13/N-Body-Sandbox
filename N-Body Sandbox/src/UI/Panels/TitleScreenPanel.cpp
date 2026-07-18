@@ -1,9 +1,11 @@
 #include <UI/Panels/TitleScreenPanel.hpp>
 
-#include <string_view>
+#include <cmath>
+#include <imgui.h>
 
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
+#include <Core/AppState.hpp>
 
 namespace NBody::UI {
 

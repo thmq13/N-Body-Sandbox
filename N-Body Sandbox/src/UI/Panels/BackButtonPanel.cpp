@@ -1,9 +1,10 @@
 #include "UI/Panels/BackButtonPanel.hpp"
 
+#include <imgui.h>
+
+#include <Core/AppState.hpp>
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
-
-#include <imgui.h>
 
 namespace NBody::UI {
 

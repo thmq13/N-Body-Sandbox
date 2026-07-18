@@ -1,12 +1,16 @@
-#include "UI/SchemaRenderer.hpp"
+#include <UI/SchemaRenderer.hpp>
 
-#include <variant>
 #include <algorithm>
+#include <cstddef>
+#include <type_traits>
+#include <variant>
 
 #include <imgui.h>
 
-#include <Helpers/Constants.hpp>
 #include <Core/Message.hpp>
+#include <Helpers/Constants.hpp>
+#include <Helpers/Vec.hpp>
+#include <raylib.h>
 
 namespace NBody::UI {
 

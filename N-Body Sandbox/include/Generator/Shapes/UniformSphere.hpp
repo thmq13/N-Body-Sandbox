@@ -1,18 +1,20 @@
 #pragma once
 
 #include <cstddef>
+#include <random>
+#include <vector>
 
 #include <raylib.h>
 
-#include <Generator/IGenerator.hpp>
-#include <Helpers/Vec.hpp>
-#include <Helpers/Constants.hpp>
 #include <Core/Message.hpp>
+#include <Generator/Generator.hpp>
+#include <Helpers/Constants.hpp>
+#include <Helpers/Vec.hpp>
 
 namespace NBody::Particle { struct ParticleSystem; }
 
 namespace NBody::Generator {
-    class UniformSphere : public IGenerator {
+    class UniformSphere : public Generator {
     public:
         struct Parameters {
             std::size_t particleCount{ 100 };

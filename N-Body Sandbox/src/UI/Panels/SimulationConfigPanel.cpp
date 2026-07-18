@@ -1,13 +1,17 @@
 #include "UI/Panels/SimulationConfigPanel.hpp"
 
-#include <variant>
+#include <cstddef>
 #include <cstdint>
+#include <memory>
+#include <string>
 
 #include <imgui.h>
 
+#include <Core/AppState.hpp>
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
 #include <UI/SchemaRenderer.hpp>
+#include <UI/UITypes.hpp>
 
 namespace NBody::UI {
 
@@ -60,6 +64,7 @@ namespace NBody::UI {
         : m_nextState(nextState),
         m_storage(storage)
     {
+        m_activeTargets.resize(Core::moduleCount);
         for (std::size_t moduleIdx = 0; moduleIdx < Core::moduleCount; ++moduleIdx) {
             m_activeTargets[moduleIdx].resize(Core::subModuleCount[moduleIdx]);
         }
@@ -78,7 +83,7 @@ namespace NBody::UI {
         for (std::size_t moduleIdx = 0; moduleIdx < Core::moduleCount; ++moduleIdx) {
 
             ImGui::SetWindowFontScale(SimulationConfigConfig::moduleFontScale);
-            ImGui::Text(Core::moduleNames[moduleIdx].c_str());
+            ImGui::Text(Core::moduleName[moduleIdx]);
             ImGui::SetWindowFontScale(SimulationConfigConfig::defaultFontScale);
 
             const std::size_t currentSubModuleCount = Core::subModuleCount[moduleIdx];
@@ -97,7 +102,7 @@ namespace NBody::UI {
 
                 // Combo
                 ImGui::SetNextItemWidth(windowWidth * SimulationConfigConfig::comboWidthScale);
-                if (ImGui::BeginCombo(Core::subModuleNames[moduleIdx][subModuleIdx].c_str(), currentTargetId.c_str())) {
+                if (ImGui::BeginCombo(Core::subModuleName[moduleIdx][subModuleIdx], currentTargetId.c_str())) {
                     for (const auto& [targetId, schemas] : targets) {
                         bool isSelected{ targetId == currentTargetId };
 

@@ -1,6 +1,13 @@
 #include <Core/MessageBus.hpp>
 
+#include <mutex>
+#include <queue>
+#include <typeindex>
+#include <utility>
 #include <variant>
+#include <vector>
+
+#include <Core/Message.hpp>
 
 namespace NBody::Core {
     void MessageBus::publish(SystemMessage message) {

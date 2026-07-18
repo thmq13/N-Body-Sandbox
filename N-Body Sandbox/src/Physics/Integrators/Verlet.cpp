@@ -1,7 +1,9 @@
 #include <Physics/Integrators/Verlet.hpp>
 
 #include <variant>
+#include <vector>
 
+#include <Core/Message.hpp>
 #include <Particle/Particle.hpp>
 
 namespace NBody::Physics {

@@ -1,13 +1,19 @@
 #include <Generator/GeneratorEngine.hpp>
 
-#include <iostream>
-#include <variant>
 #include <cstddef>
+#include <cstdint>
+#include <iostream>
+#include <memory>
+#include <type_traits>
+#include <utility>
+#include <variant>
 
 #include <Core/MessageBus.hpp>
-#include <Generator/IGenerator.hpp>
+#include <Generator/Generator.hpp>
 #include <Generator/Shapes/UniformSphere.hpp>
 #include <Particle/Particle.hpp>
+
+#include <Core/Message.hpp>
     
 namespace NBody::Generator {
     GeneratorEngine::GeneratorEngine(
@@ -35,7 +41,7 @@ namespace NBody::Generator {
         std::cout << "[Generator Engine] Generators are ready.\n";
     }
 
-    Generator::GeneratorEngine::~GeneratorEngine() {}
+    GeneratorEngine::~GeneratorEngine() {}
 
     void GeneratorEngine::handleMessage(const Core::SystemMessage& message) {
         std::visit([this](const auto& actualMessage) {

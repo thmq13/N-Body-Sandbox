@@ -1,9 +1,10 @@
 #include <Physics/Gravity Solvers/DirectCPU.hpp>
 
 #include <cstddef>
-#include <cmath>
 #include <variant>
+#include <vector>
 
+#include <Core/Message.hpp>
 #include <Particle/Particle.hpp>
 
 namespace NBody::Physics {

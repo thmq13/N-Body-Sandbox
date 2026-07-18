@@ -2,16 +2,16 @@
 
 #include <cstdint>
 #include <memory>
+#include <random>
 #include <string>
 #include <unordered_map>
-#include <random>
 
 #include <Core/Message.hpp>
 
 namespace NBody::Core { class MessageBus; }
 
 namespace NBody::Generator {
-    class IGenerator;
+    class Generator;
 
     class GeneratorEngine {
     public:
@@ -27,7 +27,7 @@ namespace NBody::Generator {
 
         std::uint64_t m_seed{};
         std::mt19937_64 m_rng{};
-        std::unordered_map <std::string, std::unique_ptr<IGenerator>> m_availableGenerators{};
+        std::unordered_map <std::string, std::unique_ptr<Generator>> m_availableGenerators{};
         void registerGenerators();
     };
 }

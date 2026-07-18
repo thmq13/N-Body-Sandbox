@@ -1,16 +1,17 @@
 #include <UI/UIManager.hpp>
 
+#include <cstddef>
 #include <iostream>
 #include <variant>
-#include <cstddef>
 
-#include <imgui.h>
-
+#include <Core/AppState.hpp>
+#include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
+#include <type_traits>
 #include <UI/Panels/BackButtonPanel.hpp>
-#include <UI/Panels/TitleScreenPanel.hpp>
 #include <UI/Panels/ModeSelectionPanel.hpp>
 #include <UI/Panels/SimulationConfigPanel.hpp>
+#include <UI/Panels/TitleScreenPanel.hpp>
 
 namespace NBody::UI {
 
@@ -19,14 +20,16 @@ namespace NBody::UI {
         m_messageBus.subscribe<Core::CmdSendSchemas>([this](const Core::SystemMessage& message) {
             handleMessage(message);
         });
-        std::cout << "[UI Manager] I need all schemas.\n";
-        m_messageBus.publish(Core::CmdRequestSchemas{});
 
+        m_storage.resize(Core::moduleCount);
         for (std::size_t moduleIdx = 0; moduleIdx < Core::moduleCount; ++moduleIdx) {
             m_storage[moduleIdx].resize(Core::subModuleCount[moduleIdx]);
         }
 
         registerPanels();
+
+        std::cout << "[UI Manager] I need all schemas.\n";
+        m_messageBus.publish(Core::CmdRequestSchemas{});
     }
 
     void UIManager::draw(Core::AppState state) {

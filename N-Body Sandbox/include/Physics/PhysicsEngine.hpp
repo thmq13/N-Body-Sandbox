@@ -1,23 +1,24 @@
 #pragma once
 
+#include <condition_variable>   
 #include <memory>
-#include <thread>
 #include <mutex>
 #include <queue>
+#include <stop_token>
 #include <string>
+#include <thread>
 #include <unordered_map>
-#include <condition_variable>   
 
-#include <Core/Message.hpp>  
 #include <Core/AppState.hpp>
+#include <Core/Message.hpp>  
 #include <Core/MessageBus.hpp>
 #include <Particle/Particle.hpp>
 
 namespace NBody::Particle { class ParticleBuffer; }
 
 namespace NBody::Physics {
-    class IGravitySolver;
-    class IIntegrator;
+    class GravitySolver;
+    class Integrator;
 
     class PhysicsEngine {
     public:
@@ -55,8 +56,8 @@ namespace NBody::Physics {
             (this->template subscribeToMessage<MessageTypes>(), ...);
         }
 
-        std::unordered_map<std::string, std::unique_ptr<IGravitySolver>> m_gravitySolvers{};
-        std::unordered_map<std::string, std::unique_ptr<IIntegrator>> m_integrators{};
+        std::unordered_map<std::string, std::unique_ptr<GravitySolver>> m_gravitySolvers{};
+        std::unordered_map<std::string, std::unique_ptr<Integrator>> m_integrators{};
         void registerGravitySolvers();
         void registerIntegrators();
 

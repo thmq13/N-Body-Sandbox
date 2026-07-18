@@ -3,7 +3,7 @@
 #include <cstdint>
 
 namespace NBody::Core {
-    enum class AppState : uint8_t {
+    enum class AppState : std::uint8_t {
         TitleScreen,
         ModeSelection,
         RealTimeConfig,

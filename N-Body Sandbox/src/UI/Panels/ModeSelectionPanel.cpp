@@ -1,9 +1,10 @@
 #include <UI/Panels/ModeSelectionPanel.hpp>
 
+#include <imgui.h>
+
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
-
-#include <imgui.h>
+#include <Core/AppState.hpp>
 
 namespace NBody::UI {
 

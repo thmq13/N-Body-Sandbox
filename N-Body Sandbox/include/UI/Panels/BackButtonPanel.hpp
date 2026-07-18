@@ -1,7 +1,7 @@
 #pragma once
 
-#include <UI/IPanel.hpp>
 #include <Core/AppState.hpp>
+#include <UI/IPanel.hpp>
 
 namespace NBody::Core { class MessageBus; }
 

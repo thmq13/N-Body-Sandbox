@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <cstddef>
 #include <cassert>
+#include <cstddef>
+#include <vector>
 
 #include <raylib.h>
 

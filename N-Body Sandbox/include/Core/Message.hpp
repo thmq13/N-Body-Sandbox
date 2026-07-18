@@ -1,21 +1,17 @@
 #pragma once
 
-#include <cstdint>
+#include <array>
 #include <cstddef>
+#include <cstdint>
+#include <span>
 #include <string>
-#include <string_view>
 #include <variant>
 #include <vector>
-#include <type_traits>
-#include <array>
-#include <algorithm>
 
-#include <imgui.h>
 #include <raylib.h>
 
 #include <Core/AppState.hpp>
 #include <Helpers/Vec.hpp>
-#include <Helpers/Constants.hpp>
 #include <Particle/Particle.hpp>
 
 // --- GENERAL TYPES FOR COMMUNICATION ---
@@ -46,28 +42,30 @@ namespace NBody::Core {
         Count
     };
 
-    inline constexpr std::size_t moduleCount = static_cast<std::size_t>(Module::Count);
-
-    inline const std::array<std::string, moduleCount> moduleNames{ "Physics", "Generator" };
-
     enum class PhysicsSubModule : std::uint32_t {
         GravitySolver,
         Integrator,
         Count
     };
+
     enum class GeneratorSubModule : std::uint32_t {
         Shape,
         Count
     };
 
-    inline const std::array<std::size_t, moduleCount> subModuleCount{
-        static_cast<std::size_t>(PhysicsSubModule::Count),
-        static_cast<std::size_t>(GeneratorSubModule::Count)
-    };
+    inline constexpr std::size_t moduleCount = static_cast<std::size_t>(Module::Count);
+    inline constexpr std::size_t physicsSubModuleCount = static_cast<std::size_t>(PhysicsSubModule::Count);
+    inline constexpr std::size_t generatorSubModuleCount = static_cast<std::size_t>(GeneratorSubModule::Count);
 
-    inline const std::array<std::vector<std::string>, moduleCount> subModuleNames{
-        std::vector<std::string>{ "Gravity Solver", "Integrator" },
-        std::vector<std::string>{ "Shape" }
+    inline constexpr std::array<const char*, moduleCount> moduleName{ "Physics", "Generator" };
+    inline constexpr std::array<const char*, physicsSubModuleCount> physicsSubModuleName{ "Gravity Solver", "Integrator"};
+    inline constexpr std::array<const char*, generatorSubModuleCount> generatorSubModuleName{ "Shape" };
+
+    inline constexpr std::array<std::size_t, moduleCount> subModuleCount{ physicsSubModuleCount, generatorSubModuleCount };
+
+    inline constexpr std::array<std::span<const char * const>, moduleCount> subModuleName{
+        physicsSubModuleName,
+        generatorSubModuleName
     };
 
     // --- LIST OF COMMANDS ---

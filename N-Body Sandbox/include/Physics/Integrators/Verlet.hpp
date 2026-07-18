@@ -1,13 +1,15 @@
 #pragma once
 
-#include <Physics/IIntegrator.hpp>
-#include <Helpers/Constants.hpp>
+#include <vector>
+
 #include <Core/Message.hpp>
+#include <Helpers/Constants.hpp>
+#include <Physics/Integrator.hpp>
 
 namespace NBody::Particle { struct ParticleSystem;  }
 
 namespace NBody::Physics {
-    class Verlet : public IIntegrator {
+    class Verlet : public Integrator {
     public:
         struct Parameters {
             double deltaTime{ 0.01 };

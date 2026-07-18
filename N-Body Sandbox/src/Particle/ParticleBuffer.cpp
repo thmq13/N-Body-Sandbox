@@ -1,5 +1,8 @@
 #include <Particle/ParticleBuffer.hpp>
 
+#include <mutex>
+#include <utility>
+
 namespace NBody::Particle {
     void ParticleBuffer::commitBackBuffer() {
         {

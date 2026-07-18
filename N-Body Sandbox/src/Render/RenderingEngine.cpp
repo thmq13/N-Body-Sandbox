@@ -1,9 +1,8 @@
 #include <Render/RenderingEngine.hpp>
 
 #include <iostream>
-#include <string_view>
 
-#include <imgui.h>
+#include <raylib.h>
 #include <rlImGui.h>
 
 namespace NBody::Render {
@@ -12,7 +11,7 @@ namespace NBody::Render {
         namespace WindowConfig {
             constexpr int width{ 1900 };
             constexpr int height{ 1050 };
-            constexpr std::string_view title{ "N-Body Sandbox" };
+            constexpr const char* title{ "N-Body Sandbox" };
             constexpr int targetFPS{ 60 };
             constexpr unsigned int flags{ FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_FULLSCREEN_MODE };
             constexpr Color clearBackgroundColor{ BLACK };
@@ -32,7 +31,7 @@ namespace NBody::Render {
         SetTraceLogLevel(LOG_NONE);
 
         SetConfigFlags(WindowConfig::flags);
-        InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), WindowConfig::title.data());
+        InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), WindowConfig::title);
         SetTargetFPS(WindowConfig::targetFPS);
 
         m_simulationCamera.position = CameraConfig::position;

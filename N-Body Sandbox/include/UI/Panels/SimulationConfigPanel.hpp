@@ -2,10 +2,10 @@
 
 #include <vector>
 
-#include <UI/UITypes.hpp>
-#include <UI/IPanel.hpp>
 #include <Core/AppState.hpp>
 #include <Core/Message.hpp>
+#include <UI/IPanel.hpp>
+#include <UI/UITypes.hpp>
 
 namespace NBody::Core { class MessageBus; }
 

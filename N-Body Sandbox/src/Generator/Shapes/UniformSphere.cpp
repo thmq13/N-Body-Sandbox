@@ -1,8 +1,15 @@
 #include <Generator/Shapes/UniformSphere.hpp>
 
-#include <variant>
 #include <cassert>
+#include <cstddef>
+#include <random>
+#include <variant>
+#include <vector>
 
+#include <raylib.h>
+
+#include <Core/Message.hpp>
+#include <Helpers/Vec.hpp>
 #include <Particle/Particle.hpp>
 
 namespace NBody::Generator {

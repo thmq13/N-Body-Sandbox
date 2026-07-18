@@ -1,14 +1,24 @@
 #include <Physics/PhysicsEngine.hpp>
 
-#include <iostream>
 #include <cstdint>
+#include <iostream>
+#include <memory>
+#include <mutex>
+#include <queue>
+#include <stop_token>
+#include <thread>
+#include <type_traits>
+#include <utility>
 #include <variant>
 
-#include <Physics/IGravitySolver.hpp>
-#include <Physics/Gravity Solvers/DirectCPU.hpp>
-#include <Physics/IIntegrator.hpp>
-#include <Physics/Integrators/Verlet.hpp>
+#include <Core/AppState.hpp>
+#include <Core/Message.hpp>
+#include <Core/MessageBus.hpp>
 #include <Particle/ParticleBuffer.hpp>
+#include <Physics/Gravity Solvers/DirectCPU.hpp>
+#include <Physics/GravitySolver.hpp>
+#include <Physics/Integrator.hpp>
+#include <Physics/Integrators/Verlet.hpp>
 
 namespace NBody::Physics {
     PhysicsEngine::PhysicsEngine(Core::MessageBus& messageBus, std::shared_ptr<Particle::ParticleBuffer> particleBuffer)

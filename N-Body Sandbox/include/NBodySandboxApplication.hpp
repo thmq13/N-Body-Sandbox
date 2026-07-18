@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include <Core/Message.hpp>
+#include "Core/AppState.hpp"
 
 namespace NBody::Core { class MessageBus; }
 namespace NBody::Particle { class ParticleBuffer; }

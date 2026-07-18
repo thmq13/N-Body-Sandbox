@@ -1,13 +1,15 @@
 #pragma once
 
 #include <memory>
-#include <vector>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
-#include <UI/UITypes.hpp>
-#include <UI/IPanel.hpp>
-#include <Core/Message.hpp>
 #include <Core/AppState.hpp>
+#include <Core/Message.hpp>
+#include <type_traits>
+#include <UI/IPanel.hpp>
+#include <UI/UITypes.hpp>
 
 namespace NBody::Core { class MessageBus; }
 

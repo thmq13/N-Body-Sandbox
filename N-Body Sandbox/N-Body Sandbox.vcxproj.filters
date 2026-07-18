@@ -152,10 +152,10 @@
     <ClInclude Include="include\Physics\PhysicsEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Physics\IGravitySolver.hpp">
+    <ClInclude Include="include\Physics\GravitySolver.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Physics\IIntegrator.hpp">
+    <ClInclude Include="include\Physics\Integrator.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="include\UI\Panels\SimulationConfigPanel.hpp">
@@ -167,7 +167,7 @@
     <ClInclude Include="include\Particle\Particle.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Generator\IGenerator.hpp">
+    <ClInclude Include="include\Generator\Generator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Generator\Shapes\UniformSphere.hpp">

@@ -2,13 +2,15 @@
 
 #include <vector>
 
-struct ParticleSystem;
-struct ParameterSchema;
+namespace NBody::Particle { struct ParticleSystem; }
+namespace NBody::Core { struct ParameterSchema; }
 
-class IIntegrator {
-public:
-    virtual ~IIntegrator() = default;
-    virtual void step(ParticleSystem& buffer) = 0;
-    virtual void setParameters(const std::vector<ParameterSchema>& schemas) = 0;
-    [[nodiscard]] virtual std::vector<ParameterSchema> getSchemas() const = 0;
-};
+namespace NBody::Physics {
+    class IIntegrator {
+    public:
+        virtual ~IIntegrator() = default;
+        virtual void step(Particle::ParticleSystem& buffer) = 0;
+        virtual void setParameters(const std::vector<Core::ParameterSchema>& schemas) = 0;
+        [[nodiscard]] virtual std::vector<Core::ParameterSchema> getSchemas() const = 0;
+    };
+}

@@ -1,35 +1,37 @@
 #pragma once
 
 #include <vector>
-#include <string>
-#include <cstddef>
 
 #include <UI/UITypes.hpp>
 #include <UI/IPanel.hpp>
 #include <Core/AppState.hpp>
 #include <Core/Message.hpp>
 
-class SimulationConfigPanel : public IPanel {
-public:
-    explicit SimulationConfigPanel(AppState nextState, UIStorage& storage);
+namespace NBody::Core { class MessageBus; }
 
-    ~SimulationConfigPanel() override = default;
+namespace NBody::UI {
+    class SimulationConfigPanel : public IPanel {
+    public:
+        explicit SimulationConfigPanel(Core::AppState nextState, UIStorage& storage);
 
-    void draw(MessageBus& messageBus) override;
+        ~SimulationConfigPanel() override = default;
 
-private:
+        void draw(Core::MessageBus& messageBus) override;
 
-    AppState m_nextState;
+    private:
 
-    UIStorage& m_storage;
-    UIActiveTarget m_activeTargets{};
+        Core::AppState m_nextState;
 
-    std::vector<CmdGeneratePreviewParticles::Shape> m_activeShapes;
+        UIStorage& m_storage;
+        UIActiveTarget m_activeTargets{};
 
-    void setUpWindowAndStyle();
-    void cleanUp();
+        std::vector<Core::CmdGeneratePreviewParticles::Shape> m_activeShapes;
 
-    void drawPreviewSection(MessageBus& messageBus);
-    void drawApplyAndRunButton(MessageBus& messageBus);
-    
-};
+        void setUpWindowAndStyle();
+        void cleanUp();
+
+        void drawPreviewSection(Core::MessageBus& messageBus);
+        void drawApplyAndRunButton(Core::MessageBus& messageBus);
+
+    };
+}

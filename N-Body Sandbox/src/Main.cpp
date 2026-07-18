@@ -9,8 +9,7 @@ int main() {
     std::cout << "We are but dust in the void waiting for the inevitable collapse.\n";
 
     try {
-        NBodySandboxApplication application;
-        application.setUpAndGenerateScene();
+        NBody::NBodySandboxApplication application;
         application.executeMasterLoop();
     }
     catch (const std::exception& error) {

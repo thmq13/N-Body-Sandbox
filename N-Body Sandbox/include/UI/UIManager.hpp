@@ -9,45 +9,44 @@
 #include <Core/Message.hpp>
 #include <Core/AppState.hpp>
 
-class MessageBus;
+namespace NBody::Core { class MessageBus; }
 
+namespace NBody::UI {
+    class UIManager {
+    public:
+        explicit UIManager(Core::MessageBus& messageBus);
 
-class UIManager {
-public:
-    explicit UIManager(MessageBus& messageBus);
+        ~UIManager() = default;
 
-    ~UIManager() = default;
+        UIManager(const UIManager&) = delete;
+        UIManager& operator=(const UIManager&) = delete;
 
-    UIManager(const UIManager&) = delete;
-    UIManager& operator=(const UIManager&) = delete;
+        UIManager(UIManager&&) = delete;
+        UIManager& operator=(UIManager&&) = delete;
 
-    UIManager(UIManager&&) = delete;
-    UIManager& operator=(UIManager&&) = delete;
+        void draw(Core::AppState state);
 
-    void draw(AppState state);
+    private:
+        Core::MessageBus& m_messageBus;
 
-private:
-    std::unordered_map < AppState, std::vector<IPanel*> > m_statePanels{};
-    std::vector<std::unique_ptr<IPanel>> m_ownedPanels{};
+        template<typename T, typename... Args>
+        T* createPanel(Core::AppState state, Args&&... args) {
+            static_assert(std::is_base_of_v<IPanel, T>, "T must derive from IPanel");
 
-    UIStorage m_storage{};
+            auto panel = std::make_unique<T>(std::forward<Args>(args)...);
+            T* ptr = panel.get();
 
-    MessageBus& m_messageBus;
+            m_ownedPanels.push_back(std::move(panel));
+            m_statePanels[state].push_back(ptr);
 
-    void registerPanels();
+            return ptr;
+        }
 
-    template<typename T, typename... Args>
-    T* createPanel(AppState state, Args&&... args) {
-        static_assert(std::is_base_of_v<IPanel, T>, "T must derive from IPanel");
+        void handleMessage(const Core::SystemMessage& message);
 
-        auto panel = std::make_unique<T>(std::forward<Args>(args)...);
-        T* ptr = panel.get();
-
-        m_ownedPanels.push_back(std::move(panel));
-        m_statePanels[state].push_back(ptr);
-
-        return ptr;
-    }
-
-    void handleMessage(const SystemMessage& message);
-};
+        UIStorage m_storage{};
+        std::unordered_map < Core::AppState, std::vector<IPanel*> > m_statePanels{};
+        std::vector<std::unique_ptr<IPanel>> m_ownedPanels{};
+        void registerPanels();
+    };
+}

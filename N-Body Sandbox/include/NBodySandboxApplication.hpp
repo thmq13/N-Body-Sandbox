@@ -1,41 +1,38 @@
 #pragma once
 
-#include <atomic>
-#include <memory>
-
 #include <Core/Message.hpp>
-#include <Core/AppState.hpp>
 
-class MessageBus;
-class GeneratorEngine;
-class PhysicsEngine;
-class RenderingEngine;
-class UIManager;
-class ParticleBuffer;
+namespace NBody::Core { class MessageBus; }
+namespace NBody::Particle { class ParticleBuffer; }
+namespace NBody::Generator { class GeneratorEngine; }
+namespace NBody::Physics { class PhysicsEngine; }
+namespace NBody::Render { class RenderingEngine; }
+namespace NBody::UI { class UIManager; }
 
-class NBodySandboxApplication {
-public:
-    NBodySandboxApplication();
+namespace NBody {
+    class NBodySandboxApplication {
+    public:
+        NBodySandboxApplication();
 
-    ~NBodySandboxApplication();
+        ~NBodySandboxApplication();
 
-    NBodySandboxApplication(const NBodySandboxApplication&) = delete;
-    NBodySandboxApplication& operator=(const NBodySandboxApplication&) = delete;
-    NBodySandboxApplication(NBodySandboxApplication&&) = delete;
-    NBodySandboxApplication& operator=(NBodySandboxApplication&&) = delete;
+        NBodySandboxApplication(const NBodySandboxApplication&) = delete;
+        NBodySandboxApplication& operator=(const NBodySandboxApplication&) = delete;
+        NBodySandboxApplication(NBodySandboxApplication&&) = delete;
+        NBodySandboxApplication& operator=(NBodySandboxApplication&&) = delete;
 
-    void setUpAndGenerateScene();
-    void executeMasterLoop();
-private:
-    std::atomic<bool> m_isRunning{ true };
-    std::atomic<AppState> m_appState{ AppState::TitleScreen };
+        void executeMasterLoop();
+    private:
+        bool m_isRunning{ true };
+        Core::AppState m_appState{ Core::AppState::TitleScreen };
 
-    std::unique_ptr<MessageBus> m_messageBus{};
-    std::shared_ptr<ParticleBuffer> m_particleBuffer{};
-    std::unique_ptr<GeneratorEngine> m_generatorEngine{};
-    std::unique_ptr<PhysicsEngine> m_physicsEngine{};
-    std::unique_ptr<RenderingEngine> m_renderingEngine{};
-    std::unique_ptr<UIManager> m_uiManager{};
+        std::unique_ptr<Core::MessageBus> m_messageBus{};
+        std::shared_ptr<Particle::ParticleBuffer> m_particleBuffer{};
+        std::unique_ptr<Generator::GeneratorEngine> m_generatorEngine{};
+        std::unique_ptr<Physics::PhysicsEngine> m_physicsEngine{};
+        std::unique_ptr<Render::RenderingEngine> m_renderingEngine{};
+        std::unique_ptr<UI::UIManager> m_uiManager{};
 
-    void handleMessage(const SystemMessage& message);
-};
+        void handleMessage(const Core::SystemMessage& message);
+    };
+}

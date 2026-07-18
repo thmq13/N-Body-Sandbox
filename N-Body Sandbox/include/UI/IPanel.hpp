@@ -1,9 +1,11 @@
 #pragma once
 
-class MessageBus;
+namespace NBody::Core { class MessageBus; }
 
-class IPanel {
-public:
-    virtual ~IPanel() = default;
-    virtual void draw(MessageBus& messageBus) = 0;
-};
+namespace NBody::UI {
+    class IPanel {
+    public:
+        virtual ~IPanel() = default;
+        virtual void draw(Core::MessageBus& messageBus) = 0;
+    };
+}

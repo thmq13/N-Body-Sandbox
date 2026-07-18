@@ -2,23 +2,20 @@
 
 #include <raylib.h>
 
-class RenderingEngine {
-public:
-    RenderingEngine();
+namespace NBody::Render {
+    class RenderingEngine {
+    public:
+        RenderingEngine();
+        ~RenderingEngine();
 
-    ~RenderingEngine();
+        RenderingEngine(const RenderingEngine&) = delete;
+        RenderingEngine& operator=(const RenderingEngine&) = delete;
+        RenderingEngine(RenderingEngine&&) = delete;
+        RenderingEngine& operator=(RenderingEngine&&) = delete;
 
-    RenderingEngine(const RenderingEngine&) = delete;
-    RenderingEngine& operator=(const RenderingEngine&) = delete;
-    RenderingEngine(RenderingEngine&&) = delete;
-    RenderingEngine& operator=(RenderingEngine&&) = delete;
-
-    void pollEvents();
-
-    void beginFrame();
-    void endFrame();
-
-    [[nodiscard]] bool shouldWindowClose() const noexcept { return WindowShouldClose(); }
-private:
-    Camera3D m_simulationCamera{};
-};
+        void beginFrame();
+        void endFrame();
+    private:
+        Camera3D m_simulationCamera{};
+    };
+}

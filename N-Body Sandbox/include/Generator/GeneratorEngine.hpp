@@ -6,26 +6,28 @@
 #include <unordered_map>
 #include <random>
 
-#include <Generator/IGenerator.hpp>
 #include <Core/Message.hpp>
 
-class MessageBus;
+namespace NBody::Core { class MessageBus; }
 
-class GeneratorEngine {
-public:
-    explicit GeneratorEngine(
-        MessageBus& messageBus,
-        std::uint64_t initialSeed = 42
-    );
-    ~GeneratorEngine() = default;   
-private:
-    MessageBus& m_messageBus;
+namespace NBody::Generator {
+    class IGenerator;
 
-    std::unordered_map <std::string, std::unique_ptr<IGenerator>> m_availableGenerators{};
+    class GeneratorEngine {
+    public:
+        explicit GeneratorEngine(
+            Core::MessageBus& messageBus,
+            std::uint64_t initialSeed = 42
+        );
+        ~GeneratorEngine();
 
-    std::uint64_t m_seed{};
-    std::mt19937_64 m_rng{};
-   
-    void registerGenerators();
-    void handleMessage(const SystemMessage& message);
-};
+    private:
+        Core::MessageBus& m_messageBus;
+        void handleMessage(const Core::SystemMessage& message);
+
+        std::uint64_t m_seed{};
+        std::mt19937_64 m_rng{};
+        std::unordered_map <std::string, std::unique_ptr<IGenerator>> m_availableGenerators{};
+        void registerGenerators();
+    };
+}

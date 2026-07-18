@@ -1,17 +1,22 @@
 #include <Physics/Integrators/Verlet.hpp>
 
-Verlet::Verlet(const Parameters& parameters) noexcept : m_parameters(parameters)
-{
-}
+#include <variant>
 
-void Verlet::step(ParticleSystem& buffer)
-{
-}
+#include <Particle/Particle.hpp>
 
-void Verlet::setParameters(const std::vector<ParameterSchema>& schemas) {
-    for (const auto& schema : schemas) {
-        if (schema.label == "Delta Time") {
-            m_parameters.deltaTime = std::get<double>(schema.value);
+namespace NBody::Physics {
+    Verlet::Verlet(const Parameters& parameters) noexcept : m_parameters(parameters) {} 
+
+    void Verlet::step(Particle::ParticleSystem& buffer) {
+
+    }
+
+    void Verlet::setParameters(const std::vector<Core::ParameterSchema>& schemas) {
+        for (const auto& schema : schemas) {
+            if (schema.label == "Delta Time") {
+                m_parameters.deltaTime = std::get<double>(schema.value);
+            }
         }
     }
 }
+

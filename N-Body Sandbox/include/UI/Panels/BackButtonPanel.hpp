@@ -3,20 +3,20 @@
 #include <UI/IPanel.hpp>
 #include <Core/AppState.hpp>
 
-#include <imgui.h>
+namespace NBody::Core { class MessageBus; }
 
-class BackButtonPanel : public IPanel {
-public:
-    explicit BackButtonPanel(AppState nextState)
-        : m_nextState(nextState) {
-    }
-    ~BackButtonPanel() override = default;
+namespace NBody::UI {
+    class BackButtonPanel : public IPanel {
+    public:
+        explicit BackButtonPanel(Core::AppState nextState);
+        ~BackButtonPanel() override = default;
 
-    void draw(MessageBus& messageBus) override;
+        void draw(Core::MessageBus& messageBus) override;
 
-private:
-    AppState m_nextState;
+    private:
+        Core::AppState m_nextState;
 
-    void setUpWindowAndStyle();
-    void cleanUp();
-};
+        void setUpWindowAndStyle();
+        void cleanUp();
+    };
+}

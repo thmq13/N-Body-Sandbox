@@ -4,26 +4,30 @@
 #include <Helpers/Constants.hpp>
 #include <Core/Message.hpp>
 
-class Verlet : public IIntegrator {
-public:
-    struct Parameters {
-        double deltaTime{0.01};
-    };
+namespace NBody::Particle { struct ParticleSystem;  }
 
-    explicit Verlet(const Parameters& parameters = {}) noexcept;
-
-    ~Verlet() override = default;
-
-    void step(ParticleSystem& buffer) override;
-    
-    void setParameters(const std::vector<ParameterSchema>& schemas) override;
-
-    [[nodiscard]] std::vector<ParameterSchema> getSchemas() const override {
-        return {
-            ParameterSchema{"Delta Time", m_parameters.deltaTime, Limit::doubleEpsilon, Limit::doubleMax}
+namespace NBody::Physics {
+    class Verlet : public IIntegrator {
+    public:
+        struct Parameters {
+            double deltaTime{ 0.01 };
         };
-    }
 
-private:
-    Parameters m_parameters;
-};
+        explicit Verlet(const Parameters& parameters = {}) noexcept;
+
+        ~Verlet() override = default;
+
+        void step(Particle::ParticleSystem& buffer) override;
+
+        void setParameters(const std::vector<Core::ParameterSchema>& schemas) override;
+
+        [[nodiscard]] std::vector<Core::ParameterSchema> getSchemas() const override {
+            return {
+                Core::ParameterSchema{"Delta Time", m_parameters.deltaTime, Constant::Limit::doubleEpsilon, Constant::Limit::doubleMax}
+            };
+        }
+
+    private:
+        Parameters m_parameters;
+    };
+}

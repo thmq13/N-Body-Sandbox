@@ -15,11 +15,14 @@ namespace NBody::Generator {
 
     class GeneratorEngine {
     public:
-        explicit GeneratorEngine(
-            Core::MessageBus& messageBus,
-            std::uint64_t initialSeed = 42
-        );
+        explicit GeneratorEngine(Core::MessageBus& messageBus, std::uint64_t initialSeed = 42);
+
         ~GeneratorEngine();
+
+        GeneratorEngine(const GeneratorEngine&) = delete;
+        GeneratorEngine& operator=(const GeneratorEngine&) = delete;
+        GeneratorEngine(GeneratorEngine&&) = delete;
+        GeneratorEngine& operator=(GeneratorEngine&&) = delete;
 
     private:
         Core::MessageBus& m_messageBus;

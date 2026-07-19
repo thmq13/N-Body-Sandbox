@@ -30,7 +30,12 @@ namespace NBody::Generator {
 
         std::uint64_t m_seed{};
         std::mt19937_64 m_rng{};
+        void SetSeed(std::uint64_t seed);
+
         std::unordered_map <std::string, std::unique_ptr<Generator>> m_availableGenerators{};
         void registerGenerators();
+        void sendSchemas();
+
+        void GenerateAndSendParticles(const std::vector<Core::CmdGeneratePreviewParticles::Shape>& shapes);
     };
 }

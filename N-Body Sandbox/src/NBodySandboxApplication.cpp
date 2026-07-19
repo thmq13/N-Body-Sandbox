@@ -24,11 +24,11 @@ namespace NBody {
     {
         m_messageBus->subscribe<Core::CmdExitApplication>([this](const Core::SystemMessage& message) {
             handleMessage(message);
-            });
+        });
 
         m_messageBus->subscribe<Core::CmdRequestStateChange>([this](const Core::SystemMessage& message) {
             handleMessage(message);
-            });
+        });
 
         std::cout << "[App Core] Core engines allocated and threads dispatched.\n";
     }

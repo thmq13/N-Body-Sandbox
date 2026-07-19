@@ -30,8 +30,8 @@ namespace NBody::Core {
         while (!localQueue.empty()) {
             const auto& message = localQueue.front();
 
-            std::type_index messageTypeId = std::visit([](const auto& actualMessage) -> std::type_index {
-                return typeid(actualMessage);
+            std::type_index messageTypeId = std::visit([](const auto& msg) -> std::type_index {
+                return typeid(msg);
                 }, message);
 
             std::vector<MessageCallback> callbacksToInvoke;

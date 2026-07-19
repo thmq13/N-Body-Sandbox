@@ -53,8 +53,8 @@ namespace NBody {
     }
 
     void NBodySandboxApplication::handleMessage(const Core::SystemMessage& message) {
-        std::visit([this](const auto& actualMessage) {
-            using T = std::decay_t<decltype(actualMessage)>;
+        std::visit([this](const auto& msg) {
+            using T = std::decay_t<decltype(msg)>;
 
             if constexpr (std::is_same_v<T, Core::CmdExitApplication>) {
                 std::cout << "[App Core] Exit command acknowledged. Initiating shutdown sequence...\n";
@@ -63,7 +63,7 @@ namespace NBody {
 
             else if constexpr (std::is_same_v<T, Core::CmdRequestStateChange>) {
                 std::cout << "[App Core] Intercepted state change request.\n";
-                m_appState = actualMessage.requestedState;
+                m_appState = msg.requestedState;
             }
 
         }, message);

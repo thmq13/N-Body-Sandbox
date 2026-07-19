@@ -58,12 +58,12 @@ namespace NBody::UI {
     }
 
     void UIManager::handleMessage(const Core::SystemMessage& message) {
-        std::visit([this](const auto& actualMessage) {
-            using T = std::decay_t<decltype(actualMessage)>;
+        std::visit([this](const auto& msg) {
+            using T = std::decay_t<decltype(msg)>;
             if constexpr (std::is_same_v<T, Core::CmdSendSchemas>) {
-                std::size_t moduleIdx = static_cast<std::size_t>(actualMessage.moduleId);
-                std::size_t subModuleIdx = static_cast<std::size_t>(actualMessage.subModuleId);
-                m_storage[moduleIdx][subModuleIdx][actualMessage.senderId] = actualMessage.schemas;
+                std::size_t moduleIdx = static_cast<std::size_t>(msg.moduleId);
+                std::size_t subModuleIdx = static_cast<std::size_t>(msg.subModuleId);
+                m_storage[moduleIdx][subModuleIdx][msg.senderId] = msg.schemas;
             }
         }, message);
     }

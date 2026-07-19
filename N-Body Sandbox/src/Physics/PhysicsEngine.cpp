@@ -42,7 +42,9 @@ namespace NBody::Physics {
         m_workerThread = std::jthread([this](std::stop_token token) { workerLoop(token); });
     }
 
-    PhysicsEngine::~PhysicsEngine() {}
+    PhysicsEngine::~PhysicsEngine() {
+        
+    }
 
     void PhysicsEngine::workerLoop(std::stop_token stopToken) {
         std::cout << "[Physics Engine] Worker thread started.\n";
@@ -64,9 +66,9 @@ namespace NBody::Physics {
                 }
 
                 std::unique_lock<std::mutex> lock(m_mailboxMutex);
-                m_mailboxCV.wait(lock, [this, &stopToken]() {
-                    return stopToken.stop_requested() || !m_mailbox.empty();
-                    });
+                m_mailboxCV.wait(lock, stopToken, [this]() {
+                    return !m_mailbox.empty();
+                });
             }
         }
 

@@ -34,7 +34,7 @@ namespace NBody::Physics {
     private:
         std::queue<Core::SystemMessage> m_mailbox;
         std::mutex m_mailboxMutex;
-        std::condition_variable m_mailboxCV;
+        std::condition_variable_any m_mailboxCV;
         Core::MessageBus& m_messageBus;
 
         void processMailbox();

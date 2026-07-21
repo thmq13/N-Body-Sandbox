@@ -43,11 +43,11 @@ namespace NBody::UI {
             return ptr;
         }
 
-        void handleMessage(const Core::SystemMessage& message);
-
         UIStorage m_storage{};
         std::unordered_map < Core::AppState, std::vector<IPanel*> > m_statePanels{};
         std::vector<std::unique_ptr<IPanel>> m_ownedPanels{};
+
         void registerPanels();
+        void handleMessage(const Core::SystemMessage& message);
     };
 }

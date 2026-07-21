@@ -38,6 +38,29 @@ namespace NBody::Physics {
         std::condition_variable_any m_mailboxCV;
         Core::MessageBus& m_messageBus;
 
+        Core::AppState m_appState{ Core::AppState::TitleScreen };
+
+        std::unordered_map<std::string, std::unique_ptr<GravitySolver>> m_gravitySolvers{};
+        std::unordered_map<std::string, std::unique_ptr<Integrator>> m_integrators{};
+        std::string m_currentGravitySolver{ "Direct CPU" };
+        std::string m_currentIntegrator{ "Verlet" };
+
+        std::shared_ptr<Particle::ParticleBuffer> m_particleBuffer{};
+        Particle::ParticleSystem m_simulationBuffer{};
+        bool m_needSimulationBufferUpdate{ true };
+
+        std::jthread m_workerThread;
+        
+        void processMailbox();
+        void handleMessage(const Core::SystemMessage& message);
+        void registerGravitySolvers();
+        void registerIntegrators();
+        void sendSchemas();
+        void setConfig(std::uint32_t subModuleId, const std::string& targetId, const std::vector<Core::ParameterSchema>& schemas);
+        void setActiveOption(std::uint32_t subModuleId, const std::string& activeId);
+        void workerLoop(std::stop_token stopToken);
+        void uploadToBackBuffer();
+
         template <typename T>
         void subscribeToMessage() {
             m_messageBus.template subscribe<T>([this](const Core::SystemMessage& message) {
@@ -46,37 +69,10 @@ namespace NBody::Physics {
                     m_mailbox.push(message);
                 }
                 m_mailboxCV.notify_one();
-                });
+            });
         }
 
         template <typename... MessageTypes>
-        void subscribeToMessages() {
-            (this->template subscribeToMessage<MessageTypes>(), ...);
-        }
-
-        void processMailbox();
-        void handleMessage(Core::SystemMessage& message);
-
-        std::unordered_map<std::string, std::unique_ptr<GravitySolver>> m_gravitySolvers{};
-        std::unordered_map<std::string, std::unique_ptr<Integrator>> m_integrators{};
-        void registerGravitySolvers();
-        void registerIntegrators();
-        void sendSchemas();
-        void setConfig(std::uint32_t subModuleId, const std::string& targetId,
-            const std::vector<Core::ParameterSchema>& schemas);
-
-        Core::AppState m_appState{ Core::AppState::TitleScreen };
-
-        std::string m_currentGravitySolver{ "Direct CPU" };
-        std::string m_currentIntegrator{ "Verlet" };
-        void setActiveOption(std::uint32_t subModuleId, const std::string& activeId);
-
-        std::shared_ptr<Particle::ParticleBuffer> m_particleBuffer{};
-        Particle::ParticleSystem m_simulationBuffer{};
-        bool m_needSimulationBufferUpdate{ true };
-
-        std::jthread m_workerThread;
-        void workerLoop(std::stop_token stopToken);
-        void uploadToBackBuffer();
+        void subscribeToMessages() { (this->template subscribeToMessage<MessageTypes>(), ...); }
     };
 }

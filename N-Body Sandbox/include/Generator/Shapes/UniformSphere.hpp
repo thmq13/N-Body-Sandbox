@@ -20,7 +20,7 @@ namespace NBody::Generator {
             std::size_t particleCount{ 100 };
             double totalMass{ 1000.0 };
             double radius{ 10.0 };
-            float particleRadius{ 10.0 };
+            float particleRadius{ 0.01f };
             Color color{ WHITE };
             Math::Vec3 origin{ 0.0, 0.0, 0.0 };
         };

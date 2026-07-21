@@ -59,8 +59,8 @@ namespace NBody::Physics {
         }
     }
 
-    void PhysicsEngine::handleMessage(Core::SystemMessage& message) {
-        std::visit([this](auto& msg) {
+    void PhysicsEngine::handleMessage(const Core::SystemMessage& message) {
+        std::visit([this](const auto& msg) {
             using T = std::decay_t<decltype(msg)>;
 
             if constexpr (std::is_same_v<T, Core::CmdExitApplication>) {

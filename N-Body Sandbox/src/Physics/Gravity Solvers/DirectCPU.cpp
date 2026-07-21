@@ -10,8 +10,8 @@
 namespace NBody::Physics {
     DirectCPU::DirectCPU(const Parameters& parameters) noexcept : m_parameters(parameters) {}
 
-    void DirectCPU::solveGravity(Particle::ParticleSystem& buffer) {
-        const std::size_t particleCount{ buffer.getSize() };
+    void DirectCPU::solveGravity(Particle::ParticleSystem& particleSystem) {
+        const std::size_t particleCount{ particleSystem.getSize() };
         if (particleCount <= 1) { return;  }
 
         const double softening_squared = m_parameters.softening * m_parameters.softening;

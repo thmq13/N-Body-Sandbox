@@ -19,7 +19,7 @@ namespace NBody::Physics {
 
         ~Verlet() override = default;
 
-        void step(Particle::ParticleSystem& buffer) override;
+        void step(Particle::ParticleSystem& particleSystem) override;
 
         void setParameters(const std::vector<Core::ParameterSchema>& schemas) override;
 

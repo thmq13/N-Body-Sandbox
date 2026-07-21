@@ -9,7 +9,7 @@
 namespace NBody::Physics {
     Verlet::Verlet(const Parameters& parameters) noexcept : m_parameters(parameters) {} 
 
-    void Verlet::step(Particle::ParticleSystem& buffer) {
+    void Verlet::step(Particle::ParticleSystem& particleSystem) {
 
     }
 

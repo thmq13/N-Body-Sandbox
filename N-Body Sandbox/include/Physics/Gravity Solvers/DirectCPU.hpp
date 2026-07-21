@@ -22,7 +22,7 @@ namespace NBody::Physics {
 
         ~DirectCPU() override = default;
 
-        void solveGravity(Particle::ParticleSystem& buffer) override;
+        void solveGravity(Particle::ParticleSystem& ParticleSystem) override;
 
         void setParameters(const std::vector<Core::ParameterSchema>& schemas) override;
 

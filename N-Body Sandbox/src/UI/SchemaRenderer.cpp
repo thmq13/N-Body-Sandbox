@@ -12,9 +12,9 @@
 #include <Helpers/Vec.hpp>
 #include <raylib.h>
 
-namespace NBody::UI {
+namespace NBody::UI::SchemaRenderer {
 
-    void SchemaRenderer::drawInput(Core::ParameterSchema& schema, float fieldWidth) {
+    void drawInput(Core::ParameterSchema& schema, float fieldWidth) {
         ImGui::PushID(&schema);
         ImGui::SetNextItemWidth(fieldWidth);
 
@@ -138,7 +138,7 @@ namespace NBody::UI {
         ImGui::PopID();
     }
 
-    void SchemaRenderer::drawDisplay(const Core::ParameterSchema& schema) {
+    void drawDisplay(const Core::ParameterSchema& schema) {
         ImGui::PushID(&schema);
 
         std::visit([&](const auto& value) {

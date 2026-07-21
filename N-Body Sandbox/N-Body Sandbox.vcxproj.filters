@@ -78,6 +78,12 @@
     <ClCompile Include="src\UI\SchemaRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Render\BufferPacker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\InstancedMeshRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Particle\ParticleBuffer.hpp">
@@ -194,9 +200,17 @@
     <ClInclude Include="include\UI\SchemaRenderer.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Render\BufferPacker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Render\InstancedMeshRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ext\raylib\lib\raylib.dll" />
+    <None Include="shaders\fragment.glsl" />
+    <None Include="shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="ext\raylib\lib\raylib.lib" />

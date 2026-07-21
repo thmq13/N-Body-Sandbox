@@ -150,6 +150,8 @@
     <ClInclude Include="include\Physics\PhysicsEngine.hpp" />
     <ClInclude Include="include\Physics\GravitySolver.hpp" />
     <ClInclude Include="include\Physics\Integrator.hpp" />
+    <ClInclude Include="include\Render\BufferPacker.hpp" />
+    <ClInclude Include="include\Render\InstancedMeshRenderer.hpp" />
     <ClInclude Include="include\UI\Panels\SimulationConfigPanel.hpp" />
     <ClInclude Include="include\UI\Panels\BackButtonPanel.hpp" />
     <ClInclude Include="include\Particle\Particle.hpp" />
@@ -167,6 +169,8 @@
     <ClCompile Include="src\Physics\Gravity Solvers\DirectCPU.cpp" />
     <ClCompile Include="src\Physics\Integrators\Verlet.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
+    <ClCompile Include="src\Render\BufferPacker.cpp" />
+    <ClCompile Include="src\Render\InstancedMeshRenderer.cpp" />
     <ClCompile Include="src\Render\RenderingEngine.cpp" />
     <ClCompile Include="src\Particle\ParticleBuffer.cpp" />
     <ClCompile Include="src\UI\Panels\BackButtonPanel.cpp" />
@@ -203,6 +207,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ext\raylib\lib\raylib.dll" />
+    <None Include="shaders\fragment.glsl" />
+    <None Include="shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="ext\raylib\lib\raylib.lib" />

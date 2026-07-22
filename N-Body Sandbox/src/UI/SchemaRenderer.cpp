@@ -14,33 +14,28 @@
 
 namespace NBody::UI::SchemaRenderer {
 
-    void drawInput(Core::ParameterSchema& schema, float fieldWidth) {
+    bool drawInput(Core::ParameterSchema& schema, float fieldWidth) {
         ImGui::PushID(&schema);
         ImGui::SetNextItemWidth(fieldWidth);
+
+        bool changed{ false };
 
         std::visit([&](auto& value) {
             using T = std::decay_t<decltype(value)>;
 
             if constexpr (std::is_same_v<T, bool>) {
-                ImGui::Checkbox(
-                    schema.label.c_str(),
-                    &value
-                );
+                changed = ImGui::Checkbox(schema.label.c_str(),&value);
             }
 
             else if constexpr (std::is_same_v<T, int>) {
-                ImGui::InputInt(
-                    schema.label.c_str(),
-                    &value
-                );
+                ImGui::InputInt(schema.label.c_str(), &value, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
+                changed = ImGui::IsItemDeactivatedAfterEdit();
 
-                int min =
-                    std::holds_alternative<int>(schema.minValue)
+                int min = std::holds_alternative<int>(schema.minValue)
                     ? std::get<int>(schema.minValue)
                     : Constant::Limit::intMin;
 
-                int max =
-                    std::holds_alternative<int>(schema.maxValue)
+                int max = std::holds_alternative<int>(schema.maxValue)
                     ? std::get<int>(schema.maxValue)
                     : Constant::Limit::intMax;
 
@@ -49,18 +44,17 @@ namespace NBody::UI::SchemaRenderer {
 
             else if constexpr (std::is_same_v<T, std::size_t>) {
                 int tempVal = static_cast<int>(value);
-
-                if (ImGui::InputInt(schema.label.c_str(), &tempVal)) {
+                ImGui::InputInt(schema.label.c_str(), &tempVal, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
+                if (ImGui::IsItemDeactivatedAfterEdit()) {
                     value = static_cast<std::size_t>(std::max(0, tempVal));
+                    changed = true;
                 }
 
-                std::size_t min =
-                    std::holds_alternative<std::size_t>(schema.minValue)
+                std::size_t min = std::holds_alternative<std::size_t>(schema.minValue)
                     ? std::get<std::size_t>(schema.minValue)
                     : 0;
 
-                std::size_t max =
-                    std::holds_alternative<std::size_t>(schema.maxValue)
+                std::size_t max = std::holds_alternative<std::size_t>(schema.maxValue)
                     ? std::get<std::size_t>(schema.maxValue)
                     : Constant::Limit::sizeTMax;
 
@@ -68,19 +62,14 @@ namespace NBody::UI::SchemaRenderer {
             }
 
             else if constexpr (std::is_same_v<T, float>) {
-                ImGui::InputFloat(
-                    schema.label.c_str(),
-                    &value,
-                    0.0f, 0.0f, "%.3f"
-                );
+                ImGui::InputFloat(schema.label.c_str(), &value, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue);
+                changed = ImGui::IsItemDeactivatedAfterEdit();
 
-                float min =
-                    std::holds_alternative<float>(schema.minValue)
+                float min = std::holds_alternative<float>(schema.minValue)
                     ? std::get<float>(schema.minValue)
                     : Constant::Limit::floatMin;
 
-                float max =
-                    std::holds_alternative<float>(schema.maxValue)
+                float max = std::holds_alternative<float>(schema.maxValue)
                     ? std::get<float>(schema.maxValue)
                     : Constant::Limit::floatMax;
 
@@ -88,19 +77,14 @@ namespace NBody::UI::SchemaRenderer {
             }
 
             else if constexpr (std::is_same_v<T, double>) {
-                ImGui::InputDouble(
-                    schema.label.c_str(),
-                    &value,
-                    0.0, 0.0, "%.6f"
-                );
+                ImGui::InputDouble(schema.label.c_str(), &value, 0.0, 0.0, "%.6f", ImGuiInputTextFlags_EnterReturnsTrue);
+                changed = ImGui::IsItemDeactivatedAfterEdit();
 
-                double min =
-                    std::holds_alternative<double>(schema.minValue)
+                double min = std::holds_alternative<double>(schema.minValue)
                     ? std::get<double>(schema.minValue)
                     : Constant::Limit::doubleMin;
 
-                double max =
-                    std::holds_alternative<double>(schema.maxValue)
+                double max = std::holds_alternative<double>(schema.maxValue)
                     ? std::get<double>(schema.maxValue)
                     : Constant::Limit::doubleMax;
 
@@ -108,12 +92,8 @@ namespace NBody::UI::SchemaRenderer {
             }
 
             else if constexpr (std::is_same_v<T, Math::Vec3>) {
-                ImGui::InputScalarN(
-                    schema.label.c_str(),
-                    ImGuiDataType_Double,
-                    &value.x, 3,
-                    nullptr, nullptr, "%.3f"
-                );
+                ImGui::InputScalarN(schema.label.c_str(), ImGuiDataType_Double, &value.x, 3, nullptr, nullptr, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue);
+                changed = ImGui::IsItemDeactivatedAfterEdit();
             }
 
             else if constexpr (std::is_same_v<T, Color>) {
@@ -122,10 +102,13 @@ namespace NBody::UI::SchemaRenderer {
                     value.g / 255.0f,
                     value.b / 255.0f
                 };
-                if (ImGui::ColorEdit3(schema.label.c_str(), col)) {
+
+                ImGui::ColorEdit3(schema.label.c_str(), col);
+                if (ImGui::IsItemDeactivatedAfterEdit()) {
                     value.r = static_cast<unsigned char>(col[0] * 255.0f + 0.5f);
                     value.g = static_cast<unsigned char>(col[1] * 255.0f + 0.5f);
                     value.b = static_cast<unsigned char>(col[2] * 255.0f + 0.5f);
+                    changed = true;
                 }
             }
 
@@ -136,6 +119,7 @@ namespace NBody::UI::SchemaRenderer {
         }, schema.value);
 
         ImGui::PopID();
+        return changed;
     }
 
     void drawDisplay(const Core::ParameterSchema& schema) {

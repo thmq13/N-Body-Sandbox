@@ -10,7 +10,8 @@
 #include <type_traits>
 #include <UI/Panels/BackButtonPanel.hpp>
 #include <UI/Panels/ModeSelectionPanel.hpp>
-#include <UI/Panels/SimulationConfigPanel.hpp>
+#include <UI/Panels/GeneratorPanel.hpp>
+#include <UI/Panels/PhysicsPanel.hpp>
 #include <UI/Panels/TitleScreenPanel.hpp>
 
 namespace NBody::UI {
@@ -49,7 +50,8 @@ namespace NBody::UI {
         createPanel<ModeSelectionPanel>(Core::AppState::ModeSelection);
         createPanel<BackButtonPanel>(Core::AppState::ModeSelection, Core::AppState::TitleScreen);
 
-        createPanel<SimulationConfigPanel>(Core::AppState::PrecomputeConfig, Core::AppState::PrecomputeRunning, m_storage);
+        createPanel<GeneratorPanel>(Core::AppState::PrecomputeConfig, m_storage);
+        createPanel<PhysicsPanel>(Core::AppState::PrecomputeConfig, m_storage);
         createPanel<BackButtonPanel>(Core::AppState::PrecomputeConfig, Core::AppState::ModeSelection);
 
         createPanel<BackButtonPanel>(Core::AppState::RealTimeConfig, Core::AppState::ModeSelection);

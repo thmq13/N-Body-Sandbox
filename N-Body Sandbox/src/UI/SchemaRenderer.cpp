@@ -18,18 +18,17 @@ namespace NBody::UI::SchemaRenderer {
         ImGui::PushID(&schema);
         ImGui::SetNextItemWidth(fieldWidth);
 
-        bool changed{ false };
+        bool entered{ false };
 
         std::visit([&](auto& value) {
             using T = std::decay_t<decltype(value)>;
 
             if constexpr (std::is_same_v<T, bool>) {
-                changed = ImGui::Checkbox(schema.label.c_str(),&value);
+                entered = ImGui::Checkbox(schema.label.c_str(),&value);
             }
 
             else if constexpr (std::is_same_v<T, int>) {
-                ImGui::InputInt(schema.label.c_str(), &value, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
-                changed = ImGui::IsItemDeactivatedAfterEdit();
+                entered = ImGui::InputInt(schema.label.c_str(), &value, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
 
                 int min = std::holds_alternative<int>(schema.minValue)
                     ? std::get<int>(schema.minValue)
@@ -44,11 +43,9 @@ namespace NBody::UI::SchemaRenderer {
 
             else if constexpr (std::is_same_v<T, std::size_t>) {
                 int tempVal = static_cast<int>(value);
-                ImGui::InputInt(schema.label.c_str(), &tempVal, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
-                if (ImGui::IsItemDeactivatedAfterEdit()) {
-                    value = static_cast<std::size_t>(std::max(0, tempVal));
-                    changed = true;
-                }
+                entered = ImGui::InputInt(schema.label.c_str(), &tempVal, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
+
+                value = static_cast<std::size_t>(std::max(0, tempVal));
 
                 std::size_t min = std::holds_alternative<std::size_t>(schema.minValue)
                     ? std::get<std::size_t>(schema.minValue)
@@ -62,8 +59,7 @@ namespace NBody::UI::SchemaRenderer {
             }
 
             else if constexpr (std::is_same_v<T, float>) {
-                ImGui::InputFloat(schema.label.c_str(), &value, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue);
-                changed = ImGui::IsItemDeactivatedAfterEdit();
+                entered = ImGui::InputFloat(schema.label.c_str(), &value, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue);
 
                 float min = std::holds_alternative<float>(schema.minValue)
                     ? std::get<float>(schema.minValue)
@@ -77,8 +73,8 @@ namespace NBody::UI::SchemaRenderer {
             }
 
             else if constexpr (std::is_same_v<T, double>) {
-                ImGui::InputDouble(schema.label.c_str(), &value, 0.0, 0.0, "%.6f", ImGuiInputTextFlags_EnterReturnsTrue);
-                changed = ImGui::IsItemDeactivatedAfterEdit();
+                entered = ImGui::InputDouble(schema.label.c_str(), &value, 0.0, 0.0, "%.6f", ImGuiInputTextFlags_EnterReturnsTrue);
+       
 
                 double min = std::holds_alternative<double>(schema.minValue)
                     ? std::get<double>(schema.minValue)
@@ -92,8 +88,7 @@ namespace NBody::UI::SchemaRenderer {
             }
 
             else if constexpr (std::is_same_v<T, Math::Vec3>) {
-                ImGui::InputScalarN(schema.label.c_str(), ImGuiDataType_Double, &value.x, 3, nullptr, nullptr, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue);
-                changed = ImGui::IsItemDeactivatedAfterEdit();
+                entered = ImGui::InputScalarN(schema.label.c_str(), ImGuiDataType_Double, &value.x, 3, nullptr, nullptr, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue);
             }
 
             else if constexpr (std::is_same_v<T, Color>) {
@@ -103,13 +98,10 @@ namespace NBody::UI::SchemaRenderer {
                     value.b / 255.0f
                 };
 
-                ImGui::ColorEdit3(schema.label.c_str(), col);
-                if (ImGui::IsItemDeactivatedAfterEdit()) {
-                    value.r = static_cast<unsigned char>(col[0] * 255.0f + 0.5f);
-                    value.g = static_cast<unsigned char>(col[1] * 255.0f + 0.5f);
-                    value.b = static_cast<unsigned char>(col[2] * 255.0f + 0.5f);
-                    changed = true;
-                }
+                entered = ImGui::ColorEdit3(schema.label.c_str(), col, ImGuiInputTextFlags_EnterReturnsTrue);
+                value.r = static_cast<unsigned char>(col[0] * 255.0f + 0.5f);
+                value.g = static_cast<unsigned char>(col[1] * 255.0f + 0.5f);
+                value.b = static_cast<unsigned char>(col[2] * 255.0f + 0.5f);
             }
 
             else {
@@ -119,7 +111,7 @@ namespace NBody::UI::SchemaRenderer {
         }, schema.value);
 
         ImGui::PopID();
-        return changed;
+        return entered || ImGui::IsItemDeactivatedAfterEdit();;
     }
 
     void drawDisplay(const Core::ParameterSchema& schema) {

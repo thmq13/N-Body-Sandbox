@@ -96,7 +96,7 @@ namespace NBody::Core {
         std::uint32_t moduleId;
         std::uint32_t subModuleId;
         std::string targetId;
-        std::vector<ParameterSchema> schemas;
+        ParameterSchema schema;
     };
 
     // Generator

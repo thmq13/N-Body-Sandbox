@@ -13,11 +13,9 @@ namespace NBody::Physics {
 
     }
 
-    void Verlet::setParameters(const std::vector<Core::ParameterSchema>& schemas) {
-        for (const auto& schema : schemas) {
-            if (schema.label == "Delta Time") {
-                m_parameters.deltaTime = std::get<double>(schema.value);
-            }
+    void Verlet::setParameter(const Core::ParameterSchema& schema) {
+        if (schema.label == "Delta Time") {
+            m_parameters.deltaTime = std::get<double>(schema.value);
         }
     }
 }

@@ -17,20 +17,18 @@ namespace NBody::Physics {
         const double softening_squared = m_parameters.softening * m_parameters.softening;
     }
 
-    void DirectCPU::setParameters(const std::vector<Core::ParameterSchema>& schemas) {
-        for (const auto& schema : schemas) {
-            if (schema.label == "Gravity Constant") {
-                m_parameters.gravityConstant = std::get<double>(schema.value);
-            }
-            else if (schema.label == "Softening") {
-                m_parameters.softening = std::get<double>(schema.value);
-            }
-            else if (schema.label == "Use OMP") {
-                m_parameters.useOMP = std::get<bool>(schema.value);
-            }
-            else if (schema.label == "Use SIMD") {
-                m_parameters.useSIMD = std::get<bool>(schema.value);
-            }
+    void DirectCPU::setParameter(const Core::ParameterSchema& schema) {
+        if (schema.label == "Gravity Constant") {
+            m_parameters.gravityConstant = std::get<double>(schema.value);
+        }
+        else if (schema.label == "Softening") {
+            m_parameters.softening = std::get<double>(schema.value);
+        }
+        else if (schema.label == "Use OMP") {
+            m_parameters.useOMP = std::get<bool>(schema.value);
+        }
+        else if (schema.label == "Use SIMD") {
+            m_parameters.useSIMD = std::get<bool>(schema.value);
         }
     }
 }

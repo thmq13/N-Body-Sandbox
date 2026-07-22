@@ -10,7 +10,7 @@ namespace NBody::Physics {
     public:
         virtual ~Integrator() = default;
         virtual void step(Particle::ParticleSystem& particleSystem) = 0;
-        virtual void setParameters(const std::vector<Core::ParameterSchema>& schemas) = 0;
+        virtual void setParameter(const Core::ParameterSchema& schema) = 0;
         [[nodiscard]] virtual std::vector<Core::ParameterSchema> getSchemas() const = 0;
     };
 }

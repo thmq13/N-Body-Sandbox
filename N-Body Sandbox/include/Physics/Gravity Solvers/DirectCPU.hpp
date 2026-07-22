@@ -24,7 +24,7 @@ namespace NBody::Physics {
 
         void solveGravity(Particle::ParticleSystem& ParticleSystem) override;
 
-        void setParameters(const std::vector<Core::ParameterSchema>& schemas) override;
+        void setParameter(const Core::ParameterSchema& schema) override;
 
         [[nodiscard]] virtual std::vector<Core::ParameterSchema> getSchemas() const {
             return {

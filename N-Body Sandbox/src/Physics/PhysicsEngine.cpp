@@ -91,7 +91,7 @@ namespace NBody::Physics {
                     return;
                 }
                 std::cout << "[Physics Engine] Configuration change acknowledged.\n";
-                setConfig(msg.subModuleId, msg.targetId, msg.schemas);
+                setConfig(msg.subModuleId, msg.targetId, msg.schema);
             }   
 
             else if constexpr (std::is_same_v<T, Core::CmdSendParticles>) {
@@ -135,14 +135,14 @@ namespace NBody::Physics {
     }
 
     void PhysicsEngine::setConfig(std::uint32_t subModuleId, const std::string& targetId,
-        const std::vector<Core::ParameterSchema>& schemas)
+        const Core::ParameterSchema& schema)
     {
         auto subModule = static_cast<Core::PhysicsSubModule>(subModuleId);
         if (subModule == Core::PhysicsSubModule::GravitySolver) {
-            m_gravitySolvers[targetId]->setParameters(schemas);
+            m_gravitySolvers[targetId]->setParameter(schema);
         }
         if (subModule == Core::PhysicsSubModule::Integrator) {
-            m_integrators[targetId]->setParameters(schemas);
+            m_integrators[targetId]->setParameter(schema);
         }
     }
 

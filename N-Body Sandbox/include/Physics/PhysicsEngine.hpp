@@ -56,7 +56,7 @@ namespace NBody::Physics {
         void registerGravitySolvers();
         void registerIntegrators();
         void sendSchemas();
-        void setConfig(std::uint32_t subModuleId, const std::string& targetId, const std::vector<Core::ParameterSchema>& schemas);
+        void setConfig(std::uint32_t subModuleId, const std::string& targetId, const Core::ParameterSchema& schema);
         void setActiveOption(std::uint32_t subModuleId, const std::string& activeId);
         void workerLoop(std::stop_token stopToken);
         void uploadToBackBuffer();

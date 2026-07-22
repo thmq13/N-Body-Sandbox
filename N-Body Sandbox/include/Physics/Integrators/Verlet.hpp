@@ -21,7 +21,7 @@ namespace NBody::Physics {
 
         void step(Particle::ParticleSystem& particleSystem) override;
 
-        void setParameters(const std::vector<Core::ParameterSchema>& schemas) override;
+        void setParameter(const Core::ParameterSchema& schema) override;
 
         [[nodiscard]] std::vector<Core::ParameterSchema> getSchemas() const override {
             return {

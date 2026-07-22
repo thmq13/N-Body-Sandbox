@@ -18,9 +18,9 @@ namespace NBody {
         : m_messageBus(std::make_unique<Core::MessageBus>()),
         m_particleBuffer(std::make_shared<Particle::ParticleBuffer>()),
         m_generatorEngine(std::make_unique<Generator::GeneratorEngine>(*m_messageBus)),
-        m_physicsEngine(std::make_unique<Physics::PhysicsEngine>(*m_messageBus, m_particleBuffer)),
         m_renderingEngine(std::make_unique<Render::RenderingEngine>(*m_messageBus, m_particleBuffer)),
-        m_uiManager(std::make_unique<UI::UIManager>(*m_messageBus))
+        m_uiManager(std::make_unique<UI::UIManager>(*m_messageBus)),
+        m_physicsEngine(std::make_unique<Physics::PhysicsEngine>(*m_messageBus, m_particleBuffer))
     {
         m_messageBus->subscribe<Core::CmdExitApplication>([this](const Core::SystemMessage& message) {
             handleMessage(message);

@@ -152,13 +152,14 @@
     <ClInclude Include="include\Physics\Integrator.hpp" />
     <ClInclude Include="include\Render\BufferPacker.hpp" />
     <ClInclude Include="include\Render\InstancedMeshRenderer.hpp" />
-    <ClInclude Include="include\UI\Panels\SimulationConfigPanel.hpp" />
+    <ClInclude Include="include\UI\Panels\GeneratorPanel.hpp" />
     <ClInclude Include="include\UI\Panels\BackButtonPanel.hpp" />
     <ClInclude Include="include\Particle\Particle.hpp" />
     <ClInclude Include="include\Generator\GeneratorEngine.hpp" />
     <ClInclude Include="include\Helpers\Vec.hpp" />
     <ClInclude Include="include\Helpers\Constants.hpp" />
     <ClInclude Include="include\Physics\Gravity Solvers\DirectCPU.hpp" />
+    <ClInclude Include="include\UI\Panels\PhysicsPanel.hpp" />
     <ClInclude Include="include\UI\UITypes.hpp" />
     <ClInclude Include="include\UI\SchemaRenderer.hpp" />
     <ClCompile Include="src\Core\MessageBus.cpp" />
@@ -174,8 +175,9 @@
     <ClCompile Include="src\Render\RenderingEngine.cpp" />
     <ClCompile Include="src\Particle\ParticleBuffer.cpp" />
     <ClCompile Include="src\UI\Panels\BackButtonPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\GeneratorPanel.cpp" />
     <ClCompile Include="src\UI\Panels\ModeSelectionPanel.cpp" />
-    <ClCompile Include="src\UI\Panels\SimulationConfigPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\PhysicsPanel.cpp" />
     <ClCompile Include="src\UI\Panels\TitleScreenPanel.cpp" />
     <ClCompile Include="src\UI\SchemaRenderer.cpp" />
     <ClCompile Include="src\UI\UIManager.cpp" />

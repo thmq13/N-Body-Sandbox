@@ -54,9 +54,6 @@
     <ClCompile Include="src\Physics\PhysicsEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UI\Panels\SimulationConfigPanel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\UI\Panels\BackButtonPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -82,6 +79,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Render\InstancedMeshRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\GeneratorPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\PhysicsPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -164,9 +167,6 @@
     <ClInclude Include="include\Physics\Integrator.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\UI\Panels\SimulationConfigPanel.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\UI\Panels\BackButtonPanel.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -204,6 +204,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Render\InstancedMeshRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UI\Panels\GeneratorPanel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UI\Panels\PhysicsPanel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

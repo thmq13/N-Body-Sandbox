@@ -13,7 +13,7 @@ namespace NBody::UI {
     using UIStoredModules = std::vector<UIStoredSubModules>;
     using UIStorage = UIStoredModules;
 
-    using UIActiveTarget = std::vector<std::vector<std::string>>;
+    using UIActiveTarget = std::vector<std::string>;
 }
 
 

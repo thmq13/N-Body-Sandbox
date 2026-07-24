@@ -1,13 +1,8 @@
 #include <Core/MessageBus.hpp>
 
-#include <mutex>
-#include <queue>
-#include <typeindex>
-#include <utility>
-#include <variant>
-#include <vector>
-
 #include <Core/Message.hpp>
+
+import std;
 
 namespace NBody::Core {
     void MessageBus::publish(SystemMessage message) {
@@ -15,7 +10,7 @@ namespace NBody::Core {
         m_queue.push(std::move(message));
     }
 
-    bool MessageBus::isEmpty() const {
+    bool MessageBus::isEmpty() const noexcept {
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_queue.empty();
     }

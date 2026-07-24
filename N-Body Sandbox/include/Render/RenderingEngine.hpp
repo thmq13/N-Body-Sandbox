@@ -6,7 +6,7 @@
 #include <raylib.h>
 
 #include <Core/Message.hpp>
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
 
 namespace NBody::Core { class MessageBus; }
 namespace NBody::Particle { class ParticleBuffer; }
@@ -28,7 +28,7 @@ namespace NBody::Render {
         RenderingEngine(RenderingEngine&&) = delete;
         RenderingEngine& operator=(RenderingEngine&&) = delete;
         
-        void render(Core::AppState state);
+        void render(Core::ApplicationState state);
 
         void beginFrame();
         void endFrame();
@@ -41,8 +41,6 @@ namespace NBody::Render {
 
         void handleMessage(const Core::SystemMessage& message);
         void updateCamera();
-        bool shouldDrawParticles(Core::AppState state);
-
-
+        bool shouldDrawParticles(Core::ApplicationState state);
     };
 }

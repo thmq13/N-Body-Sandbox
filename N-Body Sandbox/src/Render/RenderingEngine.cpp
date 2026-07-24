@@ -63,7 +63,7 @@ namespace NBody::Render {
         CloseWindow();
     }
 
-    void RenderingEngine::render(Core::AppState state) {
+    void RenderingEngine::render(Core::ApplicationState state) {
         if (!shouldDrawParticles(state)) {
             return;
         }
@@ -136,10 +136,10 @@ namespace NBody::Render {
         }  
     }
 
-    bool RenderingEngine::shouldDrawParticles(Core::AppState state) {
-        return state == Core::AppState::PrecomputeConfig ||
-               state == Core::AppState::PrecomputeRunning || 
-               state == Core::AppState::RealTimeConfig ||
-               state == Core::AppState::RealTimeRunning;
+    bool RenderingEngine::shouldDrawParticles(Core::ApplicationState state) {
+        return state == Core::ApplicationState::PrecomputeConfig ||
+               state == Core::ApplicationState::PrecomputeRunning || 
+               state == Core::ApplicationState::RealTimeConfig ||
+               state == Core::ApplicationState::RealTimeRunning;
     }
 }

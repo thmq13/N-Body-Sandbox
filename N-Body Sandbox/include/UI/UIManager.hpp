@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
 #include <Core/Message.hpp>
 #include <type_traits>
 #include <UI/IPanel.hpp>
@@ -25,13 +25,13 @@ namespace NBody::UI {
         UIManager(UIManager&&) = delete;
         UIManager& operator=(UIManager&&) = delete;
 
-        void draw(Core::AppState state);
+        void draw(Core::ApplicationState state);
 
     private:
         Core::MessageBus& m_messageBus;
 
         template<typename T, typename... Args>
-        T* createPanel(Core::AppState state, Args&&... args) {
+        T* createPanel(Core::ApplicationState state, Args&&... args) {
             static_assert(std::is_base_of_v<IPanel, T>, "T must derive from IPanel");
 
             auto panel = std::make_unique<T>(std::forward<Args>(args)...);
@@ -44,7 +44,7 @@ namespace NBody::UI {
         }
 
         UIStorage m_storage{};
-        std::unordered_map < Core::AppState, std::vector<IPanel*> > m_statePanels{};
+        std::unordered_map < Core::ApplicationState, std::vector<IPanel*> > m_statePanels{};
         std::vector<std::unique_ptr<IPanel>> m_ownedPanels{};
 
         void registerPanels();

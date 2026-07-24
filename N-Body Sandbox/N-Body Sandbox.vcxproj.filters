@@ -27,7 +27,7 @@
     <ClCompile Include="src\UI\UIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\NBodySandboxApplication.cpp">
+    <ClCompile Include="src\Core\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\ImGui\imgui.cpp">
@@ -95,7 +95,7 @@
     <ClInclude Include="include\Core\MessageBus.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\NBodySandboxApplication.hpp">
+    <ClInclude Include="include\Core\Application.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Render\RenderingEngine.hpp">
@@ -152,7 +152,7 @@
     <ClInclude Include="include\UI\Panels\TitleScreenPanel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\AppState.hpp">
+    <ClInclude Include="include\Core\ApplicationState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\UI\Panels\ModeSelectionPanel.hpp">
@@ -210,6 +210,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\UI\Panels\PhysicsPanel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

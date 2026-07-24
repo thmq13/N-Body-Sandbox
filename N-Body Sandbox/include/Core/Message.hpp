@@ -10,7 +10,7 @@
 
 #include <raylib.h>
 
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
 #include <Helpers/Vec.hpp>
 #include <Particle/Particle.hpp>
 
@@ -73,7 +73,7 @@ namespace NBody::Core {
     // System level
     struct CmdExitApplication {};
 
-    struct CmdRequestStateChange { AppState requestedState; };
+    struct CmdRequestStateChange { ApplicationState requestedState; };
 
 
     // UI communication

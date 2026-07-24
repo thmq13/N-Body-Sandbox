@@ -11,17 +11,17 @@
 #include <Core/Message.hpp>
 
 namespace NBody::Core {
-    class MessageBus {
+    class MessageBus final {
     public:
         using MessageCallback = std::function<void(const SystemMessage&)>;
 
-        MessageBus() = default;
+        MessageBus() noexcept = default;
         ~MessageBus() = default;
 
         MessageBus(const MessageBus&) = delete;
         MessageBus& operator=(const MessageBus&) = delete;
-        MessageBus(MessageBus&&) = delete;
-        MessageBus& operator=(MessageBus&&) = delete;
+        MessageBus(MessageBus&&) noexcept = delete;
+        MessageBus& operator=(MessageBus&&) noexcept= delete;
 
         template <typename T>
         void subscribe(MessageCallback callback) {
@@ -31,16 +31,25 @@ namespace NBody::Core {
 
         void publish(SystemMessage message);
 
-        [[nodiscard]] bool isEmpty() const;
+        [[nodiscard]] bool isEmpty() const noexcept;
 
         void dispatch();
 
     private:
 
-        std::queue<SystemMessage> m_queue;
+        std::queue<SystemMessage> m_queue{};
 
-        std::unordered_map<std::type_index, std::vector<MessageCallback>> m_subscribers;
+        std::unordered_map<std::type_index, std::vector<MessageCallback>> m_subscribers{};
 
         mutable std::mutex m_mutex;
+    };
+
+    template <typename Derived>
+    class MessageSubscriber {
+    public:
+        template <typename... MessageTypes>
+        void SubscribeToMessages() {
+            (static_cast<Derived*>(this)->template SubscribeToMessage<MessageTypes>(), ...);
+        }
     };
 }

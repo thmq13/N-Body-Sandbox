@@ -1,17 +1,7 @@
 #include <Physics/PhysicsEngine.hpp>
 
-#include <cstdint>
-#include <iostream>
-#include <memory>
-#include <mutex>
-#include <queue>
-#include <stop_token>
-#include <thread>
-#include <type_traits>
-#include <utility>
-#include <variant>
-
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
+#include <Core/Logger.hpp>
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
 #include <Particle/ParticleBuffer.hpp>
@@ -20,31 +10,70 @@
 #include <Physics/Integrator.hpp>
 #include <Physics/Integrators/Verlet.hpp>
 
-namespace NBody::Physics {
-    PhysicsEngine::PhysicsEngine(Core::MessageBus& messageBus, std::shared_ptr<Particle::ParticleBuffer> particleBuffer)
-        : m_messageBus(messageBus),
-        m_particleBuffer(std::move(particleBuffer))
-    {
-        subscribeToMessages<
-            Core::CmdExitApplication,
-            Core::CmdRequestStateChange,
+import std;
 
+namespace NBody::Physics {
+
+    PhysicsEngine::PhysicsEngine(
+        Core::MessageBus& messageBus,
+        const std::atomic<Core::ApplicationState>& applicationState,
+        std::shared_ptr<Particle::ParticleBuffer> particleBuffer
+    ) noexcept
+        : m_messageBus(messageBus),
+        m_applicationState(applicationState),
+        m_particleBuffer(std::move(particleBuffer)) {}
+
+    PhysicsEngine::~PhysicsEngine() {
+        if (m_workerThread.joinable()) {
+            m_workerThread.request_stop();
+            m_mailboxCV.notify_all();
+        }
+        NBODY_INFO("PHYSICS ENGINE: Deallocating resources.");
+    }
+
+    PhysicsEngine::Result PhysicsEngine::InitializeEngine() {
+        if (m_isInitialized) {
+            return std::unexpected(Core::PhysicsError::ErrAlreadyInitialized);
+        }
+
+        if (!m_particleBuffer) {
+            return std::unexpected(Core::PhysicsError::ErrParticleBufferNull);
+        }
+
+        SubscribeToMessages<
             Core::CmdRequestSchemas,
             Core::CmdSetActiveOption,
             Core::CmdSetConfig,
-
             Core::CmdSendParticles
         >();
 
-        registerGravitySolvers();
-        registerIntegrators();
+        RegisterGravitySolvers();
+        if (!m_gravitySolvers.contains(m_currentGravitySolver)) {
+            NBODY_ERROR("PHYSICS ENGINE: Default gravity solver '{}' not found.", m_currentGravitySolver);
+            return std::unexpected(Core::PhysicsError::ErrSolverNotFound);
+        }
 
-        m_workerThread = std::jthread([this](std::stop_token token) { workerLoop(token); });
+        RegisterIntegrators();
+        if (!m_integrators.contains(m_currentIntegrator)) {
+            NBODY_ERROR("PHYSICS ENGINE: Default integrator '{}' not found.", m_currentIntegrator);
+            return std::unexpected(Core::PhysicsError::ErrIntegratorNotFound);
+        }
+      
+        try {
+            m_workerThread = std::jthread([this](std::stop_token token) { WorkerLoop(token); });
+        }
+        catch (const std::system_error& e) {
+            NBODY_ERROR("PHYSICS ENGINE: Worker thread spawn failed: {}", e.what());
+            return std::unexpected(Core::PhysicsError::ErrWorkerThreadStartFailed);
+        }
+
+        m_isInitialized = true;
+
+        NBODY_INFO("PHYSICS ENGINE: Engine initialized successfully.");
+        return {};
     }
 
-    PhysicsEngine::~PhysicsEngine() {}
-    
-    void PhysicsEngine::processMailbox() {
+    void PhysicsEngine::ProcessMailbox() {
         std::queue<Core::SystemMessage> localMailbox;
         {
             std::lock_guard<std::mutex> lock(m_mailboxMutex);
@@ -54,47 +83,37 @@ namespace NBody::Physics {
         }
 
         while (!localMailbox.empty()) {
-            handleMessage(localMailbox.front());
+            HandleMessage(localMailbox.front());
             localMailbox.pop();
         }
     }
 
-    void PhysicsEngine::handleMessage(const Core::SystemMessage& message) {
+    void PhysicsEngine::HandleMessage(const Core::SystemMessage& message) {
         std::visit([this](const auto& msg) {
-            using T = std::decay_t<decltype(msg)>;
+            using MessageType = std::decay_t<decltype(msg)>;
 
-            if constexpr (std::is_same_v<T, Core::CmdExitApplication>) {
-                std::cout << "[Physics Engine] Exit command acknowledeged.\n";
-                m_workerThread.request_stop();
+            if constexpr (std::is_same_v<MessageType, Core::CmdRequestSchemas>) {
+                SendSchemas();
             }
-
-            else if constexpr (std::is_same_v<T, Core::CmdRequestStateChange>) {
-                std::cout << "[Physics Engine] State sync acknowledeged.\n";
-                m_appState = msg.requestedState;
-            }
-
-            else if constexpr (std::is_same_v<T, Core::CmdRequestSchemas>) {
-                std::cout << "[Physics Engine] Schemas request intercepted.\n";
-                sendSchemas();
-            }
-
-            else if constexpr (std::is_same_v<T, Core::CmdSetActiveOption>) {
+            else if constexpr (std::is_same_v<MessageType, Core::CmdSetActiveOption>) {
                 if (static_cast<Core::Module>(msg.moduleId) != Core::Module::Physics) {
                     return;
                 }
-                std::cout << "[Physics Engine] Active option acknowledged.\n";
-                setActiveOption(msg.subModuleId, msg.activeId);
+                auto setRes{ SetActiveOption(static_cast<Core::PhysicsSubModule>(msg.subModuleId), msg.activeId) };
+                if (!setRes) {
+                    NBODY_ERROR("PHYSICS ENGINE: SetActiveOption failed: {}", setRes.error());
+                }
             }
-
-            else if constexpr (std::is_same_v<T, Core::CmdSetConfig>) {
+            else if constexpr (std::is_same_v<MessageType, Core::CmdSetConfig>) {
                 if (static_cast<Core::Module>(msg.moduleId) != Core::Module::Physics) {
                     return;
                 }
-                std::cout << "[Physics Engine] Configuration change acknowledged.\n";
-                setConfig(msg.subModuleId, msg.targetId, msg.schema);
-            }   
-
-            else if constexpr (std::is_same_v<T, Core::CmdSendParticles>) {
+                auto setRes{ SetConfig(static_cast<Core::PhysicsSubModule>(msg.subModuleId), msg.targetId, msg.schema) };
+                if (!setRes) {
+                    NBODY_ERROR("PHYSICS ENGINE: SetConfig failed: {}", setRes.error());
+                }
+            }
+            else if constexpr (std::is_same_v<MessageType, Core::CmdSendParticles>) {
                 if (msg.shouldAppend) {
                     m_simulationBuffer.append(std::move(msg.particleSystem));
                 }
@@ -103,76 +122,120 @@ namespace NBody::Physics {
                 }
                 m_needSimulationBufferUpdate = true;
 
-                std::cout << "[Physics Engine] Acknowledeged new particles. The current local physics buffer size is "
-                    << m_simulationBuffer.getSize() << '\n';
+                NBODY_TRACE("PHYSICS ENGINE: Particle system payload ingested. Buffer size: {}", m_simulationBuffer.getSize());
             }
-            }, message);
+        }, message);
     }
 
-    void PhysicsEngine::registerGravitySolvers() {
+    void PhysicsEngine::RegisterGravitySolvers() {
         m_gravitySolvers["Direct CPU"] = std::make_unique<DirectCPU>();
     }
 
-    void PhysicsEngine::registerIntegrators() {
+    void PhysicsEngine::RegisterIntegrators() {
         m_integrators["Verlet"] = std::make_unique<Verlet>();
     }
 
-    void PhysicsEngine::sendSchemas() {
+    void PhysicsEngine::SendSchemas() {
         for (const auto& [solverId, solver] : m_gravitySolvers) {
             m_messageBus.publish(Core::CmdSendSchemas{
                 static_cast<std::uint32_t>(Core::Module::Physics),
                 static_cast<std::uint32_t>(Core::PhysicsSubModule::GravitySolver),
                 solverId, solver->getSchemas()
-                });
+            });
         }
         for (const auto& [integratorId, integrator] : m_integrators) {
             m_messageBus.publish(Core::CmdSendSchemas{
                 static_cast<std::uint32_t>(Core::Module::Physics),
                 static_cast<std::uint32_t>(Core::PhysicsSubModule::Integrator),
                 integratorId, integrator->getSchemas()
-                });
+            });
         }
+        NBODY_INFO("PHYSICS ENGINE: Published schemas of components.");
     }
 
-    void PhysicsEngine::setConfig(std::uint32_t subModuleId, const std::string& targetId,
+    PhysicsEngine::Result PhysicsEngine::SetConfig(Core::PhysicsSubModule subModule, const std::string& targetId,
         const Core::ParameterSchema& schema)
     {
-        auto subModule = static_cast<Core::PhysicsSubModule>(subModuleId);
+        if (!m_isInitialized) {
+            return std::unexpected(Core::PhysicsError::ErrNotInitialized);
+        }
+
         if (subModule == Core::PhysicsSubModule::GravitySolver) {
-            m_gravitySolvers[targetId]->setParameter(schema);
+            if (auto it = m_gravitySolvers.find(targetId); it != m_gravitySolvers.end()) {
+                it->second->setParameter(schema);
+            }
+            else {
+                NBODY_ERROR("PHYSICS ENGINE: Gravity solver '{}' not found.", targetId);
+                return std::unexpected(Core::PhysicsError::ErrSolverNotFound);
+            }
         }
-        if (subModule == Core::PhysicsSubModule::Integrator) {
-            m_integrators[targetId]->setParameter(schema);
+        else if (subModule == Core::PhysicsSubModule::Integrator) {
+            if (auto it = m_integrators.find(targetId); it != m_integrators.end()) {
+                it->second->setParameter(schema);
+            }
+            else {
+                NBODY_ERROR("PHYSICS ENGINE: Integrator '{}' not found.", targetId);
+                return std::unexpected(Core::PhysicsError::ErrIntegratorNotFound);
+            }
         }
+
+        NBODY_TRACE("PHYSICS ENGINE: Changed configuration of '{}' with label '{}'.", targetId, schema.label);
+
+        return{};
     }
 
-    void PhysicsEngine::setActiveOption(std::uint32_t subModuleId, const std::string& activeId) {
-        auto subModule = static_cast<Core::PhysicsSubModule>(subModuleId);
+    PhysicsEngine::Result PhysicsEngine::SetActiveOption(Core::PhysicsSubModule subModule, const std::string& activeId) {
+        if (!m_isInitialized) {
+            return std::unexpected(Core::PhysicsError::ErrNotInitialized);
+        }
+
         if (subModule == Core::PhysicsSubModule::GravitySolver) {
-            m_currentGravitySolver = activeId;
+            if (m_gravitySolvers.contains(activeId)) {
+                m_currentGravitySolver = activeId;
+                NBODY_TRACE("PHYSICS ENGINE: Set gravity solver option to '{}'.", activeId);
+            }
+            else {
+                NBODY_ERROR("PHYSICS ENGINE: SetActiveOption failed: Gravity solver '{}' not found.", activeId);
+                return std::unexpected(Core::PhysicsError::ErrSolverNotFound);
+            }
         }
-        if (subModule == Core::PhysicsSubModule::Integrator) {
-            m_currentIntegrator = activeId;
+        else if (subModule == Core::PhysicsSubModule::Integrator) {
+            if (m_integrators.contains(activeId)) {
+                m_currentIntegrator = activeId;
+                NBODY_TRACE("PHYSICS ENGINE: Set integrator option to '{}'.", activeId);
+            }
+            else {
+                NBODY_ERROR("PHYSICS ENGINE: SetActiveOption failed: Integrator '{}' not found.", activeId);
+                return std::unexpected(Core::PhysicsError::ErrIntegratorNotFound);
+            }
         }
+
+        return {};
     }
 
-    void PhysicsEngine::workerLoop(std::stop_token stopToken) {
-        std::cout << "[Physics Engine] Worker thread started.\n";
+    void PhysicsEngine::UploadToBackBuffer() {
+        auto& backBuffer = m_particleBuffer->getBackBuffer();
+        backBuffer = m_simulationBuffer;
+        m_particleBuffer->commitBackBuffer();
+    }
+
+    void PhysicsEngine::WorkerLoop(std::stop_token stopToken) {
+        NBODY_INFO("PHYSICS ENGINE: Worker thread engaged.");
 
         while (!stopToken.stop_requested()) {
-            processMailbox();
+            ProcessMailbox();
 
-            if (m_appState == Core::AppState::RealTimeRunning ||
-                m_appState == Core::AppState::PrecomputeRunning)
+            if (m_applicationState == Core::ApplicationState::RealTimeRunning ||
+                m_applicationState == Core::ApplicationState::PrecomputeRunning)
             {
-                // do physics ...
+                // Execute physics step using active solver & integrator...
 
-                uploadToBackBuffer();
+                UploadToBackBuffer();
             }
             else {
                 if (m_needSimulationBufferUpdate) {
                     m_needSimulationBufferUpdate = false;
-                    uploadToBackBuffer();
+                    UploadToBackBuffer();
                 }
 
                 std::unique_lock<std::mutex> lock(m_mailboxMutex);
@@ -182,13 +245,7 @@ namespace NBody::Physics {
             }
         }
 
-        std::cout << "[Physics Engine] Worker thread spun down safely.\n";
+        NBODY_INFO("PHYSICS ENGINE: Worker thread terminated cleanly.");
     }
 
-    void PhysicsEngine::uploadToBackBuffer() {
-        auto& backBuffer = m_particleBuffer->getBackBuffer();
-        backBuffer = m_simulationBuffer;
-        m_particleBuffer->commitBackBuffer();
-    }
-}
-
+} // namespace NBody::Physics

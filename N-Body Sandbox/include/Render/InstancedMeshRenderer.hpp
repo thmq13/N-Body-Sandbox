@@ -29,6 +29,6 @@ namespace NBody::Render {
         Material m_material{};
         int m_colorAttributeLocation{ -1 };
 
-        void ReinitializeVertexBuffer(std::size_t size);
+        void reinitializeVertexBuffer(std::size_t size);
     };
 }

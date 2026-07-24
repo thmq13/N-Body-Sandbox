@@ -76,8 +76,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)ext\ImGui;$(ProjectDir)ext\rlImGui;$(ProjectDir)ext\raylib\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BuildStlModules>true</BuildStlModules>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,8 +96,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)ext\ImGui;$(ProjectDir)ext\rlImGui;$(ProjectDir)ext\raylib\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BuildStlModules>true</BuildStlModules>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,8 +114,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)ext\ImGui;$(ProjectDir)ext\rlImGui;$(ProjectDir)ext\raylib\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BuildStlModules>true</BuildStlModules>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,8 +134,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)ext\ImGui;$(ProjectDir)ext\rlImGui;$(ProjectDir)ext\raylib\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BuildStlModules>true</BuildStlModules>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +152,7 @@
     <ClCompile Include="ext\ImGui\imgui_tables.cpp" />
     <ClCompile Include="ext\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="ext\rlImGui\rlImGui.cpp" />
+    <ClInclude Include="include\Core\Logger.hpp" />
     <ClInclude Include="include\Generator\Generator.hpp" />
     <ClInclude Include="include\Generator\Shapes\UniformSphere.hpp" />
     <ClInclude Include="include\Physics\Integrators\Verlet.hpp" />
@@ -166,7 +175,7 @@
     <ClCompile Include="src\Generator\GeneratorEngine.cpp" />
     <ClCompile Include="src\Generator\Shapes\UniformSphere.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\NBodySandboxApplication.cpp" />
+    <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Physics\Gravity Solvers\DirectCPU.cpp" />
     <ClCompile Include="src\Physics\Integrators\Verlet.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
@@ -186,7 +195,7 @@
     <ClInclude Include="include\UI\IPanel.hpp" />
     <ClInclude Include="include\UI\Panels\ModeSelectionPanel.hpp" />
     <ClInclude Include="include\UI\Panels\TitleScreenPanel.hpp" />
-    <ClInclude Include="include\Core\AppState.hpp" />
+    <ClInclude Include="include\Core\ApplicationState.hpp" />
     <ClInclude Include="ext\ImGui\imconfig.h" />
     <ClInclude Include="ext\ImGui\imgui.h" />
     <ClInclude Include="ext\ImGui\imgui_internal.h" />
@@ -202,7 +211,7 @@
     <ClInclude Include="ext\rlImGui\rlImGui.h" />
     <ClInclude Include="include\Core\Message.hpp" />
     <ClInclude Include="include\Core\MessageBus.hpp" />
-    <ClInclude Include="include\NBodySandboxApplication.hpp" />
+    <ClInclude Include="include\Core\Application.hpp" />
     <ClInclude Include="include\Render\RenderingEngine.hpp" />
     <ClInclude Include="include\UI\UIManager.hpp" />
     <ClInclude Include="include\Particle\ParticleBuffer.hpp" />

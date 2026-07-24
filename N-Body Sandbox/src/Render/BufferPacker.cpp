@@ -29,7 +29,7 @@ namespace NBody::Render::BufferPacker {
         }
     }
 
-    void PackColors(const Particle::ParticleSystem& particleSystem, std::vector<Vector4>& outColors)
+    void packColors(const Particle::ParticleSystem& particleSystem, std::vector<Vector4>& outColors)
     {
         const std::size_t size{ particleSystem.getSize() };
         if (size == 0) return;

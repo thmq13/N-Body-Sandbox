@@ -2,7 +2,7 @@
 
 #include <imgui.h>
 
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
 
@@ -37,7 +37,7 @@ namespace NBody::UI {
         }
     }
 
-    BackButtonPanel::BackButtonPanel(Core::AppState nextState) : m_nextState(nextState) {}
+    BackButtonPanel::BackButtonPanel(Core::ApplicationState nextState) : m_nextState(nextState) {}
 
     void BackButtonPanel::draw(Core::MessageBus& messageBus) {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
 #include <UI/IPanel.hpp>
 
 namespace NBody::Core { class MessageBus; }
@@ -8,13 +8,13 @@ namespace NBody::Core { class MessageBus; }
 namespace NBody::UI {
     class BackButtonPanel : public IPanel {
     public:
-        explicit BackButtonPanel(Core::AppState nextState);
+        explicit BackButtonPanel(Core::ApplicationState nextState);
         ~BackButtonPanel() override = default;
 
         void draw(Core::MessageBus& messageBus) override;
 
     private:
-        Core::AppState m_nextState;
+        Core::ApplicationState m_nextState;
 
         void setUpWindowAndStyle();
         void cleanUp();

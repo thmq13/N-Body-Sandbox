@@ -1,22 +1,20 @@
-#include <cstdlib>
-#include <exception>
-#include <iostream>
-
-#include <NBodySandboxApplication.hpp>
+#include <Core/Application.hpp>
+#include <Core/Logger.hpp>
 
 int main() {
-    std::cout << "\x1B[2J\x1B[H";
-    std::cout << "We are but dust in the void waiting for the inevitable collapse.\n";
+    NBody::Core::Application app{};
 
-    try {
-        NBody::NBodySandboxApplication application;
-        application.executeMasterLoop();
-    }
-    catch (const std::exception& error) {
-        std::cerr << "[Fatal Error Intercepted] Exception detail: " << error.what() << '\n';
-        return EXIT_FAILURE;
+    auto initRes{ app.InitializeSubsystems() };
+    if (!initRes) {
+        NBODY_FATAL("ENTRY: Failed to initialize app: {}", initRes.error());
+        return 1;
     }
 
-    return EXIT_SUCCESS;
+    auto loopRes{ app.ExecuteMasterLoop() };
+    if (!loopRes) {
+        NBODY_FATAL("ENTRY: Failed to enter master loop : {}", loopRes.error());
+        return 1;
+    }
+
     return 0;
 }

@@ -4,7 +4,7 @@
 
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
 
 namespace NBody::UI {
 
@@ -109,7 +109,7 @@ namespace NBody::UI {
         const float btnY = windowSize.y * ModeSelectionConfig::realTimeButtonHeightScale;
         ImGui::SetCursorPos(ImVec2{ btnX, btnY });
         if (ImGui::Button(ModeSelectionConfig::realTimeButtonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ Core::AppState::RealTimeConfig });
+            messageBus.publish(Core::CmdRequestStateChange{ Core::ApplicationState::RealTimeConfig });
         }
 
         ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);
@@ -134,7 +134,7 @@ namespace NBody::UI {
         const float btnY = windowSize.y * ModeSelectionConfig::precomputeButtonHeightScale;
         ImGui::SetCursorPos(ImVec2{ btnX, btnY });
         if (ImGui::Button(ModeSelectionConfig::precomputeButtonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ Core::AppState::PrecomputeConfig });
+            messageBus.publish(Core::CmdRequestStateChange{ Core::ApplicationState::PrecomputeConfig });
         }
 
         ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);
@@ -159,7 +159,7 @@ namespace NBody::UI {
         const float btnY = windowSize.y * ModeSelectionConfig::playbackButtonHeightScale;
         ImGui::SetCursorPos(ImVec2{ btnX, btnY });
         if (ImGui::Button(ModeSelectionConfig::playbackButtonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ Core::AppState::PlaybackConfig });
+            messageBus.publish(Core::CmdRequestStateChange{ Core::ApplicationState::PlaybackConfig });
         }
 
         ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);

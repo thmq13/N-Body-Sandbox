@@ -5,7 +5,7 @@
 
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
 
 namespace NBody::UI {
 
@@ -144,7 +144,7 @@ namespace NBody::UI {
                  );
 
         if (ImGui::Button(TitleScreenConfig::startButtonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ Core::AppState::ModeSelection });
+            messageBus.publish(Core::CmdRequestStateChange{ Core::ApplicationState::ModeSelection });
         }
 
         ImGui::SetWindowFontScale(TitleScreenConfig::defaultFontScale);

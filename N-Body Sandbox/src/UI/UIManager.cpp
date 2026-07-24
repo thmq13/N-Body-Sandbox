@@ -4,7 +4,7 @@
 #include <iostream>
 #include <variant>
 
-#include <Core/AppState.hpp>
+#include <Core/ApplicationState.hpp>
 #include <Core/Message.hpp>
 #include <Core/MessageBus.hpp>
 #include <type_traits>
@@ -33,7 +33,7 @@ namespace NBody::UI {
         m_messageBus.publish(Core::CmdRequestSchemas{});
     }
 
-    void UIManager::draw(Core::AppState state) {
+    void UIManager::draw(Core::ApplicationState state) {
         auto it = m_statePanels.find(state);
         if (it == m_statePanels.end()) {
             return;
@@ -45,18 +45,18 @@ namespace NBody::UI {
     }
 
     void UIManager::registerPanels() {
-        createPanel<TitleScreenPanel>(Core::AppState::TitleScreen);
+        createPanel<TitleScreenPanel>(Core::ApplicationState::TitleScreen);
 
-        createPanel<ModeSelectionPanel>(Core::AppState::ModeSelection);
-        createPanel<BackButtonPanel>(Core::AppState::ModeSelection, Core::AppState::TitleScreen);
+        createPanel<ModeSelectionPanel>(Core::ApplicationState::ModeSelection);
+        createPanel<BackButtonPanel>(Core::ApplicationState::ModeSelection, Core::ApplicationState::TitleScreen);
 
-        createPanel<GeneratorPanel>(Core::AppState::PrecomputeConfig, m_storage);
-        createPanel<PhysicsPanel>(Core::AppState::PrecomputeConfig, m_storage);
-        createPanel<BackButtonPanel>(Core::AppState::PrecomputeConfig, Core::AppState::ModeSelection);
+        createPanel<GeneratorPanel>(Core::ApplicationState::PrecomputeConfig, m_storage);
+        createPanel<PhysicsPanel>(Core::ApplicationState::PrecomputeConfig, m_storage);
+        createPanel<BackButtonPanel>(Core::ApplicationState::PrecomputeConfig, Core::ApplicationState::ModeSelection);
 
-        createPanel<BackButtonPanel>(Core::AppState::RealTimeConfig, Core::AppState::ModeSelection);
+        createPanel<BackButtonPanel>(Core::ApplicationState::RealTimeConfig, Core::ApplicationState::ModeSelection);
 
-        createPanel<BackButtonPanel>(Core::AppState::PlaybackConfig, Core::AppState::ModeSelection);
+        createPanel<BackButtonPanel>(Core::ApplicationState::PlaybackConfig, Core::ApplicationState::ModeSelection);
     }
 
     void UIManager::handleMessage(const Core::SystemMessage& message) {

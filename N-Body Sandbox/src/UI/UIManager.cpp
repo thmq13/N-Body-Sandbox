@@ -69,4 +69,4 @@ namespace NBody::UI {
             }
         }, message);
     }
-}
+} // namespace NBody::UI

@@ -169,4 +169,4 @@ namespace NBody::UI::SchemaRenderer {
         ImGui::PopID();
     }
 
-}
+} // namespace NBody::UI::SchemaRenderer

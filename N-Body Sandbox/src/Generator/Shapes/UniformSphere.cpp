@@ -13,6 +13,7 @@
 #include <Particle/Particle.hpp>
 
 namespace NBody::Generator {
+
     UniformSphere::UniformSphere(const Parameters& parameters) noexcept : m_parameters(parameters) {}
 
     void UniformSphere::GenerateOntoBuffer(Particle::ParticleSystem& buffer, std::mt19937_64& rng) {
@@ -69,6 +70,7 @@ namespace NBody::Generator {
             }
         }
     }
-}
+
+} // namespace NBody::Generator
 
 

@@ -50,7 +50,7 @@ namespace NBody::UI {
             constexpr const char* exitButtonText{ "exit" };
 
             constexpr float defaultFontScale{ 1.0f };
-        }
+        } // namespace TitleScreenConfig
     }
 
     void TitleScreenPanel::Draw(Core::MessageBus& messageBus) {
@@ -167,4 +167,5 @@ namespace NBody::UI {
 
         ImGui::SetWindowFontScale(TitleScreenConfig::defaultFontScale);
     }
-}
+
+} // namespace NBody::UI

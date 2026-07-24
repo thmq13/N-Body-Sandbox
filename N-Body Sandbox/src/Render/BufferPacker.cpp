@@ -39,5 +39,6 @@ namespace NBody::Render::BufferPacker {
             col.w = static_cast<float>(particleSystem.color[i].a) * inv255;
         }
     }
-}
+
+} // namespace NBody::Render::BufferPacker
 

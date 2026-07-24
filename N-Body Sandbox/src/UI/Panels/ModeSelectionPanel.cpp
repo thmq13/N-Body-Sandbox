@@ -51,7 +51,7 @@ namespace NBody::UI {
             constexpr const char* playbackButtonText{ "Playback" };
             constexpr float       playbackDescHeightScale{ 0.69f };
             constexpr const char* playbackDescText{ "Echoes of a time" };
-        }
+        } // namespace ModeSelectionConfig
     }
 
     void ModeSelectionPanel::Draw(Core::MessageBus& messageBus) {
@@ -175,4 +175,5 @@ namespace NBody::UI {
 
         ImGui::SetWindowFontScale(ModeSelectionConfig::defaultFontScale);
     }
-}
+
+} // namespace NBody::UI

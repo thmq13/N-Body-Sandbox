@@ -4,6 +4,7 @@
 #include <utility>
 
 namespace NBody::Particle {
+
     void ParticleBuffer::CommitBackBuffer() {
         {
             std::lock_guard<std::mutex> lock(m_mutex);
@@ -18,5 +19,6 @@ namespace NBody::Particle {
             std::swap(m_sharedBuffer, m_frontBuffer);
         }
     }
-}
+
+} // namespace NBody::Particle
 

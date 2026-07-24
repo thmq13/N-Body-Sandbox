@@ -46,7 +46,7 @@ namespace NBody::UI {
             constexpr int styleColorCount{ 11 };
 
             constexpr const char* windowName{ "Physics Panel" };
-        }
+        } // namespace Config
     }
 
     PhysicsPanel::PhysicsPanel(UIStorage& storage)
@@ -155,5 +155,6 @@ namespace NBody::UI {
         ImGui::PopStyleColor(Config::styleColorCount);
         ImGui::End();
     }
-}
+
+} // namespace NBody::UI
 

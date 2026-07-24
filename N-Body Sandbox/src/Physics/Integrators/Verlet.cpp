@@ -7,6 +7,7 @@
 #include <Particle/Particle.hpp>
 
 namespace NBody::Physics {
+
     Verlet::Verlet(const Parameters& parameters) noexcept : m_parameters(parameters) {} 
 
     void Verlet::Step(Particle::ParticleSystem& particleSystem) {
@@ -18,5 +19,6 @@ namespace NBody::Physics {
             m_parameters.deltaTime = std::get<double>(schema.value);
         }
     }
-}
+
+} // namespace NBody::Physics
 

@@ -8,6 +8,7 @@
 #include <Particle/Particle.hpp>
 
 namespace NBody::Physics {
+
     DirectCPU::DirectCPU(const Parameters& parameters) noexcept : m_parameters(parameters) {}
 
     void DirectCPU::SolveGravity(Particle::ParticleSystem& particleSystem) {
@@ -31,5 +32,6 @@ namespace NBody::Physics {
             m_parameters.useSIMD = std::get<bool>(schema.value);
         }
     }
-}
+
+} // namespace NBody::Physics
 

@@ -9,6 +9,7 @@
 #include <Render/BufferPacker.hpp>
 
 namespace NBody::Render {
+
     InstancedMeshRenderer::InstancedMeshRenderer() {
         m_baseMesh = GenMeshSphere(1.0f, 4, 4);
         m_material = LoadMaterialDefault();
@@ -57,6 +58,7 @@ namespace NBody::Render {
 
         m_vboCapacity = size;
     }
-}
+
+} // namespace NBody::Render
 
 

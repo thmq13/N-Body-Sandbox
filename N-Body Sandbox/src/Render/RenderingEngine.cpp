@@ -13,6 +13,7 @@
 #include <Render/InstancedMeshRenderer.hpp>
 
 namespace NBody::Render {
+
     namespace {
         namespace WindowConfig {
             constexpr int width{ 1900 };
@@ -20,7 +21,7 @@ namespace NBody::Render {
             constexpr const char* title{ "N-Body Sandbox" };
             constexpr unsigned int flags{ FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_FULLSCREEN_MODE };
             constexpr Color clearBackgroundColor{ BLACK };
-        };
+        }; // namespace WindowConfig
 
         namespace CameraConfig {
             constexpr Vector3 position{ 0.0f, 25.0f, 35.0f };
@@ -30,7 +31,7 @@ namespace NBody::Render {
             constexpr int projection{ CAMERA_PERSPECTIVE };
             constexpr float cameraMoveSpeed{ 15.0f };
             constexpr float cameraPanSpeed{ 5.0f };
-        };
+        }; // namespace CameraConfig
     }
 
     RenderingEngine::RenderingEngine(Core::MessageBus& messageBus, std::shared_ptr<Particle::ParticleBuffer> particleBuffer)
@@ -142,4 +143,5 @@ namespace NBody::Render {
                state == Core::ApplicationState::RealTimeConfig ||
                state == Core::ApplicationState::RealTimeRunning;
     }
-}
+
+} // namespace NBody::Render

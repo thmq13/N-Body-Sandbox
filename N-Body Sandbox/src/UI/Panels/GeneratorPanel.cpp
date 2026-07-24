@@ -49,7 +49,7 @@ namespace NBody::UI {
             constexpr const char* previewShapesText{ "Particle Preview List" };
             constexpr const char* addShapeText{ "> Add Shape <" };
             constexpr const char* removeShapeGlyph{ "X" };
-        }
+        } // namespace Config
     }
 
     GeneratorPanel::GeneratorPanel(UIStorage& storage) 
@@ -201,5 +201,6 @@ namespace NBody::UI {
             messageBus.Publish(Core::CmdGeneratePreviewParticles{ m_activeShapes });
         }
     }
-}
+
+} // namespace NBody::UI
 

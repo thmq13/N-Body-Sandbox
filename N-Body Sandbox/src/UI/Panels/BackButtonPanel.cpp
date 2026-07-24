@@ -34,7 +34,7 @@ namespace NBody::UI {
 
             constexpr float offsetX{ 30.0f };
             constexpr float offsetY{ 30.0f };
-        }
+        } // namespace BackButtonConfig
     }
 
     BackButtonPanel::BackButtonPanel(Core::ApplicationState nextState) : m_nextState(nextState) {}
@@ -74,4 +74,5 @@ namespace NBody::UI {
         ImGui::SetWindowFontScale(BackButtonConfig::defaultFontScale);
         ImGui::End();
     }
-}
+
+} // namespace NBody::UI

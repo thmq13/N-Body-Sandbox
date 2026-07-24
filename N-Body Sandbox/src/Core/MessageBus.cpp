@@ -5,6 +5,7 @@
 import std;
 
 namespace NBody::Core {
+
     void MessageBus::Publish(SystemMessage message) {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_queue.push(std::move(message));
@@ -45,5 +46,6 @@ namespace NBody::Core {
             localQueue.pop();
         }
     }
-}
+
+} // namespace NBody::Core
 

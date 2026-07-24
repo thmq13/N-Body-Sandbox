@@ -10,6 +10,7 @@
 import std;
 
 namespace NBody::Generator {
+
     GeneratorEngine::GeneratorEngine(
         Core::MessageBus& messageBus,
         std::uint64_t initialSeed
@@ -114,5 +115,6 @@ namespace NBody::Generator {
 
         return {};
     }
-}
+
+} // namespace NBody::Generator
 

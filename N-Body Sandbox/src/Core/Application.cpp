@@ -123,6 +123,4 @@ namespace NBody::Core {
         }, message);
     }
 
-    
-
 } // namespace NBody::Core

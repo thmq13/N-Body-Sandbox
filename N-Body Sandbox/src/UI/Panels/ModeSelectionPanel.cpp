@@ -54,20 +54,20 @@ namespace NBody::UI {
         }
     }
 
-    void ModeSelectionPanel::draw(Core::MessageBus& messageBus) {
-        setUpWindowAndStyle();
+    void ModeSelectionPanel::Draw(Core::MessageBus& messageBus) {
+        SetUpWindowAndStyle();
 
         const ImVec2 windowSize = ImGui::GetWindowSize();
 
-        drawHeaderText(windowSize);
-        drawRealTimeOption(windowSize, messageBus);
-        drawPrecomputeOption(windowSize, messageBus);
-        drawPlaybackOption(windowSize, messageBus);
+        DrawHeaderText(windowSize);
+        DrawRealTimeOption(windowSize, messageBus);
+        DrawPrecomputeOption(windowSize, messageBus);
+        DrawPlaybackOption(windowSize, messageBus);
 
-        cleanUp();
+        CleanUp();
     }
 
-    void ModeSelectionPanel::setUpWindowAndStyle() {
+    void ModeSelectionPanel::SetUpWindowAndStyle() {
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->Pos);
         ImGui::SetNextWindowSize(viewport->Size);
@@ -83,13 +83,13 @@ namespace NBody::UI {
     }
 
 
-    void ModeSelectionPanel::cleanUp() {
+    void ModeSelectionPanel::CleanUp() {
         ImGui::SetWindowFontScale(ModeSelectionConfig::defaultFontScale);
         ImGui::PopStyleColor(ModeSelectionConfig::styleColorCount);
         ImGui::End();
     }
 
-    void ModeSelectionPanel::drawHeaderText(const ImVec2& windowSize) {
+    void ModeSelectionPanel::DrawHeaderText(const ImVec2& windowSize) {
         ImGui::SetWindowFontScale(ModeSelectionConfig::headerTextScale);
 
         const ImVec2 headerSize = ImGui::CalcTextSize(ModeSelectionConfig::headerText);
@@ -101,7 +101,7 @@ namespace NBody::UI {
         ImGui::SetWindowFontScale(ModeSelectionConfig::defaultFontScale);
     }
 
-    void ModeSelectionPanel::drawRealTimeOption(const ImVec2& windowSize, Core::MessageBus& messageBus) {
+    void ModeSelectionPanel::DrawRealTimeOption(const ImVec2& windowSize, Core::MessageBus& messageBus) {
         ImGui::SetWindowFontScale(ModeSelectionConfig::buttonTextScale);
 
         const ImVec2 btnSize = ImGui::CalcTextSize(ModeSelectionConfig::realTimeButtonText);
@@ -109,7 +109,7 @@ namespace NBody::UI {
         const float btnY = windowSize.y * ModeSelectionConfig::realTimeButtonHeightScale;
         ImGui::SetCursorPos(ImVec2{ btnX, btnY });
         if (ImGui::Button(ModeSelectionConfig::realTimeButtonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ Core::ApplicationState::RealTimeConfig });
+            messageBus.Publish(Core::CmdRequestStateChange{ Core::ApplicationState::RealTimeConfig });
         }
 
         ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);
@@ -126,7 +126,7 @@ namespace NBody::UI {
         ImGui::SetWindowFontScale(ModeSelectionConfig::defaultFontScale);
     }
 
-    void ModeSelectionPanel::drawPrecomputeOption(const ImVec2& windowSize, Core::MessageBus& messageBus) {
+    void ModeSelectionPanel::DrawPrecomputeOption(const ImVec2& windowSize, Core::MessageBus& messageBus) {
         ImGui::SetWindowFontScale(ModeSelectionConfig::buttonTextScale);
 
         const ImVec2 btnSize = ImGui::CalcTextSize(ModeSelectionConfig::precomputeButtonText);
@@ -134,7 +134,7 @@ namespace NBody::UI {
         const float btnY = windowSize.y * ModeSelectionConfig::precomputeButtonHeightScale;
         ImGui::SetCursorPos(ImVec2{ btnX, btnY });
         if (ImGui::Button(ModeSelectionConfig::precomputeButtonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ Core::ApplicationState::PrecomputeConfig });
+            messageBus.Publish(Core::CmdRequestStateChange{ Core::ApplicationState::PrecomputeConfig });
         }
 
         ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);
@@ -151,7 +151,7 @@ namespace NBody::UI {
         ImGui::SetWindowFontScale(ModeSelectionConfig::defaultFontScale);
     }
 
-    void ModeSelectionPanel::drawPlaybackOption(const ImVec2& windowSize, Core::MessageBus& messageBus) {
+    void ModeSelectionPanel::DrawPlaybackOption(const ImVec2& windowSize, Core::MessageBus& messageBus) {
         ImGui::SetWindowFontScale(ModeSelectionConfig::buttonTextScale);
 
         const ImVec2 btnSize = ImGui::CalcTextSize(ModeSelectionConfig::playbackButtonText);
@@ -159,7 +159,7 @@ namespace NBody::UI {
         const float btnY = windowSize.y * ModeSelectionConfig::playbackButtonHeightScale;
         ImGui::SetCursorPos(ImVec2{ btnX, btnY });
         if (ImGui::Button(ModeSelectionConfig::playbackButtonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ Core::ApplicationState::PlaybackConfig });
+            messageBus.Publish(Core::CmdRequestStateChange{ Core::ApplicationState::PlaybackConfig });
         }
 
         ImGui::SetWindowFontScale(ModeSelectionConfig::descTextScale);

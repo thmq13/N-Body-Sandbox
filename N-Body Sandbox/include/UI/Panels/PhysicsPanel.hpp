@@ -10,17 +10,19 @@
 namespace NBody::Core { class MessageBus; }
 
 namespace NBody::UI {
-    class PhysicsPanel : public IPanel {
+
+    class PhysicsPanel final : public IPanel {
     public:
         explicit PhysicsPanel(UIStorage& storage);
         ~PhysicsPanel() override = default;
 
-        void draw(Core::MessageBus& messageBus) override;
+        void Draw(Core::MessageBus& messageBus) override;
     private:
-        void setUpWindowAndStyle();
-        void cleanUp();
+        void SetUpWindowAndStyle();
+        void CleanUp();
 
         UIStoredSubModules& m_subStorage;
         UIActiveTarget m_activeTarget{};
     };
-}
+
+} // namespace NBody::UI

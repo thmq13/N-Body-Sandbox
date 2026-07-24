@@ -39,20 +39,20 @@ namespace NBody::UI {
 
     BackButtonPanel::BackButtonPanel(Core::ApplicationState nextState) : m_nextState(nextState) {}
 
-    void BackButtonPanel::draw(Core::MessageBus& messageBus) {
+    void BackButtonPanel::Draw(Core::MessageBus& messageBus) {
 
-        setUpWindowAndStyle();
+        SetUpWindowAndStyle();
 
         ImGui::SetWindowFontScale(BackButtonConfig::buttonTextScale);
 
         if (ImGui::Button(BackButtonConfig::buttonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ m_nextState });
+            messageBus.Publish(Core::CmdRequestStateChange{ m_nextState });
         }
 
-        cleanUp();
+        CleanUp();
     }
 
-    void BackButtonPanel::setUpWindowAndStyle() {
+    void BackButtonPanel::SetUpWindowAndStyle() {
         const ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImVec2 windowPos(
             viewport->WorkPos.x + BackButtonConfig::offsetX,
@@ -69,7 +69,7 @@ namespace NBody::UI {
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, BackButtonConfig::buttonActiveColor);
     }
 
-    void BackButtonPanel::cleanUp() {
+    void BackButtonPanel::CleanUp() {
         ImGui::PopStyleColor(BackButtonConfig::styleColorCount);
         ImGui::SetWindowFontScale(BackButtonConfig::defaultFontScale);
         ImGui::End();

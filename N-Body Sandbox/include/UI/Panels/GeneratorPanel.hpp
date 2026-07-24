@@ -10,19 +10,21 @@
 namespace NBody::Core { class MessageBus; }
 
 namespace NBody::UI {
-    class GeneratorPanel : public IPanel {
+
+    class GeneratorPanel final : public IPanel {
     public:
         explicit GeneratorPanel(UIStorage& storage);
         ~GeneratorPanel() override = default;
 
-        void draw(Core::MessageBus& messageBus) override;
+        void Draw(Core::MessageBus& messageBus) override;
     private:
-        void setUpWindowAndStyle();
-        void cleanUp();
-        void drawPreviewList(Core::MessageBus& messageBus);
+        void SetUpWindowAndStyle();
+        void CleanUp();
+        void DrawPreviewList(Core::MessageBus& messageBus);
 
         UIStoredSubModules& m_subStorage;
         UIActiveTarget m_activeTarget{};
         std::vector<Core::CmdGeneratePreviewParticles::Shape> m_activeShapes{};
     };
-}
+
+} // namespace NBody::UI

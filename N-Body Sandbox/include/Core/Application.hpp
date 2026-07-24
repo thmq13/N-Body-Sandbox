@@ -44,7 +44,7 @@ namespace NBody::Core {
         void HandleMessage(const SystemMessage& message) noexcept;
         template <typename MessageType>
         void SubscribeToMessage() {
-            m_messageBusHost->template subscribe<MessageType>([this](const Core::SystemMessage& message) {
+            m_messageBusHost->template Subscribe<MessageType>([this](const Core::SystemMessage& message) {
                 HandleMessage(message);
             });
         }

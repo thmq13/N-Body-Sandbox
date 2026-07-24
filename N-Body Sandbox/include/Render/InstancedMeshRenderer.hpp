@@ -8,7 +8,8 @@
 namespace NBody::Particle { struct ParticleSystem; }
 
 namespace NBody::Render {
-    class InstancedMeshRenderer {
+
+    class InstancedMeshRenderer final {
     public:
         InstancedMeshRenderer();
         ~InstancedMeshRenderer();
@@ -16,7 +17,7 @@ namespace NBody::Render {
         InstancedMeshRenderer(const InstancedMeshRenderer&) = delete;
         InstancedMeshRenderer& operator=(const InstancedMeshRenderer&) = delete;
 
-        void draw(const Particle::ParticleSystem& particleSystem);
+        void Draw(const Particle::ParticleSystem& particleSystem);
 
     private:
         std::vector<Matrix> m_transforms{};
@@ -29,6 +30,7 @@ namespace NBody::Render {
         Material m_material{};
         int m_colorAttributeLocation{ -1 };
 
-        void reinitializeVertexBuffer(std::size_t size);
+        void ReinitializeVertexBuffer(std::size_t size);
     };
-}
+
+} // namespace NBody::Render

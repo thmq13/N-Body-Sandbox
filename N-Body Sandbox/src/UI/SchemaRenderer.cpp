@@ -14,7 +14,7 @@
 
 namespace NBody::UI::SchemaRenderer {
 
-    bool drawInput(Core::ParameterSchema& schema, float fieldWidth) {
+    bool DrawInput(Core::ParameterSchema& schema, float fieldWidth) {
         ImGui::PushID(&schema);
         ImGui::SetNextItemWidth(fieldWidth);
 
@@ -114,7 +114,7 @@ namespace NBody::UI::SchemaRenderer {
         return entered || ImGui::IsItemDeactivatedAfterEdit();;
     }
 
-    void drawDisplay(const Core::ParameterSchema& schema) {
+    void DrawDisplay(const Core::ParameterSchema& schema) {
         ImGui::PushID(&schema);
 
         std::visit([&](const auto& value) {

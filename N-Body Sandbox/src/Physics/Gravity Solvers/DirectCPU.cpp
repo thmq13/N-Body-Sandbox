@@ -10,14 +10,14 @@
 namespace NBody::Physics {
     DirectCPU::DirectCPU(const Parameters& parameters) noexcept : m_parameters(parameters) {}
 
-    void DirectCPU::solveGravity(Particle::ParticleSystem& particleSystem) {
-        const std::size_t particleCount{ particleSystem.getSize() };
+    void DirectCPU::SolveGravity(Particle::ParticleSystem& particleSystem) {
+        const std::size_t particleCount{ particleSystem.GetSize() };
         if (particleCount <= 1) { return;  }
 
         const double softening_squared = m_parameters.softening * m_parameters.softening;
     }
 
-    void DirectCPU::setParameter(const Core::ParameterSchema& schema) {
+    void DirectCPU::SetParameter(const Core::ParameterSchema& schema) {
         if (schema.label == "Gravity Constant") {
             m_parameters.gravityConstant = std::get<double>(schema.value);
         }

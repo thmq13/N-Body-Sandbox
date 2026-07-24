@@ -53,20 +53,20 @@ namespace NBody::UI {
         }
     }
 
-    void TitleScreenPanel::draw(Core::MessageBus& messageBus) {
-        setUpWindowAndStyle();
+    void TitleScreenPanel::Draw(Core::MessageBus& messageBus) {
+        SetUpWindowAndStyle();
 
         const ImVec2 windowSize = ImGui::GetWindowSize();
 
-        drawDec(windowSize);
-        drawTitleText(windowSize);
-        drawStartButton(windowSize, messageBus);
-        drawExitButton(windowSize, messageBus);
+        DrawDec(windowSize);
+        DrawTitleText(windowSize);
+        DrawStartButton(windowSize, messageBus);
+        DrawExitButton(windowSize, messageBus);
 
-        cleanUp();
+        CleanUp();
     }
 
-    void TitleScreenPanel::setUpWindowAndStyle() {
+    void TitleScreenPanel::SetUpWindowAndStyle() {
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->Pos);
         ImGui::SetNextWindowSize(viewport->Size);
@@ -81,13 +81,13 @@ namespace NBody::UI {
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, TitleScreenConfig::buttonActiveColor);
     }
 
-    void TitleScreenPanel::cleanUp() {
+    void TitleScreenPanel::CleanUp() {
         ImGui::SetWindowFontScale(TitleScreenConfig::defaultFontScale);
         ImGui::PopStyleColor(TitleScreenConfig::styleColorCount);
         ImGui::End();
     }
 
-    void TitleScreenPanel::drawDec(const ImVec2& windowSize) {
+    void TitleScreenPanel::DrawDec(const ImVec2& windowSize) {
         ImDrawList* drawList = ImGui::GetWindowDrawList();
 
         const ImVec2 center = ImVec2(
@@ -117,7 +117,7 @@ namespace NBody::UI {
         );
     }
 
-    void TitleScreenPanel::drawTitleText(const ImVec2& windowSize) {
+    void TitleScreenPanel::DrawTitleText(const ImVec2& windowSize) {
         ImGui::SetWindowFontScale(TitleScreenConfig::titleTextScale);
 
         const ImVec2 titleSize = ImGui::CalcTextSize(TitleScreenConfig::titleText);
@@ -132,7 +132,7 @@ namespace NBody::UI {
         ImGui::SetWindowFontScale(TitleScreenConfig::defaultFontScale);
     }
 
-    void TitleScreenPanel::drawStartButton(const ImVec2& windowSize, Core::MessageBus& messageBus) {
+    void TitleScreenPanel::DrawStartButton(const ImVec2& windowSize, Core::MessageBus& messageBus) {
         ImGui::SetWindowFontScale(TitleScreenConfig::buttonTextScale);
 
         const ImVec2 startSize = ImGui::CalcTextSize(TitleScreenConfig::startButtonText);
@@ -144,13 +144,13 @@ namespace NBody::UI {
                  );
 
         if (ImGui::Button(TitleScreenConfig::startButtonText)) {
-            messageBus.publish(Core::CmdRequestStateChange{ Core::ApplicationState::ModeSelection });
+            messageBus.Publish(Core::CmdRequestStateChange{ Core::ApplicationState::ModeSelection });
         }
 
         ImGui::SetWindowFontScale(TitleScreenConfig::defaultFontScale);
     }
 
-    void TitleScreenPanel::drawExitButton(const ImVec2& windowSize, Core::MessageBus& messageBus) {
+    void TitleScreenPanel::DrawExitButton(const ImVec2& windowSize, Core::MessageBus& messageBus) {
         ImGui::SetWindowFontScale(TitleScreenConfig::buttonTextScale);
 
         const ImVec2 exitSize = ImGui::CalcTextSize(TitleScreenConfig::exitButtonText);
@@ -162,7 +162,7 @@ namespace NBody::UI {
         );
 
         if (ImGui::Button(TitleScreenConfig::exitButtonText)) {
-            messageBus.publish(Core::CmdExitApplication{});
+            messageBus.Publish(Core::CmdExitApplication{});
         }
 
         ImGui::SetWindowFontScale(TitleScreenConfig::defaultFontScale);

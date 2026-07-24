@@ -122,7 +122,7 @@ namespace NBody::Physics {
                 }
                 m_needSimulationBufferUpdate = true;
 
-                NBODY_TRACE("PHYSICS ENGINE: Particle system payload ingested. Buffer size: {}", m_simulationBuffer.getSize());
+                NBODY_TRACE("PHYSICS ENGINE: Particle system payload ingested. Buffer size: {}", m_simulationBuffer.GetSize());
             }
         }, message);
     }
@@ -137,17 +137,17 @@ namespace NBody::Physics {
 
     void PhysicsEngine::SendSchemas() {
         for (const auto& [solverId, solver] : m_gravitySolvers) {
-            m_messageBus.publish(Core::CmdSendSchemas{
+            m_messageBus.Publish(Core::CmdSendSchemas{
                 static_cast<std::uint32_t>(Core::Module::Physics),
                 static_cast<std::uint32_t>(Core::PhysicsSubModule::GravitySolver),
-                solverId, solver->getSchemas()
+                solverId, solver->GetSchemas()
             });
         }
         for (const auto& [integratorId, integrator] : m_integrators) {
-            m_messageBus.publish(Core::CmdSendSchemas{
+            m_messageBus.Publish(Core::CmdSendSchemas{
                 static_cast<std::uint32_t>(Core::Module::Physics),
                 static_cast<std::uint32_t>(Core::PhysicsSubModule::Integrator),
-                integratorId, integrator->getSchemas()
+                integratorId, integrator->GetSchemas()
             });
         }
         NBODY_INFO("PHYSICS ENGINE: Published schemas of components.");
@@ -162,7 +162,7 @@ namespace NBody::Physics {
 
         if (subModule == Core::PhysicsSubModule::GravitySolver) {
             if (auto it = m_gravitySolvers.find(targetId); it != m_gravitySolvers.end()) {
-                it->second->setParameter(schema);
+                it->second->SetParameter(schema);
             }
             else {
                 NBODY_ERROR("PHYSICS ENGINE: Gravity solver '{}' not found.", targetId);
@@ -171,7 +171,7 @@ namespace NBody::Physics {
         }
         else if (subModule == Core::PhysicsSubModule::Integrator) {
             if (auto it = m_integrators.find(targetId); it != m_integrators.end()) {
-                it->second->setParameter(schema);
+                it->second->SetParameter(schema);
             }
             else {
                 NBODY_ERROR("PHYSICS ENGINE: Integrator '{}' not found.", targetId);
@@ -214,9 +214,9 @@ namespace NBody::Physics {
     }
 
     void PhysicsEngine::UploadToBackBuffer() {
-        auto& backBuffer = m_particleBuffer->getBackBuffer();
+        auto& backBuffer = m_particleBuffer->GetBackBuffer();
         backBuffer = m_simulationBuffer;
-        m_particleBuffer->commitBackBuffer();
+        m_particleBuffer->CommitBackBuffer();
     }
 
     void PhysicsEngine::WorkerLoop(std::stop_token stopToken) {

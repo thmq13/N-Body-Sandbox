@@ -22,15 +22,15 @@ namespace NBody::Render {
         UnloadMesh(m_baseMesh);
     }
 
-    void InstancedMeshRenderer::draw(const Particle::ParticleSystem& particleSystem) {
-        const std::size_t size{ particleSystem.getSize() };
+    void InstancedMeshRenderer::Draw(const Particle::ParticleSystem& particleSystem) {
+        const std::size_t size{ particleSystem.GetSize() };
         if (size == 0) return;
 
-        BufferPacker::packTransforms(particleSystem, m_transforms);
-        BufferPacker::packColors(particleSystem, m_colors);
+        BufferPacker::PackTransforms(particleSystem, m_transforms);
+        BufferPacker::PackColors(particleSystem, m_colors);
 
         if (size > m_vboCapacity) {
-            reinitializeVertexBuffer(size);
+            ReinitializeVertexBuffer(size);
         }
         else {
             rlUpdateVertexBuffer(m_colorVboId, m_colors.data(), static_cast<int>(size * sizeof(Vector4)), 0);
@@ -39,7 +39,7 @@ namespace NBody::Render {
         DrawMeshInstanced(m_baseMesh, m_material, m_transforms.data(), static_cast<int>(size));
     }
 
-    void InstancedMeshRenderer::reinitializeVertexBuffer(std::size_t size) {
+    void InstancedMeshRenderer::ReinitializeVertexBuffer(std::size_t size) {
         if (m_colorVboId != 0) rlUnloadVertexBuffer(m_colorVboId);
 
         rlEnableVertexArray(m_baseMesh.vaoId);

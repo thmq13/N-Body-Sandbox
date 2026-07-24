@@ -5,17 +5,17 @@
 import std;
 
 namespace NBody::Core {
-    void MessageBus::publish(SystemMessage message) {
+    void MessageBus::Publish(SystemMessage message) {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_queue.push(std::move(message));
     }
 
-    bool MessageBus::isEmpty() const noexcept {
+    bool MessageBus::IsEmpty() const noexcept {
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_queue.empty();
     }
 
-    void MessageBus::dispatch() {
+    void MessageBus::Dispatch() {
         std::queue<SystemMessage> localQueue{};
         {
             std::lock_guard<std::mutex> lock(m_mutex);

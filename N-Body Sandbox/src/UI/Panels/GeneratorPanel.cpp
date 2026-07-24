@@ -58,8 +58,8 @@ namespace NBody::UI {
         m_activeTarget.resize(Core::generatorSubModuleCount);
     }
 
-    void GeneratorPanel::draw(Core::MessageBus& messageBus) {
-        setUpWindowAndStyle();
+    void GeneratorPanel::Draw(Core::MessageBus& messageBus) {
+        SetUpWindowAndStyle();
 
         const float windowWidth = ImGui::GetContentRegionAvail().x;
 
@@ -97,7 +97,7 @@ namespace NBody::UI {
                 auto& schemas = targets[currentTarget];
                 ImGui::Indent(Config::indentOffset);
                 for (auto& schema : schemas) {
-                    SchemaRenderer::drawInput(schema, windowWidth * Config::inputWidthScale);
+                    SchemaRenderer::DrawInput(schema, windowWidth * Config::inputWidthScale);
                 }
                 ImGui::Unindent(Config::indentOffset);
                 ImGui::Spacing();
@@ -106,12 +106,12 @@ namespace NBody::UI {
             ImGui::PopID();
         }
         ImGui::NextColumn();
-        drawPreviewList(messageBus);
+        DrawPreviewList(messageBus);
 
-        cleanUp();
+        CleanUp();
     }
 
-    void GeneratorPanel::setUpWindowAndStyle() {
+    void GeneratorPanel::SetUpWindowAndStyle() {
         ImGuiViewport* viewport = ImGui::GetMainViewport();
 
         const float windowWidth = viewport->Size.x * Config::widthScale;
@@ -141,13 +141,13 @@ namespace NBody::UI {
         ImGui::SetWindowFontScale(Config::fontScale);
     }
 
-    void GeneratorPanel::cleanUp() {
+    void GeneratorPanel::CleanUp() {
         ImGui::SetWindowFontScale(1.0f);
         ImGui::PopStyleColor(Config::styleColorCount);
         ImGui::End();
     }
 
-    void GeneratorPanel::drawPreviewList(Core::MessageBus& messageBus) {
+    void GeneratorPanel::DrawPreviewList(Core::MessageBus& messageBus) {
         const float windowWidth = ImGui::GetContentRegionAvail().x;
         const float scrollingAreaHeight = ImGui::GetContentRegionAvail().y;
 
@@ -183,7 +183,7 @@ namespace NBody::UI {
 
             ImGui::Indent(Config::indentOffset);
             for (auto& schema : it->schemas) {
-                SchemaRenderer::drawDisplay(schema);
+                SchemaRenderer::DrawDisplay(schema);
             }
             ImGui::Unindent(Config::indentOffset);
 
@@ -198,7 +198,7 @@ namespace NBody::UI {
         ImGui::PopID();
 
         if (requiresPreviewUpdate) {
-            messageBus.publish(Core::CmdGeneratePreviewParticles{ m_activeShapes });
+            messageBus.Publish(Core::CmdGeneratePreviewParticles{ m_activeShapes });
         }
     }
 }

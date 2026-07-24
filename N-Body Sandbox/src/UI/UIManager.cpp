@@ -18,8 +18,8 @@ namespace NBody::UI {
 
     UIManager::UIManager(Core::MessageBus& messageBus) : m_messageBus(messageBus) 
     {
-        m_messageBus.subscribe<Core::CmdSendSchemas>([this](const Core::SystemMessage& message) {
-            handleMessage(message);
+        m_messageBus.Subscribe<Core::CmdSendSchemas>([this](const Core::SystemMessage& message) {
+            HandleMessage(message);
         });
 
         m_storage.resize(Core::moduleCount);
@@ -27,39 +27,39 @@ namespace NBody::UI {
             m_storage[moduleIdx].resize(Core::subModuleCount[moduleIdx]);
         }
 
-        registerPanels();
+        RegisterPanels();
 
         std::cout << "[UI Manager] I need all schemas.\n";
-        m_messageBus.publish(Core::CmdRequestSchemas{});
+        m_messageBus.Publish(Core::CmdRequestSchemas{});
     }
 
-    void UIManager::draw(Core::ApplicationState state) {
+    void UIManager::Draw(Core::ApplicationState state) {
         auto it = m_statePanels.find(state);
         if (it == m_statePanels.end()) {
             return;
         }
 
         for (auto& panel : it->second) {
-            panel->draw(m_messageBus);
+            panel->Draw(m_messageBus);
         }
     }
 
-    void UIManager::registerPanels() {
-        createPanel<TitleScreenPanel>(Core::ApplicationState::TitleScreen);
+    void UIManager::RegisterPanels() {
+        CreatePanel<TitleScreenPanel>(Core::ApplicationState::TitleScreen);
 
-        createPanel<ModeSelectionPanel>(Core::ApplicationState::ModeSelection);
-        createPanel<BackButtonPanel>(Core::ApplicationState::ModeSelection, Core::ApplicationState::TitleScreen);
+        CreatePanel<ModeSelectionPanel>(Core::ApplicationState::ModeSelection);
+        CreatePanel<BackButtonPanel>(Core::ApplicationState::ModeSelection, Core::ApplicationState::TitleScreen);
 
-        createPanel<GeneratorPanel>(Core::ApplicationState::PrecomputeConfig, m_storage);
-        createPanel<PhysicsPanel>(Core::ApplicationState::PrecomputeConfig, m_storage);
-        createPanel<BackButtonPanel>(Core::ApplicationState::PrecomputeConfig, Core::ApplicationState::ModeSelection);
+        CreatePanel<GeneratorPanel>(Core::ApplicationState::PrecomputeConfig, m_storage);
+        CreatePanel<PhysicsPanel>(Core::ApplicationState::PrecomputeConfig, m_storage);
+        CreatePanel<BackButtonPanel>(Core::ApplicationState::PrecomputeConfig, Core::ApplicationState::ModeSelection);
 
-        createPanel<BackButtonPanel>(Core::ApplicationState::RealTimeConfig, Core::ApplicationState::ModeSelection);
+        CreatePanel<BackButtonPanel>(Core::ApplicationState::RealTimeConfig, Core::ApplicationState::ModeSelection);
 
-        createPanel<BackButtonPanel>(Core::ApplicationState::PlaybackConfig, Core::ApplicationState::ModeSelection);
+        CreatePanel<BackButtonPanel>(Core::ApplicationState::PlaybackConfig, Core::ApplicationState::ModeSelection);
     }
 
-    void UIManager::handleMessage(const Core::SystemMessage& message) {
+    void UIManager::HandleMessage(const Core::SystemMessage& message) {
         std::visit([this](const auto& msg) {
             using T = std::decay_t<decltype(msg)>;
             if constexpr (std::is_same_v<T, Core::CmdSendSchemas>) {

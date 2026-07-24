@@ -14,7 +14,7 @@ namespace NBody::Particle { class ParticleBuffer; }
 namespace NBody::Render {
     class InstancedMeshRenderer;
 
-    class RenderingEngine {
+    class RenderingEngine final {
     public:
         struct Parameters {
             std::uint32_t targetFPS{ 60 };
@@ -28,10 +28,10 @@ namespace NBody::Render {
         RenderingEngine(RenderingEngine&&) = delete;
         RenderingEngine& operator=(RenderingEngine&&) = delete;
         
-        void render(Core::ApplicationState state);
+        void Render(Core::ApplicationState state);
 
-        void beginFrame();
-        void endFrame();
+        void BeginFrame();
+        void EndFrame();
     private:
         Core::MessageBus& m_messageBus;
         Parameters m_parameters{};
@@ -39,8 +39,9 @@ namespace NBody::Render {
         std::unique_ptr<InstancedMeshRenderer> m_instancedMeshRenderer{};
         Camera3D m_camera{};
 
-        void handleMessage(const Core::SystemMessage& message);
-        void updateCamera();
-        bool shouldDrawParticles(Core::ApplicationState state);
+        void HandleMessage(const Core::SystemMessage& message);
+        void UpdateCamera();
+        bool ShouldDrawParticles(Core::ApplicationState state);
     };
-}
+
+} // namespace NBody::Render

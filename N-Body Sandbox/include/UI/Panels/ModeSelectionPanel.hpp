@@ -7,19 +7,21 @@
 namespace NBody::Core { class MessageBus; }
 
 namespace NBody::UI {
-    class ModeSelectionPanel : public IPanel {
+
+    class ModeSelectionPanel final  : public IPanel {
     public:
         ~ModeSelectionPanel() override = default;
 
-        void draw(Core::MessageBus& messageBus) override;
+        void Draw(Core::MessageBus& messageBus) override;
 
     private:
-        void setUpWindowAndStyle();
-        void cleanUp();
+        void SetUpWindowAndStyle();
+        void CleanUp();
 
-        void drawHeaderText(const ImVec2& windowSize);
-        void drawRealTimeOption(const ImVec2& windowSize, Core::MessageBus& messageBus);
-        void drawPrecomputeOption(const ImVec2& windowSize, Core::MessageBus& messageBus);
-        void drawPlaybackOption(const ImVec2& windowSize, Core::MessageBus& messageBus);
+        void DrawHeaderText(const ImVec2& windowSize);
+        void DrawRealTimeOption(const ImVec2& windowSize, Core::MessageBus& messageBus);
+        void DrawPrecomputeOption(const ImVec2& windowSize, Core::MessageBus& messageBus);
+        void DrawPlaybackOption(const ImVec2& windowSize, Core::MessageBus& messageBus);
     };
-}
+
+} // namespace NBody::UI

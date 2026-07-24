@@ -7,7 +7,8 @@
 #include <raylib.h>
 
 namespace NBody::Particle {
-    struct ParticleSystem {
+
+    struct ParticleSystem final {
         std::vector<double> mass{};
         std::vector<double> positionX{}, positionY{}, positionZ{};
         std::vector<double> velocityX{}, velocityY{}, velocityZ{};
@@ -16,13 +17,13 @@ namespace NBody::Particle {
         std::vector<float> radius{};
         std::vector<Color> color{};
 
-        [[nodiscard]] std::size_t getSize() const noexcept {
+        [[nodiscard]] std::size_t GetSize() const noexcept {
             assert(mass.size() == positionX.size());
             assert(mass.size() == positionY.size());
             return mass.size();
         }
 
-        void resize(std::size_t newSize) {
+        void Resize(std::size_t newSize) {
             mass.resize(newSize);
 
             positionX.resize(newSize); positionY.resize(newSize); positionZ.resize(newSize);
@@ -33,7 +34,7 @@ namespace NBody::Particle {
             color.resize(newSize);
         }
 
-        void reserve(std::size_t capacity) {
+        void Reserve(std::size_t capacity) {
             mass.reserve(capacity);
 
             positionX.reserve(capacity); positionY.reserve(capacity); positionZ.reserve(capacity);
@@ -44,15 +45,15 @@ namespace NBody::Particle {
             color.reserve(capacity);
         }
 
-        [[nodiscard]] std::size_t enlargeSize(std::size_t particleCount) {
-            std::size_t oldSize = getSize();
+        [[nodiscard]] std::size_t EnlargeSize(std::size_t particleCount) {
+            std::size_t oldSize = GetSize();
             std::size_t newSize = oldSize + particleCount;
-            resize(newSize);
+            Resize(newSize);
             return oldSize;
         }
 
         void append(const ParticleSystem& other) {
-            if (other.getSize() == 0) {
+            if (other.GetSize() == 0) {
                 return;
             }
 
@@ -74,4 +75,5 @@ namespace NBody::Particle {
             color.insert(color.end(), other.color.begin(), other.color.end());
         }
     };
-}
+
+} // namespace NBody::Particle

@@ -63,41 +63,41 @@ namespace NBody::Render {
         CloseWindow();
     }
 
-    void RenderingEngine::render(Core::ApplicationState state) {
-        if (!shouldDrawParticles(state)) {
+    void RenderingEngine::Render(Core::ApplicationState state) {
+        if (!ShouldDrawParticles(state)) {
             return;
         }
 
-        m_particleBuffer->updateFrontBuffer();
-        const auto& frontBuffer = m_particleBuffer->getFrontBuffer();
+        m_particleBuffer->UpdateFrontBuffer();
+        const auto& frontBuffer = m_particleBuffer->GetFrontBuffer();
 
-        updateCamera();
+        UpdateCamera();
         BeginMode3D(m_camera);
 
         DrawGrid(20, 1.0f);
-        m_instancedMeshRenderer->draw(frontBuffer);
+        m_instancedMeshRenderer->Draw(frontBuffer);
 
         EndMode3D();
     }
 
-    void RenderingEngine::beginFrame() {
+    void RenderingEngine::BeginFrame() {
         BeginDrawing();
         ClearBackground(WindowConfig::clearBackgroundColor);
         rlImGuiBegin();
     }
 
-    void RenderingEngine::endFrame() {
+    void RenderingEngine::EndFrame() {
         rlImGuiEnd();
         EndDrawing();
     }
 
-    void RenderingEngine::handleMessage(const Core::SystemMessage& message) {
+    void RenderingEngine::HandleMessage(const Core::SystemMessage& message) {
         std::visit([this](const auto& msg) {
 
         }, message);
     }
 
-    void RenderingEngine::updateCamera() {
+    void RenderingEngine::UpdateCamera() {
         static bool lockMovements = true;
 
         if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
@@ -136,7 +136,7 @@ namespace NBody::Render {
         }  
     }
 
-    bool RenderingEngine::shouldDrawParticles(Core::ApplicationState state) {
+    bool RenderingEngine::ShouldDrawParticles(Core::ApplicationState state) {
         return state == Core::ApplicationState::PrecomputeConfig ||
                state == Core::ApplicationState::PrecomputeRunning || 
                state == Core::ApplicationState::RealTimeConfig ||

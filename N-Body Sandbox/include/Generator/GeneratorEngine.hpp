@@ -13,6 +13,7 @@
 #include <Core/Logger.hpp>
 
 namespace NBody::Generator {
+
     class Generator;
 
     class GeneratorEngine final : public Core::MessageSubscriber<GeneratorEngine> {
@@ -39,7 +40,7 @@ namespace NBody::Generator {
         void HandleMessage(const Core::SystemMessage& message);
         template <typename MessageType>
         void SubscribeToMessage() {
-            m_messageBus.template subscribe<MessageType>([this](const Core::SystemMessage& message) {
+            m_messageBus.template Subscribe<MessageType>([this](const Core::SystemMessage& message) {
                 HandleMessage(message);
             });
         }
@@ -52,4 +53,5 @@ namespace NBody::Generator {
         void SendSchemas();
         [[nodiscard]] Result GenerateAndSendParticles(const std::vector<Core::CmdGeneratePreviewParticles::Shape>& shapes);
     };
-}
+
+} // namespace NBody::Generator

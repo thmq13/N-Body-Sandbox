@@ -4,7 +4,7 @@
 #include <utility>
 
 namespace NBody::Particle {
-    void ParticleBuffer::commitBackBuffer() {
+    void ParticleBuffer::CommitBackBuffer() {
         {
             std::lock_guard<std::mutex> lock(m_mutex);
             std::swap(m_backBuffer, m_sharedBuffer);
@@ -12,7 +12,7 @@ namespace NBody::Particle {
         m_newFrameReady.store(true);
     }
 
-    void ParticleBuffer::updateFrontBuffer() {
+    void ParticleBuffer::UpdateFrontBuffer() {
         if (m_newFrameReady.exchange(false)) {
             std::lock_guard<std::mutex> lock(m_mutex);
             std::swap(m_sharedBuffer, m_frontBuffer);

@@ -9,11 +9,11 @@
 namespace NBody::Physics {
     Verlet::Verlet(const Parameters& parameters) noexcept : m_parameters(parameters) {} 
 
-    void Verlet::step(Particle::ParticleSystem& particleSystem) {
+    void Verlet::Step(Particle::ParticleSystem& particleSystem) {
 
     }
 
-    void Verlet::setParameter(const Core::ParameterSchema& schema) {
+    void Verlet::SetParameter(const Core::ParameterSchema& schema) {
         if (schema.label == "Delta Time") {
             m_parameters.deltaTime = std::get<double>(schema.value);
         }

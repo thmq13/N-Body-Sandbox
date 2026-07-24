@@ -18,5 +18,6 @@ namespace NBody::Constant {
         inline constexpr int intMin{ std::numeric_limits<int>::lowest() };
 
         inline constexpr std::size_t sizeTMax{ std::numeric_limits<std::size_t>::max() };
-    }
-}
+    } // namespace Limit
+
+} // namespace NBody::Constant

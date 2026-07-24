@@ -73,10 +73,10 @@ namespace NBody::Generator {
 
     void GeneratorEngine::SendSchemas() {
         for (const auto& [shapeId, generator] : m_generators) {
-            m_messageBus.publish(Core::CmdSendSchemas{
+            m_messageBus.Publish(Core::CmdSendSchemas{
                 static_cast<std::uint32_t>(Core::Module::Generator),
                 static_cast<std::uint32_t>(Core::GeneratorSubModule::Shape),
-                shapeId, generator->getSchemas()
+                shapeId, generator->GetSchemas()
             });
         }
         NBODY_INFO("GENERATOR ENGINE: Published schemas of components.");
@@ -103,14 +103,14 @@ namespace NBody::Generator {
         NBODY_TRACE("GENERATOR ENGINE: Generating {} particle(s) and publishing.", totalParticlesNeeded);
 
         struct Particle::ParticleSystem temporaryBuffer {};
-        temporaryBuffer.reserve(totalParticlesNeeded);
+        temporaryBuffer.Reserve(totalParticlesNeeded);
 
         for (const auto& [shapeId, schemas] : shapes) {
             auto& generator = m_generators.at(shapeId);
-            generator->setParameters(schemas);
-            generator->generateOntoBuffer(temporaryBuffer, m_rng);
+            generator->SetParameters(schemas);
+            generator->GenerateOntoBuffer(temporaryBuffer, m_rng);
         }
-        m_messageBus.publish(Core::CmdSendParticles{ false, std::move(temporaryBuffer) });
+        m_messageBus.Publish(Core::CmdSendParticles{ false, std::move(temporaryBuffer) });
 
         return {};
     }

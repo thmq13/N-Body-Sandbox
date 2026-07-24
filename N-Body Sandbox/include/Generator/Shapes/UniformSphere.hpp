@@ -14,7 +14,7 @@
 namespace NBody::Particle { struct ParticleSystem; }
 
 namespace NBody::Generator {
-    class UniformSphere : public Generator {
+    class UniformSphere final : public Generator {
     public:
         struct Parameters {
             std::size_t particleCount{ 100 };
@@ -29,11 +29,11 @@ namespace NBody::Generator {
 
         ~UniformSphere() override = default;
 
-        void generateOntoBuffer(Particle::ParticleSystem& buffer, std::mt19937_64& rng) override;
+        void GenerateOntoBuffer(Particle::ParticleSystem& buffer, std::mt19937_64& rng) override;
 
-        void setParameters(const std::vector<Core::ParameterSchema>& schemas) override;
+        void SetParameters(const std::vector<Core::ParameterSchema>& schemas) override;
 
-        [[nodiscard]] std::vector<Core::ParameterSchema> getSchemas() const override {
+        [[nodiscard]] std::vector<Core::ParameterSchema> GetSchemas() const override {
             return {
                 Core::ParameterSchema{"Particle Count", m_parameters.particleCount, 1,   Constant::Limit::sizeTMax},
                 Core::ParameterSchema{"Total Mass",     m_parameters.totalMass,     0.0, Constant::Limit::doubleMax},
@@ -47,4 +47,4 @@ namespace NBody::Generator {
     private:
         Parameters m_parameters{};
     };
-}
+} // namespace NBody::Generator

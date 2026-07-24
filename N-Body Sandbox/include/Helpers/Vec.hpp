@@ -12,7 +12,7 @@ namespace NBody::Math {
     constexpr Vec3 operator*(double scalar, Vec3 rhs) noexcept;
     constexpr Vec3 operator/(Vec3 lhs, double scalar) noexcept;
 
-    struct Vec3 {
+    struct Vec3 final {
         double x{ 0.0 };
         double y{ 0.0 };
         double z{ 0.0 };
@@ -50,20 +50,19 @@ namespace NBody::Math {
             return *this;
         }
 
-
-        constexpr double length_squared() const noexcept {
+        constexpr double LengthSquared() const noexcept {
             return x * x + y * y + z * z;
         }
 
-        double length() const noexcept {
-            return std::sqrt(length_squared());
+        double Length() const noexcept {
+            return std::sqrt(LengthSquared());
         }
 
-        constexpr double dot(const Vec3& other) const noexcept {
+        constexpr double Dot(const Vec3& other) const noexcept {
             return x * other.x + y * other.y + z * other.z;
         }
 
-        constexpr Vec3 cross(const Vec3& other) const noexcept {
+        constexpr Vec3 Cross(const Vec3& other) const noexcept {
             return {
                 y * other.z - z * other.y,
                 z * other.x - x * other.z,
@@ -71,16 +70,16 @@ namespace NBody::Math {
             };
         }
 
-        Vec3 normalized() const noexcept {
-            double len = length();
-            if (len == 0.0) return { 0.0, 0.0, 0.0 };
-            return *this / len;
+        Vec3 Normalized() const noexcept {
+            double length = Length();
+            if (length == 0.0) return { 0.0, 0.0, 0.0 };
+            return *this / length;
         }
 
-        Vec3& normalize() noexcept {
-            double len = length();
-            if (len != 0.0) {
-                *this /= len;
+        Vec3& Normalize() noexcept {
+            double length = Length();
+            if (length != 0.0) {
+                *this /= length;
             }
             return *this;
         }
@@ -100,5 +99,6 @@ namespace NBody::Math {
     inline std::ostream& operator<<(std::ostream& os, const Vec3& v) {
         return os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
     }
-}
+
+} // namespace NBody::Math
 

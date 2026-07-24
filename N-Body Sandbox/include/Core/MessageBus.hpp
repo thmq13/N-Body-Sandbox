@@ -24,16 +24,16 @@ namespace NBody::Core {
         MessageBus& operator=(MessageBus&&) noexcept= delete;
 
         template <typename T>
-        void subscribe(MessageCallback callback) {
+        void Subscribe(MessageCallback callback) {
             std::lock_guard<std::mutex> lock(m_mutex);
             m_subscribers[typeid(T)].push_back(std::move(callback));
         }
 
-        void publish(SystemMessage message);
+        void Publish(SystemMessage message);
 
-        [[nodiscard]] bool isEmpty() const noexcept;
+        [[nodiscard]] bool IsEmpty() const noexcept;
 
-        void dispatch();
+        void Dispatch();
 
     private:
 
@@ -52,4 +52,4 @@ namespace NBody::Core {
             (static_cast<Derived*>(this)->template SubscribeToMessage<MessageTypes>(), ...);
         }
     };
-}
+} // namespace NBody::Core

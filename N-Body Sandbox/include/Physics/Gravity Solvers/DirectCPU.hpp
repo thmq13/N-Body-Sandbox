@@ -9,7 +9,8 @@
 namespace NBody::Particle { struct ParticleSystem; }
 
 namespace NBody::Physics {
-    class DirectCPU : public GravitySolver {
+
+    class DirectCPU final : public GravitySolver {
     public:
         struct Parameters {
             double gravityConstant{ 1.0 };
@@ -22,11 +23,11 @@ namespace NBody::Physics {
 
         ~DirectCPU() override = default;
 
-        void solveGravity(Particle::ParticleSystem& ParticleSystem) override;
+        void SolveGravity(Particle::ParticleSystem& ParticleSystem) override;
 
-        void setParameter(const Core::ParameterSchema& schema) override;
+        void SetParameter(const Core::ParameterSchema& schema) override;
 
-        [[nodiscard]] virtual std::vector<Core::ParameterSchema> getSchemas() const {
+        [[nodiscard]] virtual std::vector<Core::ParameterSchema> GetSchemas() const {
             return {
                 Core::ParameterSchema{"Gravity Constant", m_parameters.gravityConstant, 0.0, Constant::Limit::doubleMax},
                 Core::ParameterSchema{"Softening", m_parameters.softening, 0.0, Constant::Limit::doubleMax},
@@ -38,4 +39,5 @@ namespace NBody::Physics {
     private:
         Parameters m_parameters;
     };
-}
+
+} // namespace NBody::Physics

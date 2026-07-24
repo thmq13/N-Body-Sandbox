@@ -15,12 +15,12 @@
 namespace NBody::Generator {
     UniformSphere::UniformSphere(const Parameters& parameters) noexcept : m_parameters(parameters) {}
 
-    void UniformSphere::generateOntoBuffer(Particle::ParticleSystem& buffer, std::mt19937_64& rng) {
-        std::size_t startIdx = buffer.enlargeSize(m_parameters.particleCount);
-        std::size_t particleCount = m_parameters.particleCount;
+    void UniformSphere::GenerateOntoBuffer(Particle::ParticleSystem& buffer, std::mt19937_64& rng) {
+        std::size_t startIdx{ buffer.EnlargeSize(m_parameters.particleCount) };
+        std::size_t particleCount{ m_parameters.particleCount };
         
         assert(m_parameters.particleCount > 0);
-        double particleMass = m_parameters.totalMass / particleCount;
+        double particleMass{ m_parameters.totalMass / particleCount };
 
         std::uniform_real_distribution<double> dist(-1.0, 1.0);
 
@@ -47,7 +47,7 @@ namespace NBody::Generator {
         }
     }
 
-    void UniformSphere::setParameters(const std::vector<Core::ParameterSchema>& schemas) {
+    void UniformSphere::SetParameters(const std::vector<Core::ParameterSchema>& schemas) {
         for (const auto& schema : schemas) {
             if (schema.label == "Particle Count") {
                 m_parameters.particleCount = std::get<std::size_t>(schema.value);

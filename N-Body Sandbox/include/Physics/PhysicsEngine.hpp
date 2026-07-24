@@ -57,7 +57,7 @@ namespace NBody::Physics {
         void HandleMessage(const Core::SystemMessage& message);
         template <typename MessageType>
         void SubscribeToMessage() {
-            m_messageBus.template subscribe<MessageType>([this](const Core::SystemMessage& message) {
+            m_messageBus.template Subscribe<MessageType>([this](const Core::SystemMessage& message) {
                 {
                     std::lock_guard<std::mutex> lock(m_mailboxMutex);
                     m_mailbox.push(message);

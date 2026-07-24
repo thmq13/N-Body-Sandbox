@@ -55,8 +55,8 @@ namespace NBody::UI {
         m_activeTarget.resize(Core::physicsSubModuleCount);
     }
 
-    void PhysicsPanel::draw(Core::MessageBus& messageBus) {
-        setUpWindowAndStyle();
+    void PhysicsPanel::Draw(Core::MessageBus& messageBus) {
+        SetUpWindowAndStyle();
 
         const float windowWidth = ImGui::GetContentRegionAvail().x;
         const std::size_t subCount = Core::physicsSubModuleCount;
@@ -88,7 +88,7 @@ namespace NBody::UI {
             }
 
             if (previousTarget != currentTarget) {
-                messageBus.publish(Core::CmdSetActiveOption{
+                messageBus.Publish(Core::CmdSetActiveOption{
                     static_cast<std::uint32_t>(physicsIdx),
                     static_cast<std::uint32_t>(subIdx),
                     currentTarget
@@ -99,9 +99,9 @@ namespace NBody::UI {
                 auto& schemas = targets[currentTarget];
                 ImGui::Indent(Config::indentOffset);
                 for (auto& schema : schemas) {
-                    bool valueChanged = SchemaRenderer::drawInput(schema, windowWidth * Config::inputWidthScale);
+                    bool valueChanged = SchemaRenderer::DrawInput(schema, windowWidth * Config::inputWidthScale);
                     if (valueChanged) {
-                        messageBus.publish(Core::CmdSetConfig{
+                        messageBus.Publish(Core::CmdSetConfig{
                             static_cast<std::uint32_t>(physicsIdx),
                             static_cast<std::uint32_t>(subIdx),
                             currentTarget,
@@ -117,10 +117,10 @@ namespace NBody::UI {
         }
         ImGui::NextColumn();
 
-        cleanUp();
+        CleanUp();
     }
 
-    void PhysicsPanel::setUpWindowAndStyle() {
+    void PhysicsPanel::SetUpWindowAndStyle() {
         ImGuiViewport* viewport = ImGui::GetMainViewport();
 
         const float windowWidth = viewport->Size.x * Config::widthScale;
@@ -150,7 +150,7 @@ namespace NBody::UI {
         ImGui::SetWindowFontScale(Config::fontScale);
     }
 
-    void PhysicsPanel::cleanUp() {
+    void PhysicsPanel::CleanUp() {
         ImGui::SetWindowFontScale(1.0f);
         ImGui::PopStyleColor(Config::styleColorCount);
         ImGui::End();

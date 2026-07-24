@@ -96,10 +96,10 @@ namespace NBody::Core {
             constexpr const char* Yellow = "\033[33m";
             constexpr const char* Red = "\033[31m";
             constexpr const char* Magenta = "\033[35m";
-        }
+        } // namespce Color
 
         template <typename... Args>
-        void log(LogLevel level, std::format_string<Args...> fmt, Args&&... args) {
+        void Log(LogLevel level, std::format_string<Args...> fmt, Args&&... args) {
             std::string formattedMessage{ std::format(fmt, std::forward<Args>(args)...) };
             std::osyncstream syncOut(std::cout);
 
@@ -111,20 +111,20 @@ namespace NBody::Core {
                 case LogLevel::Fatal: syncOut << Color::Magenta << "[FATAL] " << Color::Reset << formattedMessage << '\n'; break;
             }
         }
-    }
+    } // namespace Logging
 
     #ifdef NDEBUG
         #define NBODY_TRACE(...) (void)0
         #define NBODY_INFO(...)  (void)0
-        #define NBODY_WARN(...)  ::NBody::Core::Logging::log(::NBody::Core::LogLevel::Warn, __VA_ARGS__)
-        #define NBODY_ERROR(...) ::NBody::Core::Logging::log(::NBody::Core::LogLevel::Error, __VA_ARGS__)
-        #define NBODY_FATAL(...) ::NBody::Core::Logging::log(::NBody::Core::LogLevel::Fatal, __VA_ARGS__)
+        #define NBODY_WARN(...)  ::NBody::Core::Logging::Log(::NBody::Core::LogLevel::Warn, __VA_ARGS__)
+        #define NBODY_ERROR(...) ::NBody::Core::Logging::Log(::NBody::Core::LogLevel::Error, __VA_ARGS__)
+        #define NBODY_FATAL(...) ::NBody::Core::Logging::Log(::NBody::Core::LogLevel::Fatal, __VA_ARGS__)
     #else
-        #define NBODY_TRACE(...) ::NBody::Core::Logging::log(::NBody::Core::LogLevel::Trace, __VA_ARGS__)
-        #define NBODY_INFO(...)  ::NBody::Core::Logging::log(::NBody::Core::LogLevel::Info, __VA_ARGS__)
-        #define NBODY_WARN(...)  ::NBody::Core::Logging::log(::NBody::Core::LogLevel::Warn, __VA_ARGS__)
-        #define NBODY_ERROR(...) ::NBody::Core::Logging::log(::NBody::Core::LogLevel::Error, __VA_ARGS__)
-        #define NBODY_FATAL(...) ::NBody::Core::Logging::log(::NBody::Core::LogLevel::Fatal, __VA_ARGS__)
+        #define NBODY_TRACE(...) ::NBody::Core::Logging::Log(::NBody::Core::LogLevel::Trace, __VA_ARGS__)
+        #define NBODY_INFO(...)  ::NBody::Core::Logging::Log(::NBody::Core::LogLevel::Info, __VA_ARGS__)
+        #define NBODY_WARN(...)  ::NBody::Core::Logging::Log(::NBody::Core::LogLevel::Warn, __VA_ARGS__)
+        #define NBODY_ERROR(...) ::NBody::Core::Logging::Log(::NBody::Core::LogLevel::Error, __VA_ARGS__)
+        #define NBODY_FATAL(...) ::NBody::Core::Logging::Log(::NBody::Core::LogLevel::Fatal, __VA_ARGS__)
     #endif
 
 } // namespace NBody::Core

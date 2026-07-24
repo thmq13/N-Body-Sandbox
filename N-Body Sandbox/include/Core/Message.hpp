@@ -68,15 +68,10 @@ namespace NBody::Core {
         generatorSubModuleName
     };
 
-    // --- LIST OF COMMANDS ---
-
-    // System level
     struct CmdExitApplication {};
 
     struct CmdRequestStateChange { ApplicationState requestedState; };
 
-
-    // UI communication
     struct CmdRequestSchemas {};
 
     struct CmdSendSchemas {
@@ -99,7 +94,6 @@ namespace NBody::Core {
         ParameterSchema schema;
     };
 
-    // Generator
     struct CmdGeneratePreviewParticles {
         struct Shape {
             std::string shapeId;
@@ -115,8 +109,6 @@ namespace NBody::Core {
 
     struct CmdSetRandomizeSeed { std::uint64_t seed; };
 
-
-    // --- THE FINAL VARIANT ---
     using SystemMessage = std::variant <
         CmdExitApplication,
         CmdRequestStateChange,
@@ -130,5 +122,5 @@ namespace NBody::Core {
         CmdSendParticles,
         CmdSetRandomizeSeed
     >;
-}
+} // namespace NBody::Core
 

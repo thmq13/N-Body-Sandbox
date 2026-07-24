@@ -6,7 +6,8 @@
 #include <Particle/Particle.hpp>
 
 namespace NBody::Particle {
-    class ParticleBuffer {
+
+    class ParticleBuffer final {
     public:
         ParticleBuffer() = default;
         ~ParticleBuffer() = default;
@@ -16,14 +17,14 @@ namespace NBody::Particle {
         ParticleBuffer(ParticleBuffer&&) = delete;
         ParticleBuffer& operator=(ParticleBuffer&&) = delete;
 
-        void commitBackBuffer();
-        void updateFrontBuffer();
+        void CommitBackBuffer();
+        void UpdateFrontBuffer();
 
-        [[nodiscard]] ParticleSystem& getBackBuffer() noexcept {
+        [[nodiscard]] ParticleSystem& GetBackBuffer() noexcept {
             return m_backBuffer;
         }
 
-        [[nodiscard]] const ParticleSystem& getFrontBuffer() const noexcept {
+        [[nodiscard]] const ParticleSystem& GetFrontBuffer() const noexcept {
             return m_frontBuffer;
         }
 
@@ -35,4 +36,5 @@ namespace NBody::Particle {
         std::atomic<bool> m_newFrameReady{ false };
         mutable std::mutex m_mutex;
     };
-}
+
+} // namespace NBody::Particle

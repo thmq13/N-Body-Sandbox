@@ -9,7 +9,7 @@
 namespace NBody::Particle { struct ParticleSystem;  }
 
 namespace NBody::Physics {
-    class Verlet : public Integrator {
+    class Verlet final : public Integrator {
     public:
         struct Parameters {
             double deltaTime{ 0.01 };
@@ -19,11 +19,11 @@ namespace NBody::Physics {
 
         ~Verlet() override = default;
 
-        void step(Particle::ParticleSystem& particleSystem) override;
+        void Step(Particle::ParticleSystem& particleSystem) override;
 
-        void setParameter(const Core::ParameterSchema& schema) override;
+        void SetParameter(const Core::ParameterSchema& schema) override;
 
-        [[nodiscard]] std::vector<Core::ParameterSchema> getSchemas() const override {
+        [[nodiscard]] std::vector<Core::ParameterSchema> GetSchemas() const override {
             return {
                 Core::ParameterSchema{"Delta Time", m_parameters.deltaTime, Constant::Limit::doubleEpsilon, Constant::Limit::doubleMax}
             };
@@ -32,4 +32,5 @@ namespace NBody::Physics {
     private:
         Parameters m_parameters;
     };
-}
+
+} // namespace NBody::Physics

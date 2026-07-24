@@ -3,6 +3,8 @@
 namespace NBody::Core { struct ParameterSchema; }
 
 namespace NBody::UI::SchemaRenderer {
-    bool drawInput(Core::ParameterSchema& schema, float fieldWidth = 100.0f);
-    void drawDisplay(const Core::ParameterSchema& schema);
-}
+
+    bool DrawInput(Core::ParameterSchema& schema, float fieldWidth = 100.0f);
+    void DrawDisplay(const Core::ParameterSchema& schema);
+
+} // namespace NBody::UI::SchemaRenderer

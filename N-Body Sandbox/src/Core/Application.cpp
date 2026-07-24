@@ -77,12 +77,12 @@ namespace NBody::Core {
 
         NBODY_INFO("APPLICATION: Entering master loop.");
         while (m_isRunning) {
-            m_messageBusHost->dispatch();
+            m_messageBusHost->Dispatch();
 
-            m_renderingEngineHost->beginFrame();
-            m_renderingEngineHost->render(m_currentState);
-            m_uiManagerHost->draw(m_currentState);
-            m_renderingEngineHost->endFrame();
+            m_renderingEngineHost->BeginFrame();
+            m_renderingEngineHost->Render(m_currentState);
+            m_uiManagerHost->Draw(m_currentState);
+            m_renderingEngineHost->EndFrame();
         }
 
         return {};
